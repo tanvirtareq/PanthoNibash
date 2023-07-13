@@ -16,7 +16,6 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .idea/
-build.gradle
 gradle/
 gradlew
 gradlew.bat

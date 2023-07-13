@@ -1,0 +1,13 @@
+.navbar-custom {
+    background-color: #4862b0;
+}
+.navbar-custom .nav-link {
+    color: white;
+}
+.navbar-custom .nav-link:hover {
+    color: #fff;
+    background-color: #5a6ebf;
+}
+.navbar-nav {
+    align-items: center; /* Vertical alignment */
+}

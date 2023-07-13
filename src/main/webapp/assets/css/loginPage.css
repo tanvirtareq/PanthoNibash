@@ -1,0 +1,31 @@
+body {
+    background-color: #f8f9fa;
+}
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 100px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.login-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-control:focus {
+    box-shadow: none;
+}
+.login-button {
+    margin-top: 20px;
+    width: 100%;
+}
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+}
