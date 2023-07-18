@@ -14,6 +14,7 @@ import javax.persistence.Table;
 @Table
 public class Rating {
     @Id
+    @GeneratedValue
     private Long id;
 
     @OneToOne

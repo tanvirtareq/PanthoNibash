@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @Table
 public class Review {
     @Id
+    @GeneratedValue
     private Long id;
 
     @NotBlank(message = "Review cannot be blank")

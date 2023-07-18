@@ -10,6 +10,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -20,6 +22,7 @@ import java.util.List;
 @Table
 public class Hotel {
     @Id
+    @GeneratedValue
     private Long id;
 
     @NotBlank(message = "Name can't be blank")
@@ -56,16 +59,25 @@ public class Hotel {
     @NotNull(message = "Wifi Facility can not be null")
     private String wifiFacility;
 
-    @ElementCollection
-    @CollectionTable(name = "hotel_images", joinColumns = @JoinColumn(name = "hotel_id"))
     @Lob
-    @Column(name = "image")
-    private List<byte[]> images;
+    @Column(name = "hotel_image")
+    private byte[] hotelImage;
+
+
+    @Transient
+    private String hotelImageBase64Image;
+
+    public byte[] getHotelImage() {
+        return hotelImage;
+    }
+
+    public void setHotelImage(byte[] hotelImage) {
+        this.hotelImage = hotelImage;
+    }
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Room> rooms = new ArrayList<>();
@@ -81,13 +93,7 @@ public class Hotel {
         return id;
     }
 
-    public List<byte[]> getImages() {
-        return images;
-    }
 
-    public void setImages(List<byte[]> images) {
-        this.images = images;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -194,5 +200,30 @@ public class Hotel {
 
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
+    }
+
+    public String getHotelImageBase64Image() {
+        setHotelImageBase64Image(Base64.getEncoder().encodeToString(this.getHotelImage()));
+        return hotelImageBase64Image;
+    }
+
+    public void setHotelImageBase64Image(String hotelImageBase64Image) {
+        this.hotelImageBase64Image = hotelImageBase64Image;
+    }
+
+    @Override
+    public String toString() {
+        return "Hotel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", location='" + location + '\'' +
+                ", parkingFacility='" + parkingFacility + '\'' +
+                ", swimmingPool='" + swimmingPool + '\'' +
+                ", fitnessCentre='" + fitnessCentre + '\'' +
+                ", wifiFacility='" + wifiFacility + '\'' +
+                '}';
     }
 }

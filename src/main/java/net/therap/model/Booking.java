@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Table
 public class Booking {
     @Id
+    @GeneratedValue
     private Long id;
 
     private Long roomNumber;

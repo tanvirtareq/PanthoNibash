@@ -14,6 +14,7 @@ import java.util.List;
 @Table
 public class Room {
     @Id
+    @GeneratedValue
     private Long id;
 
     @ManyToOne
