@@ -15,7 +15,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -27,9 +26,9 @@ import java.util.Map;
 @RequestMapping("/hotel/{id}")
 @SessionAttributes({"room"})
 public class HotelAddRoomController {
+
     @Autowired
     private HotelService hotelService;
-
 
     @Value("#{roomTypeOptions}")
     private Map<String, String> roomTypeOptions;
@@ -69,12 +68,9 @@ public class HotelAddRoomController {
 
             return "roomImageUpload";
         }
-        String[] allowedExtensions = {"jpg", "jpeg", "png"};
         String extension = FilenameUtils.getExtension(roomImage.getOriginalFilename());
 
-        if (!Arrays.asList(allowedExtensions).contains(extension)) {
-            model.addAttribute("error", "Only JPG, JPEG and PNG files are allowed.");
-
+        if (!Util.allowedImageExtension(extension, model)) {
             return "roomImageUpload";
         }
 

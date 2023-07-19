@@ -16,7 +16,7 @@
 <header>
   <jsp:include page="../navbar.jsp"/>
 </header>
-<main style="margin-top: 100px">
+<main style="margin-top: 100px; margin-left: 40px;margin-right: 40px">
   <decorator:body/>
 </main>
 

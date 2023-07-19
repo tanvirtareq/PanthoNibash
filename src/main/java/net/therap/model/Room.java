@@ -36,7 +36,7 @@ public class Room {
 
     @NotNull
     @Min(value = 1, message = "Number of bed must be a positive integer")
-    private Long numberOfBed;
+    private Integer numberOfBed;
 
     private Long numberOfRoom;
 
@@ -136,11 +136,11 @@ public class Room {
         this.price = price;
     }
 
-    public Long getNumberOfBed() {
+    public Integer getNumberOfBed() {
         return numberOfBed;
     }
 
-    public void setNumberOfBed(Long numberOfBed) {
+    public void setNumberOfBed(Integer numberOfBed) {
         this.numberOfBed = numberOfBed;
     }
 

@@ -79,7 +79,7 @@
         </div>
 
         <div class="chips-container" id="roomNumberChipsContainer"></div>
-        <form:hidden path="roomNumbers" id="roomNumbersHidden" />
+        <form:hidden path="roomNumbers" id="roomNumbersHidden"/>
 
         <button type="submit" class="btn btn-primary signup-button">Add</button>
     </form:form>

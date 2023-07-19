@@ -2,6 +2,7 @@ package net.therap.controller;
 
 import net.therap.model.Hotel;
 import net.therap.service.HotelService;
+import net.therap.util.Util;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -66,12 +66,10 @@ public class HotelSignupController {
 
             return "hotelImageUpload";
         }
-        String[] allowedExtensions = {"jpg", "jpeg", "png"};
+
         String extension = FilenameUtils.getExtension(hotelImage.getOriginalFilename());
 
-        if (!Arrays.asList(allowedExtensions).contains(extension)) {
-            model.addAttribute("error", "Only JPG, JPEG and PNG files are allowed.");
-
+        if (!Util.allowedImageExtension(extension, model)) {
             return "hotelImageUpload";
         }
 
