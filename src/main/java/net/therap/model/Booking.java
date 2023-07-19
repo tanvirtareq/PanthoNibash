@@ -17,7 +17,7 @@ public class Booking {
     @GeneratedValue
     private Long id;
 
-    private Long roomNumber;
+    private String roomNumber;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -36,6 +36,7 @@ public class Booking {
     private Room room;
 
     @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "review_id")
     private Review review;
 
     public void setId(Long id) {
@@ -71,11 +72,11 @@ public class Booking {
         return review;
     }
 
-    public Long getRoomNumber() {
+    public String getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(Long roomNumber) {
+    public void setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
     }
 

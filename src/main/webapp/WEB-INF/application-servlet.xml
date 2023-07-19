@@ -37,6 +37,7 @@
         <property name="maxUploadSize" value="10485760"/> <!-- Specify the maximum file size in bytes -->
     </bean>
 
+
     <!--    <bean id="simpleMappingExceptionResolver"-->
     <!--          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
     <!--        <property name="defaultErrorView" value="error"/>-->
@@ -50,5 +51,6 @@
     <tx:annotation-driven/>
 
     <util:properties id="facilityOptions" location="classpath:../facilityOptions.properties"/>
+    <util:properties id="roomTypeOptions" location="classpath:../roomTypeOptions.properties"/>
 
 </beans>

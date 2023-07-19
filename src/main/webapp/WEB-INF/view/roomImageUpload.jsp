@@ -3,8 +3,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: tanvirtareq
-  Date: 7/18/23
-  Time: 11:00 AM
+  Date: 7/19/23
+  Time: 12:42 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -13,20 +13,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hotel Image Upload</title>
+  <title>Room Image Upload</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
 </head>
 <body>
 
 <div class="container">
-  <h2 class="text-center mt-5">Hotel Image Upload</h2>
-  <form:form action="/hotel/hotelImageUpload" method="post" enctype="multipart/form-data">
+  <h2 class="text-center mt-5">Room Image Upload</h2>
+  <form:form action="/hotel/${sessionContext.id}/addroom/roomImageUpload" method="post" enctype="multipart/form-data">
     <div class="row justify-content-center mt-5">
       <div class="col-md-6">
         <div class="form-group">
-          <label for="hotelImage">Hotel Image</label>
-          <input type="file" id="hotelImage" name="hotelImage" class="form-control"/>
+          <label for="roomImage">Room Image</label>
+          <input type="file" id="roomImage" name="roomImage" class="form-control"/>
         </div>
         <c:if test="${not empty error}">
           <div class="alert alert-danger">${error}</div>

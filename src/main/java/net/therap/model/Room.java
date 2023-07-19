@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public class Room {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
     @NotNull(message = "Type can not be null")
@@ -31,31 +32,58 @@ public class Room {
     @ElementCollection
     @CollectionTable(name = "room_numbers", joinColumns = @JoinColumn(name = "room_id"))
     @Column(name = "room_number")
-    private List<String> roomNumbers;
+    private List<String> roomNumbers = new ArrayList<>();
 
     @NotNull
     @Min(value = 1, message = "Number of bed must be a positive integer")
     private Long numberOfBed;
 
-    @ElementCollection
-    @CollectionTable(name = "room_images", joinColumns = @JoinColumn(name = "room_id"))
+    private Long numberOfRoom;
+
+
     @Lob
-    @Column(name = "image")
-    private List<byte[]> images;
+    @Column(name = "room_image")
+    private byte[] roomImage;
+
+
+    @Transient
+    private String roomImageBase64Image;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 
-
-    public void setHotel(Hotel hotel) {
+    public Long getNumberOfRoom() {
+        setNumberOfRoom((long) roomNumbers.size());
+        return numberOfRoom;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNumberOfRoom(Long numberOfRoom) {
+        this.numberOfRoom = numberOfRoom;
+    }
+
+    public byte[] getRoomImage() {
+        return roomImage;
+    }
+
+    public void setRoomImage(byte[] roomImage) {
+        this.roomImage = roomImage;
+    }
+
+    public String getRoomImageBase64Image() {
+        setRoomImageBase64Image(Base64.getEncoder().encodeToString(this.getRoomImage()));
+        return roomImageBase64Image;
+    }
+
+    public void setRoomImageBase64Image(String roomImageBase64Image) {
+        this.roomImageBase64Image = roomImageBase64Image;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<String> getRoomNumbers() {
@@ -66,16 +94,12 @@ public class Room {
         this.roomNumbers = roomNumbers;
     }
 
-    public List<byte[]> getImages() {
-        return images;
-    }
-
-    public void setImages(List<byte[]> images) {
-        this.images = images;
-    }
-
     public List<Booking> getBookings() {
         return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 
     public void addBooking(Booking booking) {
@@ -90,6 +114,10 @@ public class Room {
 
     public Hotel getHotel() {
         return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
     public String getType() {
@@ -116,7 +144,15 @@ public class Room {
         this.numberOfBed = numberOfBed;
     }
 
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", price=" + price +
+                ", roomNumbers=" + roomNumbers +
+                ", numberOfBed=" + numberOfBed +
+                ", numberOfRoom=" + numberOfRoom +
+                '}';
     }
 }

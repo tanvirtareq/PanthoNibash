@@ -2,6 +2,7 @@ package net.therap.service;
 
 import net.therap.model.Customer;
 import net.therap.model.Hotel;
+import net.therap.model.Room;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +70,12 @@ public class HotelService {
         Hibernate.initialize(hotel.getHotelImage());
 
         return hotel;
+    }
+
+    @Transactional
+    public void addRoom(Long hotelId, Room room) {
+        Hotel hotel = entityManager.find(Hotel.class, hotelId);
+        hotel.addRoom(room);
+        entityManager.merge(hotel);
     }
 }

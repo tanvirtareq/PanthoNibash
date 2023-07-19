@@ -59,6 +59,8 @@ public class Hotel {
     @NotNull(message = "Wifi Facility can not be null")
     private String wifiFacility;
 
+
+
     @Lob
     @Column(name = "hotel_image")
     private byte[] hotelImage;
@@ -66,14 +68,6 @@ public class Hotel {
 
     @Transient
     private String hotelImageBase64Image;
-
-    public byte[] getHotelImage() {
-        return hotelImage;
-    }
-
-    public void setHotelImage(byte[] hotelImage) {
-        this.hotelImage = hotelImage;
-    }
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -83,7 +77,17 @@ public class Hotel {
     private List<Room> rooms = new ArrayList<>();
 
     @OneToOne(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "rating_id")
     private Rating rating;
+
+
+    public byte[] getHotelImage() {
+        return hotelImage;
+    }
+
+    public void setHotelImage(byte[] hotelImage) {
+        this.hotelImage = hotelImage;
+    }
 
     public void setId(Long id) {
         this.id = id;
