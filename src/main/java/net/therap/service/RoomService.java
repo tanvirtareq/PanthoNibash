@@ -133,4 +133,11 @@ public class RoomService {
 
         return entityManager.createQuery(jpql, Room.class).getResultList();
     }
+
+    @Transactional
+    public Room findById(Long id) {
+        Room room = entityManager.find(Room.class, id);
+
+        return room;
+    }
 }
