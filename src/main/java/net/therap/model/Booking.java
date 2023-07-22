@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.Base64;
 
 /**
  * @author tanvirtareq
@@ -36,6 +37,13 @@ public class Booking {
     @Pattern(regexp = "\\d{11}", message = "Phone number must be a 11-digit number")
     @NotBlank(message = "Phone number can't be blank")
     private String guestPhoneNumber;
+
+    @Lob
+    @Column(name = "guest_image")
+    private byte[] guestImage;
+
+    @Transient
+    private String guestImageBase64Image;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -132,6 +140,23 @@ public class Booking {
 
     public void setGuestPhoneNumber(String guestPhoneNumber) {
         this.guestPhoneNumber = guestPhoneNumber;
+    }
+
+    public byte[] getGuestImage() {
+        return guestImage;
+    }
+
+    public void setGuestImage(byte[] guestImage) {
+        this.guestImage = guestImage;
+    }
+
+    public String getGuestImageBase64Image() {
+        this.setGuestImageBase64Image(Base64.getEncoder().encodeToString(this.guestImage));
+        return guestImageBase64Image;
+    }
+
+    public void setGuestImageBase64Image(String guestImageBase64Image) {
+        this.guestImageBase64Image = guestImageBase64Image;
     }
 
     @Override

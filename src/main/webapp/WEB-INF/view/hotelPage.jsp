@@ -93,7 +93,6 @@
   </style>
 </head>
 <body>
-<body>
 <header>
   <h1>${hotel.name}</h1>
 </header>
@@ -144,8 +143,6 @@
     </a>
   </div>
 </div>
-
-
 
 </body>
 </html>

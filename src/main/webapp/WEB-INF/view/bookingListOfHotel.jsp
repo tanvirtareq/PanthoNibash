@@ -193,14 +193,19 @@
         <table>
           <thead>
           <tr>
-            <th>Customer Picture</th>
+            <th>Guest Photo</th>
             <th>
-              <a href="?sort=name">Customer Name</a>
+              <a href="?sort=name">Guest Name</a>
               <div class="arrow-up"></div>
               <div class="arrow-down"></div>
             </th>
             <th>
-              <a href="?sort=email">Customer Email</a>
+              <a href="?sort=email">Guest Email</a>
+              <div class="arrow-up"></div>
+              <div class="arrow-down"></div>
+            </th>
+            <th>
+              <a href="?sort=email">Guest Phone Number</a>
               <div class="arrow-up"></div>
               <div class="arrow-down"></div>
             </th>
@@ -224,35 +229,33 @@
               <div class="arrow-up"></div>
               <div class="arrow-down"></div>
             </th>
+            <th>Booking Details</th>
 
-            <th>Room Image</th>
           </tr>
           </thead>
           <tbody>
           <c:forEach items="${bookingList}" var="booking">
             <tr>
               <td>
-                <img src="data:image/jpeg;base64,${booking.customer.profilePicBase64Image}" alt="Customer"
+                <img src="data:image/jpeg;base64,${booking.guestImageBase64Image}" alt="Guest"
                      class="customer-image">
               </td>
-              <td>${booking.customer.name}</td>
-              <td>${booking.customer.email}</td>
+              <td>${booking.guestName}</td>
+              <td>${booking.guestEmail}</td>
+              <td>${booking.guestPhoneNumber}</td>
               <td>${booking.roomNumber}</td>
               <td>${booking.checkInDate}</td>
               <td>${booking.checkOutDate}</td>
               <td>${booking.room.type}</td>
               <td>
-                <img src="data:image/jpeg;base64,${booking.room.roomImageBase64Image}" alt="Room Image"
-                     class="room-image">
+                <a href="/booking/${booking.id}" class="btn btn-primary">Details</a>
               </td>
             </tr>
           </c:forEach>
           </tbody>
         </table>
       </div>
-
     </div>
-
   </div>
 </div>
 

@@ -21,4 +21,8 @@ public class BookingService {
     public void save(Booking booking) {
         entityManager.persist(booking);
     }
+
+    public Booking findById(Long bookingId) {
+        return entityManager.find(Booking.class, bookingId);
+    }
 }
