@@ -40,10 +40,13 @@
                 </c:when>
                 <c:otherwise>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/customer/logout">Logout</a>
+                        <form action="${pageContext.request.contextPath}/logout" method="post">
+                            <button type="submit" class="nav-link btn btn-link" style="border: none; outline: none;">
+                                Logout
+                                </button>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/${sessionContext.profileLink}">
+                        <a class="nav-link" href="${sessionContext.profileLink}">
                             <img src="data:image/jpeg;base64,${sessionContext.profilePictureBase64Image}"
                                  alt="${sessionContext.name}" class="rounded-3" style="width: 50px; height: 50px;">
                         </a>
