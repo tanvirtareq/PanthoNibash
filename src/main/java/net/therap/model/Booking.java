@@ -30,7 +30,6 @@ public class Booking {
     private String guestName;
 
     @Email(message = "Email should be a valid email address")
-    @Column(unique = true)
     @NotBlank(message = "Email can't be blank")
     private String guestEmail;
 

@@ -1,6 +1,7 @@
 package net.therap.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.support.SessionStatus;
 @SessionAttributes("sessionContext")
 public class LogoutController {
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logout(SessionStatus sessionStatus) {
         sessionStatus.setComplete();
 

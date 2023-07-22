@@ -23,7 +23,6 @@ public class RoomController {
     private RoomService roomService;
 
     @GetMapping("/{id}")
-    @Transactional(readOnly = true)
     public String showRoom(@PathVariable Long id, Model model) {
         Room room = roomService.findById(id);
         model.addAttribute("room", room);

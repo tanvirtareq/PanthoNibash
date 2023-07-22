@@ -48,21 +48,21 @@
     <!--        </property>-->
     <!--    </bean>-->
 
-<!--    <bean id="openEntityManagerInViewInterceptor"-->
-<!--          class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">-->
-<!--        <property name="entityManagerFactory" ref="entityManagerFactory"/>-->
-<!--    </bean>-->
+    <bean id="openEntityManagerInViewInterceptor"
+          class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
 
-<!--    <mvc:interceptors>-->
-<!--        <mvc:interceptor>-->
-<!--            <mvc:mapping path="/**"/>-->
-<!--            <bean class="org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter">-->
-<!--                <constructor-arg>-->
-<!--                    <ref bean="openEntityManagerInViewInterceptor"/>-->
-<!--                </constructor-arg>-->
-<!--            </bean>-->
-<!--        </mvc:interceptor>-->
-<!--    </mvc:interceptors>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter">
+                <constructor-arg>
+                    <ref bean="openEntityManagerInViewInterceptor"/>
+                </constructor-arg>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <tx:annotation-driven/>
 

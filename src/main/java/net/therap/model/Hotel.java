@@ -60,7 +60,6 @@ public class Hotel {
     private String wifiFacility;
 
 
-
     @Lob
     @Column(name = "hotel_image")
     private byte[] hotelImage;

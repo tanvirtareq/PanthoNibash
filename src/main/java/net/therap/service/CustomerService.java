@@ -1,7 +1,6 @@
 package net.therap.service;
 
 import net.therap.model.Customer;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -28,10 +27,6 @@ public class CustomerService {
     public Customer findById(Long id) {
         Customer customer = entityManager.find(Customer.class, id);
 
-        if (customer != null) {
-            Hibernate.initialize(customer.getProfilePicture());
-        }
-
         return customer;
     }
 
@@ -48,7 +43,6 @@ public class CustomerService {
             return null;
         }
         Customer customer = customers.get(0);
-        Hibernate.initialize(customer.getProfilePicture());
 
         return customer;
     }
@@ -65,7 +59,6 @@ public class CustomerService {
             return null;
         }
         Customer customer = customers.get(0);
-        Hibernate.initialize(customer.getProfilePicture());
 
         return customer;
     }

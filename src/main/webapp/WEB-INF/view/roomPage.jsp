@@ -54,7 +54,9 @@
     <hr>
 
     <h3>Hotel Image</h3>
-    <img src="data:image/jpeg;base64,${room.hotel.hotelImageBase64Image}" class="hotel-image" alt="Hotel Image">
+    <a href="/hotel/${room.hotel.id}">
+        <img src="data:image/jpeg;base64,${room.hotel.hotelImageBase64Image}" class="hotel-image" alt="Hotel Image">
+    </a>
 
 </div>
 

@@ -42,6 +42,9 @@ public class RoomBookController {
         model.addAttribute("booking", booking);
         model.addAttribute("roomId", id);
 
+        System.out.println("get room book" + id);
+        System.out.println(booking);
+
         return "roomBookPage";
     }
 
@@ -50,6 +53,7 @@ public class RoomBookController {
                                   BindingResult bindingResult, Model model, HttpSession httpSession) {
 
 
+        System.out.println(booking);
         SessionContext sessionContext = (SessionContext) httpSession.getAttribute("sessionContext");
         if (sessionContext == null) {
             return "redirect:/customer/login";
@@ -63,8 +67,13 @@ public class RoomBookController {
         Room room = roomService.findById(roomId);
 
         if (!roomService.availableRoom(room, booking.getCheckInDate(), booking.getCheckOutDate())) {
-            return "redirect:/search?hotelName=&location=&priceMin=&priceMax=&numberOfBed=&checkIn="
-                    + booking.getCheckInDate().toString() + "&checkOut=" + booking.getCheckOutDate();
+            System.out.println("***********************\n\n\n\n\n\n\n");
+            System.out.println("No room available");
+            System.out.println("\n\n\n\n\n\n\n***********************");
+
+            return "redirect:/";
+//            return "redirect:/search?hotelName=&location=&priceMin=&priceMax=&numberOfBed=&checkIn="
+//                    + booking.getCheckInDate().toString() + "&checkOut=" + booking.getCheckOutDate();
         }
 
         booking.setRoomNumber(roomService.getRoomNumber(room, booking.getCheckInDate(), booking.getCheckOutDate()));

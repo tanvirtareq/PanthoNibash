@@ -138,9 +138,6 @@ public class RoomService {
     @Transactional
     public Room findById(Long id) {
         Room room = entityManager.find(Room.class, id);
-        Hibernate.initialize(room.getRoomImage());
-        Hibernate.initialize(room.getRoomNumbers());
-        Hibernate.initialize(room.getBookings());
 
         return room;
     }
@@ -155,11 +152,4 @@ public class RoomService {
         return "";
     }
 
-//    @Transactional
-//    public void addBooking(Room room, Booking booking) {
-////        Room persistedRoom = entityManager.merge(room);
-//        entityManager.persist(booking);
-////        Booking persistedBooking = entityManager.merge(booking);
-////        persistedRoom.addBooking(persistedBooking);
-//    }
 }
