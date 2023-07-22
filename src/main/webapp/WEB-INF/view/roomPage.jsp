@@ -33,7 +33,6 @@
 <div class="container room-container">
     <h2>Hotel Name: <c:out value="${room.hotel.name}"/></h2>
     <p>Location: <c:out value="${room.hotel.location}"/></p>
-
     <div class="row">
         <div class="col-md-6">
             <img src="data:image/jpeg;base64,${room.roomImageBase64Image}" class="room-image" alt="Room Image">

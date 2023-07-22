@@ -45,7 +45,6 @@ public class HotelAddRoomController {
     public String processAddRoom(@PathVariable Long id, @ModelAttribute @Valid Room room,
                                  BindingResult bindingResult, Model model) {
 
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("room", room);
             model.addAttribute("roomTypeOptions", roomTypeOptions);

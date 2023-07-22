@@ -1,9 +1,12 @@
 package net.therap.model;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 /**
@@ -23,11 +26,23 @@ public class Booking {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @NotBlank
+    @NotBlank(message = "Name can't be blank")
+    private String guestName;
+
+    @Email(message = "Email should be a valid email address")
+    @Column(unique = true)
+    @NotBlank(message = "Email can't be blank")
+    private String guestEmail;
+
+    @Pattern(regexp = "\\d{11}", message = "Phone number must be a 11-digit number")
+    @NotBlank(message = "Phone number can't be blank")
+    private String guestPhoneNumber;
+
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate checkInDate;
 
-    @NotBlank
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate checkOutDate;
 
@@ -39,37 +54,37 @@ public class Booking {
     @JoinColumn(name = "review_id")
     private Review review;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Customer getCustomer() {
         return customer;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Room getRoom() {
         return room;
     }
 
-    public void setReview(Review review) {
-        this.review = review;
-        review.setBooking(this);
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public Review getReview() {
         return review;
+    }
+
+    public void setReview(Review review) {
+        this.review = review;
+        review.setBooking(this);
     }
 
     public String getRoomNumber() {
@@ -94,5 +109,42 @@ public class Booking {
 
     public void setCheckOutDate(LocalDate checkOutDate) {
         this.checkOutDate = checkOutDate;
+    }
+
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public void setGuestName(String guestName) {
+        this.guestName = guestName;
+    }
+
+    public String getGuestEmail() {
+        return guestEmail;
+    }
+
+    public void setGuestEmail(String guestEmail) {
+        this.guestEmail = guestEmail;
+    }
+
+    public String getGuestPhoneNumber() {
+        return guestPhoneNumber;
+    }
+
+    public void setGuestPhoneNumber(String guestPhoneNumber) {
+        this.guestPhoneNumber = guestPhoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", roomNumber='" + roomNumber + '\'' +
+                ", guestName='" + guestName + '\'' +
+                ", guestEmail='" + guestEmail + '\'' +
+                ", guestPhoneNumber='" + guestPhoneNumber + '\'' +
+                ", checkInDate=" + checkInDate +
+                ", checkOutDate=" + checkOutDate +
+                '}';
     }
 }

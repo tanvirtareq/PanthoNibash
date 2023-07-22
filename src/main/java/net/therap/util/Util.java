@@ -1,5 +1,8 @@
 package net.therap.util;
 
+import net.therap.model.Booking;
+import net.therap.model.Customer;
+import net.therap.model.SessionContext;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class Util {
             }
         }
 
+
         return roomNumbers;
     }
 
@@ -46,5 +50,18 @@ public class Util {
         Matcher matcher = pattern.matcher(name);
 
         return matcher.find();
+    }
+
+    public static Booking createBookingFromSessionContext(SessionContext sessionContext) {
+        Booking booking = new Booking();
+        if (sessionContext.getRole().equals("CUSTOMER")) {
+            Customer customer = (Customer) sessionContext.getUser();
+            booking.setCustomer(customer);
+            booking.setGuestName(customer.getName());
+            booking.setGuestEmail(customer.getEmail());
+            booking.setGuestPhoneNumber(customer.getPhoneNumber());
+        }
+
+        return booking;
     }
 }

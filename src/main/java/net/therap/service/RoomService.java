@@ -3,6 +3,7 @@ package net.therap.service;
 import net.therap.model.Booking;
 import net.therap.model.Room;
 import net.therap.util.Util;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -84,7 +85,7 @@ public class RoomService {
         return result;
     }
 
-    private boolean availableRoom(Room room, LocalDate checkIn, LocalDate checkOut) {
+    public boolean availableRoom(Room room, LocalDate checkIn, LocalDate checkOut) {
         if (checkIn == null || checkOut == null) {
             return true;
         }
@@ -137,7 +138,28 @@ public class RoomService {
     @Transactional
     public Room findById(Long id) {
         Room room = entityManager.find(Room.class, id);
+        Hibernate.initialize(room.getRoomImage());
+        Hibernate.initialize(room.getRoomNumbers());
+        Hibernate.initialize(room.getBookings());
 
         return room;
     }
+
+    public String getRoomNumber(Room room, LocalDate checkInDate, LocalDate checkOutDate) {
+        for (String roomNumber : room.getRoomNumbers()) {
+            List<Booking> bookings = getBookings(roomNumber, room);
+            if (availableRoomNumber(bookings, checkInDate, checkOutDate)) {
+                return roomNumber;
+            }
+        }
+        return "";
+    }
+
+//    @Transactional
+//    public void addBooking(Room room, Booking booking) {
+////        Room persistedRoom = entityManager.merge(room);
+//        entityManager.persist(booking);
+////        Booking persistedBooking = entityManager.merge(booking);
+////        persistedRoom.addBooking(persistedBooking);
+//    }
 }

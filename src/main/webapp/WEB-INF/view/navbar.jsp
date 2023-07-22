@@ -26,6 +26,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/search">Search</a>
+            </li>
             <c:choose>
                 <c:when test="${empty sessionContext}">
                     <li class="nav-item">

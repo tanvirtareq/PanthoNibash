@@ -37,31 +37,32 @@ public class HotelLoginController {
     @PostMapping("/login")
     public String processLogin(@ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult bindingResult,
                                Model model, HttpSession httpSession) {
-        if(hotelService.findByEmail(loginForm.getEmail()) == null) {
+
+        if (hotelService.findByEmail(loginForm.getEmail()) == null) {
             bindingResult.rejectValue("email", "email.noEmail", "Email is not registered");
         }
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "hotelLogin";
         }
 
         Hotel hotel = hotelService.findByEmailAndPassword(loginForm.getEmail(), loginForm.getPassword());
 
-        if(hotel == null) {
+        if (hotel == null) {
             bindingResult.rejectValue("credential.error", "Email of Password did not match");
         }
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "hotelLogin";
         }
 
         SessionContext sessionContext = new SessionContext(hotel, hotel.getEmail(), "HOTEL",
-                hotel.getId(), hotel.getName(), "/hotel/"+hotel.getId(),
+                hotel.getId(), hotel.getName(), "/hotel/" + hotel.getId(),
                 hotel.getHotelImageBase64Image());
 
         httpSession.setAttribute("sessionContext", sessionContext);
 
-        return "redirect:/hotel/"+ hotel.getId();
+        return "redirect:/hotel/" + hotel.getId();
     }
 
 }
