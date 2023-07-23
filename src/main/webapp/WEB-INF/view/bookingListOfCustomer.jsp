@@ -21,6 +21,8 @@
 
     header {
       background-color: rgba(228, 234, 226, 0.55);
+      box-shadow: 0 0 10px rgb(169, 135, 135);
+      border-radius: 10px;
       color: #350505;
       text-align: center;
       padding: 1rem;

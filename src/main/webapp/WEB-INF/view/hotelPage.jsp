@@ -97,7 +97,7 @@
   <h1>${hotel.name}</h1>
 </header>
 <div class="container">
-  <img src="data:image/jpeg;base64,${hotel.hotelImageBase64Image}" alt="Hotel ABC" class="hotel-image">
+  <img src="data:image/jpeg;base64,${hotel.hotelImageBase64Image}" alt="Hotel" class="hotel-image">
   <div class="hotel-info">
     <div class="hotel-details">
       <h2 class="hotel-name">${hotel.name}</h2>
@@ -116,12 +116,18 @@
       </ul>
     </div>
   </div>
-  <!-- Add the button to see the booking list -->
+
   <div style="display: flex; justify-content: center; margin-top: 2rem;">
     <a href="/hotel/${hotel.id}/booking/list" style="text-decoration: none;">
       <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
-                        border-radius: 4px; cursor: pointer; font-size: 16px;">
-        See Booking List
+                            border-radius: 4px; cursor: pointer; font-size: 16px; width: 130px; margin: 2px">
+        Booking List
+      </button>
+    </a>
+    <a href="/hotel/${hotel.id}/edit" style="text-decoration: none;">
+      <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
+                            border-radius: 4px; cursor: pointer; font-size: 16px; width: 130px; margin: 2px">
+        Edit
       </button>
     </a>
   </div>

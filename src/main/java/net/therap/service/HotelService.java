@@ -109,4 +109,19 @@ public class HotelService {
 
         return bookingList;
     }
+
+    @Transactional
+    public void update(Long hotelId, String name, String password, String phoneNumber, String location, String parkingFacility, String swimmingPool, String wifiFacility) {
+        Hotel hotel = entityManager.find(Hotel.class, hotelId);
+
+        hotel.setName(name);
+        hotel.setPassword(password);
+        hotel.setPhoneNumber(phoneNumber);
+        hotel.setLocation(location);
+        hotel.setParkingFacility(parkingFacility);
+        hotel.setSwimmingPool(swimmingPool);
+        hotel.setWifiFacility(wifiFacility);
+
+        entityManager.merge(hotel);
+    }
 }

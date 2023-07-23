@@ -16,15 +16,25 @@
     body {
       font-family: Arial, sans-serif;
       line-height: 1.6;
-      margin: 0;
-      padding: 0;
+      background-color: #f9f9f9;
     }
 
     header {
-      background-color: #333;
-      color: #fff;
+      background-color: rgba(228, 234, 226, 0.55);
+      box-shadow: 0 0 10px rgb(169, 135, 135);
+      color: #350505;
       text-align: center;
       padding: 1rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      border-radius: 10px;
+    }
+
+    .custom-card {
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
     }
 
     .container {
@@ -134,8 +144,8 @@
 <div class="container-xxl">
   <div class="row">
     <div class="col-md-3">
-      <div class="container">
-        <div class="card">
+      <div class="container-xxl">
+        <div class="card custom-card">
           <div class="card-body">
             <form action="/hotel/${hotel.id}/booking/list" method="GET">
               <div class="mb-3">
@@ -183,14 +193,13 @@
           </div>
 
         </div>
-
       </div>
 
     </div>
 
     <div class="col-md-9">
-      <div class="container">
-        <table>
+      <div class="container-xxl">
+        <table class="custom-card">
           <thead>
           <tr>
             <th>Guest Photo</th>
@@ -259,7 +268,5 @@
   </div>
 </div>
 
-
-<!-- Add filtering options -->
 </body>
 </html>
