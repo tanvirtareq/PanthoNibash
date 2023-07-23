@@ -25,4 +25,9 @@ public class BookingService {
     public Booking findById(Long bookingId) {
         return entityManager.find(Booking.class, bookingId);
     }
+
+    @Transactional
+    public void merge(Booking booking) {
+        entityManager.merge(booking);
+    }
 }
