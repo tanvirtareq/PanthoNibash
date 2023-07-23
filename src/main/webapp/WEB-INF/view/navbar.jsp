@@ -7,6 +7,34 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
     <title>Pantho Nibash</title>
+    <style>
+        .dropdown-menu {
+            display: none;
+            top: 100%;
+            left: 0;
+            padding: 0px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0px;
+            max-width: 100px;
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 5px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .dropdown-menu li a:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
@@ -33,26 +61,34 @@
                 <c:when test="${empty sessionContext}">
                     <li class="nav-item">
                         <div class="dropdown show">
-                            <a class="nav-link" href="#" role="button" id="dropdownSignupLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link" href="#" role="button" id="dropdownSignupLink">
                                 Signup
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownSignupLink">
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/customer/signup">Signup as customer</a>
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/hotel/signup">Signup as hotel</a>
-                            </div>
+                            <ul class="dropdown-menu" id="signUpDropDownMenu">
+                                <li>
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/customer/signup">Signup as customer</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/hotel/signup">Signup as hotel</a>
+                                </li>
+                                </ul>
                         </div>
                     </li>
                     <li class="nav-item">
                         <div class="dropdown show">
-                            <a class="nav-link" href="#" role="button" id="dropdownLoginLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link" href="#" role="button" id="dropdownLoginLink">
                                 Login
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownLoginLink">
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/customer/login">Login as customer</a>
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/hotel/login">Login as hotel</a>
-                            </div>
+                            <ul class="dropdown-menu" id="loginDropDownMenu">
+                                <li>
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/customer/login">Login as customer</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="${pageContext.request.contextPath}/hotel/login">Login as hotel</a>
+                                </li>
+                            </ul>
                         </div>
                     </li>
                 </c:when>
@@ -73,12 +109,37 @@
     </div>
 </nav>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        addDropDown("dropdownSignupLink", "signUpDropDownMenu");
+        addDropDown("dropdownLoginLink", "loginDropDownMenu")
+
+        function addDropDown(dropdownLinkId, dropDownMenuId) {
+            const dropdownLink = document.getElementById(dropdownLinkId);
+            const dropDownMenu = document.getElementById(dropDownMenuId);
+            dropdownLink.addEventListener("mouseover", () => {
+                dropDownMenu.style.display = "block";
+            });
+
+            dropdownLink.addEventListener("mouseout", () => {
+                dropDownMenu.style.display = "none";
+            });
+
+            dropDownMenu.addEventListener("mouseover", () => {
+                dropDownMenu.style.display = "block";
+            });
+
+            dropDownMenu.addEventListener("mouseout", () => {
+                dropDownMenu.style.display = "none";
+            });
+        }
+
+    });
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

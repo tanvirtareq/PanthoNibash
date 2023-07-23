@@ -4,7 +4,6 @@ import net.therap.model.Booking;
 import net.therap.model.Review;
 import net.therap.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +25,8 @@ public class AddReviewController {
     @GetMapping("/addReview")
     public String showAddReviewForm(@PathVariable Long bookingId, Model model) {
         Booking booking = bookingService.findById(bookingId);
-        if(booking.getReview()!=null) {
-            return "redirect:/booking/"+bookingId;
+        if (booking.getReview() != null) {
+            return "redirect:/booking/" + bookingId;
         }
 
         model.addAttribute("review", new Review());
@@ -38,12 +37,12 @@ public class AddReviewController {
     @PostMapping("/addReview")
     public String processAddReview(@PathVariable Long bookingId, @ModelAttribute("booking") @Valid Review review) {
         Booking booking = bookingService.findById(bookingId);
-        if(booking.getReview()==null) {
+        if (booking.getReview() == null) {
             booking.setReview(review);
             review.setBooking(booking);
             bookingService.merge(booking);
         }
 
-        return "redirect:/booking/"+bookingId;
+        return "redirect:/booking/" + bookingId;
     }
 }
