@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -138,5 +139,19 @@ public class Customer {
 
     public void setProfilePicBase64Image(String profilePicBase64Image) {
         this.profilePicBase64Image = profilePicBase64Image;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", profilePicBase64Image='" + profilePicBase64Image + '\'' +
+                ", bookings=" + bookings +
+                '}';
     }
 }

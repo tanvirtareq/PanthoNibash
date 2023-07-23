@@ -91,4 +91,16 @@ public class CustomerService {
         }
         return bookingList;
     }
+
+    @Transactional
+    public void update(Long customerId, String name, String password, String phoneNumber, LocalDate dateOfBirth) {
+        Customer customer = entityManager.find(Customer.class, customerId);
+
+        customer.setName(name);
+        customer.setPassword(password);
+        customer.setPhoneNumber(phoneNumber);
+        customer.setDateOfBirth(dateOfBirth);
+
+        entityManager.merge(customer);
+    }
 }
