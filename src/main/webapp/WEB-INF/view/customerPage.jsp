@@ -66,20 +66,23 @@
             <p><strong>Phone:</strong> ${customer.phoneNumber}</p>
             <p><strong>Date of birth:</strong> ${customer.dateOfBirth}</p>
         </div>
-        <div style="display: flex; justify-content: center; margin-top: 2rem;">
-            <a href="/customer/${customer.id}/bookingList" style="text-decoration: none;">
-                <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
+        <c:set var="customerRole" value="CUSTOMER"/>
+        <c:if test="${sessionContext!=null && sessionContext.role==customerRole && sessionContext.id==customer.id}">
+            <div style="display: flex; justify-content: center; margin-top: 2rem;">
+                <a href="/customer/${customer.id}/bookingList" style="text-decoration: none;">
+                    <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
                             border-radius: 4px; cursor: pointer; font-size: 16px; width: 130px; margin: 2px">
-                    Booking List
-                </button>
-            </a>
-            <a href="/customer/${customer.id}/edit" style="text-decoration: none;">
-                <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
+                        Booking List
+                    </button>
+                </a>
+                <a href="/customer/${customer.id}/edit" style="text-decoration: none;">
+                    <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
                             border-radius: 4px; cursor: pointer; font-size: 16px; width: 130px; margin: 2px">
-                    Edit
-                </button>
-            </a>
-        </div>
+                        Edit
+                    </button>
+                </a>
+            </div>
+        </c:if>
     </div>
 
 </div>

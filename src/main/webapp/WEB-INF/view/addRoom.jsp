@@ -41,7 +41,7 @@
 
 <div class="signup-container">
     <h2 class="signup-title">Add room</h2>
-    <form:form id="addRoomForm" action="/hotel/${sessionContext.id}/addroom" method="post" modelAttribute="room">
+    <form:form id="addRoomForm" action="/hotel/${hotelId}/addRoom" method="post" modelAttribute="room">
 
         <div class="form-group">
             <label for="type">Type:</label>
@@ -125,8 +125,21 @@
 
         function updateRoomNumbersHiddenInput() {
             const chips = roomNumberChipsContainer.querySelectorAll(".chip-text");
+            // let roomNumbers = "";
+            // Array.from(chips).forEach(chip => {
+            //     roomNumbers.concat(", ",chip.textContent);
+            // })
+            // console.log(roomNumbers);
             const roomNumbers = Array.from(chips).map(chip => chip.textContent);
-            roomNumbersHiddenInput.value = JSON.stringify(roomNumbers);
+            console.log(roomNumbers);
+            let temp = "";
+            for (const x of roomNumbers) {
+                console.log(x);
+                temp += x + ", ";
+            }
+            temp = temp.slice(0, -2);
+            console.log(temp);
+            roomNumbersHiddenInput.value = temp;
         }
     });
 </script>

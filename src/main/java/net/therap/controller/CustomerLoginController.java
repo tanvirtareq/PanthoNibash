@@ -38,14 +38,6 @@ public class CustomerLoginController {
     public String processLogin(@ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult bindingResult,
                                HttpSession httpSession) {
 
-        if (customerService.findByEmail(loginForm.getEmail()) == null) {
-            bindingResult.rejectValue("email", "email.noEmail", "Email is not registered");
-        }
-
-        if (bindingResult.hasErrors()) {
-            return "customerLogin";
-        }
-
         Customer customer = customerService.findByEmailAndPassword(loginForm.getEmail(), loginForm.getPassword());
 
         if (customer == null) {
@@ -64,5 +56,4 @@ public class CustomerLoginController {
 
         return "redirect:/customer/" + customer.getId();
     }
-
 }

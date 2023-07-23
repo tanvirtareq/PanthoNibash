@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +24,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/hotel")
 public class HotelController {
+
     @Autowired
     private HotelService hotelService;
 
@@ -35,13 +35,12 @@ public class HotelController {
     public String showHotel(@PathVariable Long id, Model model) {
 
         Hotel hotel = hotelService.findById(id);
-
         model.addAttribute("hotel", hotel);
 
         return "hotelPage";
     }
 
-    @GetMapping("/{hotelId}/booking/list")
+    @GetMapping("/{hotelId}/bookingList")
     public String showBookingList(@PathVariable Long hotelId, Model model,
                                   @RequestParam(value = "checkInDate", required = false)
                                   @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkInDate,

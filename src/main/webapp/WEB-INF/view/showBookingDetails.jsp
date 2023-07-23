@@ -132,17 +132,20 @@
 
   </div>
 
-  <div style="display: flex; justify-content: center; margin-top: 2rem;">
-    <a href="/booking/${booking.id}/addReview" style="text-decoration: none;">
-      <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
+  <c:set var="customerRole" value="CUSTOMER"/>
+
+  <c:if test="${booking.customer != null && booking.review!=null && sessionContext!=null && sessionContext.role==customerRole  && booking.customer.id == sessionContext.id}">
+    <div style="display: flex; justify-content: center; margin-top: 2rem;">
+      <a href="/customer/${booking.customer.id}/booking/${booking.id}/addReview" style="text-decoration: none;">
+        <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
                         border-radius: 4px; cursor: pointer; font-size: 16px;">
-        Add Review
-      </button>
-    </a>
-  </div>
+          Add Review
+        </button>
+      </a>
+    </div>
+  </c:if>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 </body>
 </html>

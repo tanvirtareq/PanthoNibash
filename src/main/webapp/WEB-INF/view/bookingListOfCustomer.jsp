@@ -19,7 +19,7 @@
       background-color: #f9f9f9;
     }
 
-    header {
+    .custom-header {
       background-color: rgba(228, 234, 226, 0.55);
       box-shadow: 0 0 10px rgb(169, 135, 135);
       border-radius: 10px;
@@ -142,7 +142,7 @@
   </style>
 </head>
 <body>
-<header>
+<header class="custom-header">
   <h1>Customer's Booking List - ${customer  .name}</h1>
 </header>
 

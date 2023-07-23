@@ -3,12 +3,14 @@ package net.therap.controller;
 import net.therap.model.Customer;
 import net.therap.service.CustomerService;
 import net.therap.util.Util;
+import net.therap.validator.CustomerValidator;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -27,6 +29,14 @@ public class CustomerSignupController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private CustomerValidator customerValidator;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(customerValidator);
+    }
+
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
         model.addAttribute("customer", new Customer());
@@ -37,10 +47,6 @@ public class CustomerSignupController {
     @PostMapping("/signup")
     public String signup(@ModelAttribute("customer") @Valid Customer customer, BindingResult bindingResult) {
 
-        if (customerService.findByEmail(customer.getEmail()) != null) {
-            bindingResult.rejectValue("email", "duplicate.email", "Email already exists");
-        }
-
         if (bindingResult.hasErrors()) {
             return "customerSignup";
         }
@@ -48,7 +54,7 @@ public class CustomerSignupController {
         return "profilePictureUpload";
     }
 
-    @PostMapping("/uploadProfilePicture")
+    @PostMapping("/signup/uploadProfilePicture")
     public String uploadProfilePicture(@RequestParam("profilePicture") CommonsMultipartFile profilePicture,
                                        @SessionAttribute(name = "customer") Customer customer, Model model) {
 

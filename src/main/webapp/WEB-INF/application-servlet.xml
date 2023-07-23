@@ -55,6 +55,76 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
+            <mvc:mapping path="/customer/*/edit"/>
+            <mvc:mapping path="/customer/*/bookingList"/>
+            <mvc:mapping path="/customer/*/booking/*/addReview"/>
+            <bean id="customerAuthInterceptor" class="net.therap.interceptor.CustomerAuthInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/customer/*/booking/*/addReview"/>
+            <bean id="addReviewInterceptor" class="net.therap.interceptor.AddReviewInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/booking/*"/>
+            <bean id="bookingDetailsInterceptor" class="net.therap.interceptor.BookingDetailsInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/customer/*"/>
+            <mvc:exclude-mapping path="/customer/login"/>
+            <mvc:exclude-mapping path="/customer/signup/**"/>
+            <bean id="customerDetailsInterceptor" class="net.therap.interceptor.customerDetailsInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/customer/login"/>
+            <mvc:mapping path="/customer/signup"/>
+            <mvc:mapping path="/customer/signup/*"/>
+            <mvc:mapping path="/hotel/signup"/>
+            <mvc:mapping path="/hotel/signup/*"/>
+            <mvc:mapping path="/hotel/login"/>
+            <bean id="nonUserInterceptor" class="net.therap.interceptor.NonUserInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/hotel/*/addRoom"/>
+            <mvc:mapping path="/hotel/*/addRoom/roomImageUpload"/>
+            <mvc:mapping path="/hotel/*/bookingList"/>
+            <mvc:mapping path="/hotel/*/edit"/>
+            <bean id="hotelAuthInterceptor" class="net.therap.interceptor.HotelAuthInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/room/*/book"/>
+            <mvc:mapping path="/room/*/book/guestImageUpload"/>
+            <bean id="roomBookInterceptor" class="net.therap.interceptor.RoomBookInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/room/*/edit"/>
+            <bean id="roomAuthInterceptor" class="net.therap.interceptor.RoomAuthInterceptor"/>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/customer/**"/>
+            <mvc:exclude-mapping path="/customer/login"/>
+            <mvc:exclude-mapping path="/customer/signup/**"/>
+            <bean id="validCustomerCheckerInterceptor" class="net.therap.interceptor.ValidCustomerCheckerInterceptor"/>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/hotel/**"/>
+            <mvc:exclude-mapping path="/hotel/login"/>
+            <mvc:exclude-mapping path="/hotel/signup/**"/>
+            <bean id="validHotelCheckerInterceptor" class="net.therap.interceptor.ValidHotelCheckerInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/room/**"/>
+            <bean id="validRoomCheckerInterceptor" class="net.therap.interceptor.ValidRoomCheckerInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/booking/**"/>
+            <bean id="validBookingCheckerInterceptor" class="net.therap.interceptor.ValidBookingCheckerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <bean class="org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter">
                 <constructor-arg>

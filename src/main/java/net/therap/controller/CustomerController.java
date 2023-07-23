@@ -51,6 +51,7 @@ public class CustomerController {
 
         Customer customer = customerService.findById(customerId);
         model.addAttribute("customer", customer);
+
         List<Booking> bookingList = customerService.findBookingList(customer, checkInDate, checkOutDate,
                 hotelName, roomType);
 

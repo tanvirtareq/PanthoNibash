@@ -22,6 +22,7 @@ public class BookingController {
 
     @GetMapping("/{bookingId}")
     public String showBookingDetails(@PathVariable Long bookingId, Model model) {
+
         Booking booking = bookingService.findById(bookingId);
         model.addAttribute("booking", booking);
 

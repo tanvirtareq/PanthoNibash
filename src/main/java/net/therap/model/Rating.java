@@ -2,14 +2,6 @@ package net.therap.model;
 
 import javax.persistence.*;
 
-/**
- * @author tanvirtareq
- * @since 7/13/23
- */
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Entity
 @Table
 public class Rating {
@@ -25,37 +17,36 @@ public class Rating {
 
     private double weight;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Hotel getHotel() {
         return hotel;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
     public double getRating() {
         return rating;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public double getWeight() {
         return weight;
     }
 
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
 }
 

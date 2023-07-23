@@ -1,7 +1,6 @@
 package net.therap.controller;
 
 import net.therap.model.Booking;
-import net.therap.model.Customer;
 import net.therap.model.Room;
 import net.therap.model.SessionContext;
 import net.therap.service.BookingService;
@@ -25,7 +24,7 @@ import java.io.IOException;
  * @since 7/20/23
  */
 @Controller
-@RequestMapping("/room/book")
+@RequestMapping("/room/{roomId}")
 @SessionAttributes("booking")
 public class RoomBookController {
 
@@ -35,8 +34,8 @@ public class RoomBookController {
     @Autowired
     private BookingService bookingService;
 
-    @GetMapping("/{id}")
-    public String showRoomBookPage(@PathVariable Long id, Model model, HttpSession httpSession) {
+    @GetMapping("/book")
+    public String showRoomBookPage(@PathVariable Long roomId, Model model, HttpSession httpSession) {
 
         SessionContext sessionContext = (SessionContext) httpSession.getAttribute("sessionContext");
         if (sessionContext == null) {
@@ -45,21 +44,18 @@ public class RoomBookController {
 
         Booking booking = Util.createBookingFromSessionContext(sessionContext);
         model.addAttribute("booking", booking);
-        model.addAttribute("roomId", id);
-
-        System.out.println("get room book" + id);
-        System.out.println(booking);
+        model.addAttribute("roomId", roomId);
 
         return "roomBookPage";
     }
 
-    @PostMapping("/{roomId}")
+    @PostMapping("/book")
     public String processRoomBook(@PathVariable Long roomId, @ModelAttribute("booking") @Valid Booking booking,
                                   BindingResult bindingResult, Model model, HttpSession httpSession) {
 
 
-        System.out.println(booking);
         SessionContext sessionContext = (SessionContext) httpSession.getAttribute("sessionContext");
+
         if (sessionContext == null) {
             return "redirect:/customer/login";
         }
@@ -78,17 +74,15 @@ public class RoomBookController {
         }
 
         booking.setRoomNumber(roomService.getRoomNumber(room, booking.getCheckInDate(), booking.getCheckOutDate()));
-
         booking.setRoom(room);
 
         return "guestImageUpload";
-
-
     }
 
-    @PostMapping("/GuestImageUpload")
+    @PostMapping("/book/guestImageUpload")
     public String uploadProfilePicture(@RequestParam("guestImage") CommonsMultipartFile guestImage,
-                                       @SessionAttribute(name = "booking") Booking booking, Model model) {
+                                       @SessionAttribute(name = "booking") Booking booking, Model model,
+                                       @PathVariable String roomId) {
 
 
         if (guestImage.isEmpty()) {

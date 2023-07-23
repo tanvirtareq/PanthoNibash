@@ -12,14 +12,14 @@
 <head>
     <title>Room Search</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="/assets/css/customStyle.css">
 </head>
 <body>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4 ml-auto">
-            <div class="card">
+            <div class="custom-card">
                 <div class="card-body">
                     <h2 class="card-title">Room Search</h2>
                     <form action="/search" method="get">
@@ -146,21 +146,23 @@
         </div>
 
         <div class="col-md-8">
-            <div class="card">
+            <div class="custom-card">
                 <div class="card-body" style="height: 800px; overflow-y: auto;">
                     <h3 class="card-title">Search Results:</h3>
 
                     <c:if test="${not empty searchResults}">
                         <c:forEach items="${searchResults}" var="room">
 
-                            <div class="card mb-3" style="max-width: 840px;">
+                            <div class="custom-card mb-3" style="max-width: 840px;">
                                 <div class="row g-0">
                                     <div class="col-md-6">
                                         <a href="/room/${room.id}">
                                             <img
                                                     src="data:image/jpeg;base64,${room.roomImageBase64Image}"
                                                     alt="${room.hotel.name}"
-                                                    class="img-fluid rounded-start"
+                                                    height="250px"
+                                                    width="400px"
+                                                    class=" rounded-start img-search-card"
 
                                             />
                                         </a>

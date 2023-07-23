@@ -3,7 +3,6 @@ package net.therap.service;
 import net.therap.model.Booking;
 import net.therap.model.Room;
 import net.therap.util.Util;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -86,22 +85,30 @@ public class RoomService {
     }
 
     public boolean availableRoom(Room room, LocalDate checkIn, LocalDate checkOut) {
+
         if (checkIn == null || checkOut == null) {
             return true;
         }
+
         for (String roomNumber : room.getRoomNumbers()) {
+
             List<Booking> bookings = getBookings(roomNumber, room);
+
             if (availableRoomNumber(bookings, checkIn, checkOut)) {
                 return true;
             }
         }
+
         return false;
     }
 
-
     private boolean availableRoomNumber(List<Booking> bookings, LocalDate checkIn, LocalDate checkOut) {
+
         for (Booking booking : bookings) {
-            if (isOverlap(checkIn, checkOut, booking.getCheckInDate()) || isOverlap(checkIn, checkOut, booking.getCheckOutDate())) {
+
+            if (isOverlap(checkIn, checkOut, booking.getCheckInDate()) ||
+                    isOverlap(checkIn, checkOut, booking.getCheckOutDate())) {
+
                 return false;
             }
         }
@@ -120,12 +127,16 @@ public class RoomService {
     }
 
     private List<Booking> getBookings(String roomNumber, Room room) {
+
         List<Booking> bookings = new ArrayList<>();
+
         for (Booking booking : room.getBookings()) {
+
             if (booking.getRoomNumber().equals(roomNumber)) {
                 bookings.add(booking);
             }
         }
+
         return bookings;
     }
 
@@ -143,8 +154,11 @@ public class RoomService {
     }
 
     public String getRoomNumber(Room room, LocalDate checkInDate, LocalDate checkOutDate) {
+
         for (String roomNumber : room.getRoomNumbers()) {
+
             List<Booking> bookings = getBookings(roomNumber, room);
+
             if (availableRoomNumber(bookings, checkInDate, checkOutDate)) {
                 return roomNumber;
             }
@@ -152,4 +166,14 @@ public class RoomService {
         return "";
     }
 
+    @Transactional
+    public void update(Long roomId, String type, Long price, Integer numberOfBed) {
+
+        Room room = entityManager.find(Room.class, roomId);
+        room.setType(type);
+        room.setPrice(price);
+        room.setNumberOfBed(numberOfBed);
+
+        entityManager.merge(room);
+    }
 }

@@ -10,7 +10,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -47,23 +46,18 @@ public class Hotel {
     @NotNull(message = "Parking Facility can not be null")
     private String parkingFacility;
 
-
     @NotNull(message = "Swimming pool can not be null")
     private String swimmingPool;
-
 
     @NotNull(message = "Fitness centre can not be null")
     private String fitnessCentre;
 
-
     @NotNull(message = "Wifi Facility can not be null")
     private String wifiFacility;
-
 
     @Lob
     @Column(name = "hotel_image")
     private byte[] hotelImage;
-
 
     @Transient
     private String hotelImageBase64Image;
@@ -79,7 +73,6 @@ public class Hotel {
     @JoinColumn(name = "rating_id")
     private Rating rating;
 
-
     public byte[] getHotelImage() {
         return hotelImage;
     }
@@ -88,22 +81,28 @@ public class Hotel {
         this.hotelImage = hotelImage;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
     }
 
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public List<Room> getRooms() {
         return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
     }
 
     public void addRoom(Room room) {
@@ -195,14 +194,6 @@ public class Hotel {
 
     public void setWifiFacility(String wifiFacility) {
         this.wifiFacility = wifiFacility;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
     }
 
     public String getHotelImageBase64Image() {

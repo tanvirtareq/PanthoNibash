@@ -40,11 +40,9 @@ public class Room {
 
     private Long numberOfRoom;
 
-
     @Lob
     @Column(name = "room_image")
     private byte[] roomImage;
-
 
     @Transient
     private String roomImageBase64Image;

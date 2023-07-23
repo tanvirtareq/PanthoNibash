@@ -52,6 +52,7 @@ public class CustomerService {
 
     @Transactional
     public Customer findByEmailAndPassword(String email, String password) {
+
         String jpql = "SELECT c FROM Customer c WHERE c.email=:email AND c.password=:password";
         List<Customer> customers = entityManager.createQuery(jpql, Customer.class)
                 .setParameter("email", email)
@@ -66,9 +67,10 @@ public class CustomerService {
         return customer;
     }
 
-    public List<Booking> findBookingList(Customer customer, LocalDate checkInDate, LocalDate checkOutDate, String hotelName, String roomType) {
-        List<Booking> bookingList = new ArrayList<>();
+    public List<Booking> findBookingList(Customer customer, LocalDate checkInDate, LocalDate checkOutDate,
+                                         String hotelName, String roomType) {
 
+        List<Booking> bookingList = new ArrayList<>();
 
         for (Booking booking : customer.getBookings()) {
             if (checkInDate != null && !booking.getCheckInDate().equals(checkInDate)) {
@@ -94,8 +96,8 @@ public class CustomerService {
 
     @Transactional
     public void update(Long customerId, String name, String password, String phoneNumber, LocalDate dateOfBirth) {
-        Customer customer = entityManager.find(Customer.class, customerId);
 
+        Customer customer = entityManager.find(Customer.class, customerId);
         customer.setName(name);
         customer.setPassword(password);
         customer.setPhoneNumber(phoneNumber);

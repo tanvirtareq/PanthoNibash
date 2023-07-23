@@ -10,7 +10,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -41,7 +40,6 @@ public class Customer {
 
     @Pattern(regexp = "\\d{11}", message = "Phone number must be a 11-digit number")
     private String phoneNumber;
-
 
     @NotNull(message = "Date of Birth can not be null")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -21,7 +21,6 @@ import java.util.Map;
  * @author tanvirtareq
  * @since 7/19/23
  */
-
 @Controller
 @RequestMapping("/hotel/{id}")
 @SessionAttributes({"room"})
@@ -33,43 +32,50 @@ public class HotelAddRoomController {
     @Value("#{roomTypeOptions}")
     private Map<String, String> roomTypeOptions;
 
-    @GetMapping("/addroom")
+    @GetMapping("/addRoom")
     public String addRoom(@PathVariable Long id, Model model) {
+
         model.addAttribute("room", new Room());
         model.addAttribute("roomTypeOptions", roomTypeOptions);
+        model.addAttribute("hotelId", id);
 
-        return "addroom";
+        return "addRoom";
     }
 
-    @PostMapping("/addroom")
+    @PostMapping("/addRoom")
     public String processAddRoom(@PathVariable Long id, @ModelAttribute @Valid Room room,
                                  BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("room", room);
             model.addAttribute("roomTypeOptions", roomTypeOptions);
+            model.addAttribute("hotelId", id);
 
-            return "addroom";
+            return "addRoom";
         }
-        room.setRoomNumbers(Util.formatStringToList(room.getRoomNumbers()));
+        model.addAttribute("hotelId", id);
 
         return "roomImageUpload";
     }
 
-    @PostMapping("/addroom/roomImageUpload")
+    @PostMapping("/addRoom/roomImageUpload")
     public String uploadRoomImage(@PathVariable Long id,
                                   @RequestParam("roomImage") CommonsMultipartFile roomImage,
                                   @SessionAttribute(name = "room") Room room, Model model) {
 
 
+
         if (roomImage.isEmpty()) {
             model.addAttribute("error", "Please select a Room Image.");
+            model.addAttribute("hotelId", id);
 
             return "roomImageUpload";
         }
         String extension = FilenameUtils.getExtension(roomImage.getOriginalFilename());
 
         if (!Util.allowedImageExtension(extension, model)) {
+            model.addAttribute("hotelId", id);
+
             return "roomImageUpload";
         }
 
@@ -80,8 +86,10 @@ public class HotelAddRoomController {
             hotelService.addRoom(id, room);
 
             return "redirect:/hotel/" + id;
+
         } catch (IOException e) {
             model.addAttribute("error", "Failed to upload the Room Image.");
+            model.addAttribute("hotelId", id);
 
             return "roomImageUpload";
         }

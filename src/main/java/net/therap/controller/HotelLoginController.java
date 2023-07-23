@@ -36,15 +36,7 @@ public class HotelLoginController {
 
     @PostMapping("/login")
     public String processLogin(@ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult bindingResult,
-                               Model model, HttpSession httpSession) {
-
-        if (hotelService.findByEmail(loginForm.getEmail()) == null) {
-            bindingResult.rejectValue("email", "email.noEmail", "Email is not registered");
-        }
-
-        if (bindingResult.hasErrors()) {
-            return "hotelLogin";
-        }
+                               HttpSession httpSession) {
 
         Hotel hotel = hotelService.findByEmailAndPassword(loginForm.getEmail(), loginForm.getPassword());
 
@@ -64,5 +56,4 @@ public class HotelLoginController {
 
         return "redirect:/hotel/" + hotel.getId();
     }
-
 }

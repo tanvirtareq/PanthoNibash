@@ -53,6 +53,7 @@ public class HotelService {
 
     @Transactional
     public Hotel findByEmailAndPassword(String email, String password) {
+
         String jpql = "SELECT h FROM Hotel h WHERE h.email=:email AND h.password=:password";
         List<Hotel> hotels = entityManager.createQuery(jpql, Hotel.class)
                 .setParameter("email", email)
@@ -76,6 +77,7 @@ public class HotelService {
 
     public List<Booking> findBookingList(Hotel hotel, LocalDate checkInDate, LocalDate checkOutDate, String roomNumber,
                                          String customerName, String customerEmail, String roomType) {
+
         List<Booking> bookingList = new ArrayList<>();
 
         for (Room room : hotel.getRooms()) {
@@ -111,9 +113,10 @@ public class HotelService {
     }
 
     @Transactional
-    public void update(Long hotelId, String name, String password, String phoneNumber, String location, String parkingFacility, String swimmingPool, String wifiFacility) {
-        Hotel hotel = entityManager.find(Hotel.class, hotelId);
+    public void update(Long hotelId, String name, String password, String phoneNumber, String location,
+                       String parkingFacility, String swimmingPool, String wifiFacility) {
 
+        Hotel hotel = entityManager.find(Hotel.class, hotelId);
         hotel.setName(name);
         hotel.setPassword(password);
         hotel.setPhoneNumber(phoneNumber);

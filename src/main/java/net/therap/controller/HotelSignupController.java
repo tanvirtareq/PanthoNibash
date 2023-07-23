@@ -3,6 +3,7 @@ package net.therap.controller;
 import net.therap.model.Hotel;
 import net.therap.service.HotelService;
 import net.therap.util.Util;
+import net.therap.validator.HotelValidator;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -32,6 +34,14 @@ public class HotelSignupController {
     @Value("#{facilityOptions}")
     private Map<String, String> facilityOptions;
 
+    @Autowired
+    private HotelValidator hotelValidator;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(hotelValidator);
+    }
+
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
         model.addAttribute("hotel", new Hotel());
@@ -43,10 +53,6 @@ public class HotelSignupController {
     @PostMapping("/signup")
     public String signup(@ModelAttribute("hotel") @Valid Hotel hotel, BindingResult bindingResult, Model model) {
 
-        if (hotelService.findByEmail(hotel.getEmail()) != null) {
-            bindingResult.rejectValue("email", "duplicate.email", "Email already exists");
-        }
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("facilityOptions", facilityOptions);
 
@@ -56,7 +62,7 @@ public class HotelSignupController {
         return "hotelImageUpload";
     }
 
-    @PostMapping("/hotelImageUpload")
+    @PostMapping("/signup/hotelImageUpload")
     public String uploadProfilePicture(@RequestParam("hotelImage") CommonsMultipartFile hotelImage,
                                        @SessionAttribute(name = "hotel") Hotel hotel, Model model) {
 

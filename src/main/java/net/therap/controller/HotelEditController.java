@@ -1,6 +1,5 @@
 package net.therap.controller;
 
-import net.therap.model.Customer;
 import net.therap.model.Hotel;
 import net.therap.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import java.util.Map;
  * @author tanvirtareq
  * @since 7/23/23
  */
-
 @Controller
 @RequestMapping("/hotel/{hotelId}")
 public class HotelEditController {
@@ -44,12 +42,13 @@ public class HotelEditController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("facilityOptions", facilityOptions);
+
             return "showHotelEditForm";
         }
 
         hotelService.update(hotelId, hotel.getName(), hotel.getPassword(), hotel.getPhoneNumber(),
                 hotel.getLocation(), hotel.getParkingFacility(), hotel.getSwimmingPool(), hotel.getWifiFacility());
 
-        return "redirect:/hotel/"+hotelId;
+        return "redirect:/hotel/" + hotelId;
     }
 }

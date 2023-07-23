@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  * @author tanvirtareq
@@ -29,36 +28,35 @@ public class Review {
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getReview() {
         return review;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setReview(String review) {
+        this.review = review;
     }
 
     public int getRating() {
         return rating;
     }
 
-    public void setBooking(Booking booking) {
-        this.booking = booking;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public Booking getBooking() {
         return booking;
     }
 
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
 }

@@ -14,7 +14,6 @@ import javax.validation.Valid;
  * @author tanvirtareq
  * @since 7/23/23
  */
-
 @Controller
 @RequestMapping("/customer/{customerId}")
 public class CustomerEditController {
@@ -24,14 +23,14 @@ public class CustomerEditController {
 
     @GetMapping("/edit")
     public String showEditForm(@PathVariable Long customerId, Model model) {
-        Customer customer = customerService.findById(customerId);
 
+        Customer customer = customerService.findById(customerId);
         model.addAttribute("customer", customer);
 
         return "showCustomerEditForm";
     }
 
-    @PostMapping ("/edit")
+    @PostMapping("/edit")
     public String processEditForm(@PathVariable Long customerId, @ModelAttribute("customer") @Valid Customer customer,
                                   BindingResult bindingResult) {
 
@@ -39,8 +38,9 @@ public class CustomerEditController {
             return "showCustomerEditForm";
         }
 
-        customerService.update(customerId, customer.getName(), customer.getPassword(), customer.getPhoneNumber(), customer.getDateOfBirth());
+        customerService.update(customerId, customer.getName(), customer.getPassword(), customer.getPhoneNumber(),
+                customer.getDateOfBirth());
 
-        return "redirect:/customer/"+customerId;
+        return "redirect:/customer/" + customerId;
     }
 }

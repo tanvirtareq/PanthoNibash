@@ -22,19 +22,22 @@ public class Util {
     public static List<String> formatStringToList(List<String> texts) {
 
         List<String> roomNumbers = new ArrayList<>();
+
         for (String text : texts) {
+
             Pattern pattern = Pattern.compile(ROOM_NUMBER_PATTERN);
             Matcher matcher = pattern.matcher(text);
+
             while (matcher.find()) {
                 roomNumbers.add(matcher.group());
             }
         }
 
-
         return roomNumbers;
     }
 
     public static boolean allowedImageExtension(String extension, Model model) {
+
         String[] allowedExtensions = {"jpg", "jpeg", "png", "webp"};
 
         if (!Arrays.asList(allowedExtensions).contains(extension)) {
@@ -46,6 +49,7 @@ public class Util {
     }
 
     public static boolean partialMatch(String name, String patternName) {
+
         Pattern pattern = Pattern.compile(patternName, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(name);
 
@@ -53,8 +57,11 @@ public class Util {
     }
 
     public static Booking createBookingFromSessionContext(SessionContext sessionContext) {
+
         Booking booking = new Booking();
+
         if (sessionContext.getRole().equals("CUSTOMER")) {
+
             Customer customer = (Customer) sessionContext.getUser();
             booking.setCustomer(customer);
             booking.setGuestName(customer.getName());

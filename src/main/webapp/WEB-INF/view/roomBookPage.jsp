@@ -20,7 +20,7 @@
       <div class="card">
         <div class="card-body">
           <h2 class="card-title mb-4">Room Booking</h2>
-          <form:form action="/room/book/${roomId}" modelAttribute="booking" method="post">
+          <form:form action="/room/${roomId}/book" modelAttribute="booking" method="post">
             <div class="mb-3">
               <label class="form-label">Guest Name:</label>
               <form:input path="guestName" class="form-control" />
