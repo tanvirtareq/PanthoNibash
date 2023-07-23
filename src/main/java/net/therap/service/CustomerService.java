@@ -1,11 +1,14 @@
 package net.therap.service;
 
+import net.therap.model.Booking;
 import net.therap.model.Customer;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,5 +64,31 @@ public class CustomerService {
         Customer customer = customers.get(0);
 
         return customer;
+    }
+
+    public List<Booking> findBookingList(Customer customer, LocalDate checkInDate, LocalDate checkOutDate, String hotelName, String roomType) {
+        List<Booking> bookingList = new ArrayList<>();
+
+
+        for (Booking booking : customer.getBookings()) {
+            if (checkInDate != null && !booking.getCheckInDate().equals(checkInDate)) {
+                continue;
+            }
+
+            if (checkOutDate != null && !booking.getCheckOutDate().equals(checkOutDate)) {
+                continue;
+            }
+
+            if (hotelName != null && !"".equals(hotelName) && !booking.getRoom().getHotel().getName().equals(hotelName)) {
+                continue;
+            }
+
+            if (roomType != null && !booking.getRoom().getType().equals(roomType)) {
+                continue;
+            }
+
+            bookingList.add(booking);
+        }
+        return bookingList;
     }
 }

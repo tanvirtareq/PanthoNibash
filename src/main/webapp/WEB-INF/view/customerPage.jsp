@@ -16,22 +16,74 @@
     <title>Customer Page</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: rgba(228, 234, 226, 0.55);
+            color: #350505;
+            text-align: center;
+            padding: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .custom-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .customer-photo {
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
 </head>
 <body>
-<div class="customer-container">
-    <h2 class="customer-title">Customer Profile</h2>
-    <div class="customer-details">
-        <h4>Name: ${customer.name}</h4>
-        <h4>Email: ${customer.email}</h4>
-        <h4>Phone Number: ${customer.phoneNumber}</h4>
-        <h4>Date of Birth: ${customer.dateOfBirth}</h4>
-        <h4>Profile Picture:</h4>
-        <img src="data:image/jpeg;base64,${customer.profilePicBase64Image}" alt="${customer.name}">
+<header>
+    <h1>${customer.name}</h1>
+</header>
 
+<div class="container custom-card">
+    <div class="row">
+        <div class="col-md-4">
+            <a href="/customer/${customer.id}">
+                <img src="data:image/jpeg;base64,${customer.profilePicBase64Image}" alt="Customer Photo"
+                     class="customer-photo">
+            </a>
+        </div>
+        <div class="col-md-8">
+            <p><strong>Name:</strong> ${customer.name}</p>
+            <p><strong>Email:</strong> ${customer.email}</p>
+            <p><strong>Phone:</strong> ${customer.phoneNumber}</p>
+            <p><strong>Date of birth:</strong> ${customer.dateOfBirth}</p>
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 2rem;">
+            <a href="/customer/${customer.id}/bookingList" style="text-decoration: none;">
+                <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
+                            border-radius: 4px; cursor: pointer; font-size: 16px; width: 130px; margin: 2px">
+                    Booking List
+                </button>
+            </a>
+            <a href="/customer/${customer.id}/edit" style="text-decoration: none;">
+                <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
+                            border-radius: 4px; cursor: pointer; font-size: 16px; width: 130px; margin: 2px">
+                    Edit
+                </button>
+            </a>
+        </div>
     </div>
+
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
