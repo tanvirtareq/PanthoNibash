@@ -127,4 +127,11 @@ public class HotelService {
 
         entityManager.merge(hotel);
     }
+
+    public List<Hotel> getAll() {
+
+        List<Hotel> hotels = entityManager.createQuery("SELECT h FROM Hotel h", Hotel.class).getResultList();
+
+        return hotels;
+    }
 }

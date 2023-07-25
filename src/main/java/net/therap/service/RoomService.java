@@ -140,7 +140,18 @@ public class RoomService {
         return bookings;
     }
 
-    private List<Room> getAll() {
+    public List<Room> getAll(Long curPage) {
+        int roomPerPage= 5;
+        int startIdx = (int) ((curPage-1)*roomPerPage);
+
+        String jpql = "SELECT r FROM Room r ORDER BY r.id";
+
+        return entityManager.createQuery(jpql, Room.class).setFirstResult(startIdx)
+                .setMaxResults(roomPerPage).getResultList();
+
+    }
+
+    public List<Room> getAll() {
         String jpql = "SELECT r FROM Room r";
 
         return entityManager.createQuery(jpql, Room.class).getResultList();

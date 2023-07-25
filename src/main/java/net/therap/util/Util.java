@@ -38,10 +38,10 @@ public class Util {
 
     public static boolean allowedImageExtension(String extension, Model model) {
 
-        String[] allowedExtensions = {"jpg", "jpeg", "png", "webp"};
+        String[] allowedExtensions = {"jpg", "jpeg", "png", "webp", "avif"};
 
         if (!Arrays.asList(allowedExtensions).contains(extension)) {
-            model.addAttribute("error", "Only JPG, JPEG, WEBP and PNG files are allowed.");
+            model.addAttribute("error", "Only JPG, JPEG, WEBP, AVIF and PNG files are allowed.");
 
             return false;
         }
