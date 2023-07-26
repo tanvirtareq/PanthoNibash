@@ -5,10 +5,10 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <display-name>course management</display-name>
+    <display-name>pantho nibash</display-name>
 
     <servlet>
-        <servlet-name>application</servlet-name>
+        <servlet-name>panthoNibash</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>throwExceptionIfNoHandlerFound</param-name>
@@ -18,20 +18,35 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>application</servlet-name>
+        <servlet-name>panthoNibash</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <filter>
-    <filter-name>sitemesh</filter-name>
-    <filter-class>
-        com.opensymphony.module.sitemesh.filter.PageFilter
-    </filter-class>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>
+            com.opensymphony.module.sitemesh.filter.PageFilter
+        </filter-class>
     </filter>
 
     <filter-mapping>
-    <filter-name>sitemesh</filter-name>
-    <url-pattern>/*</url-pattern>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>
+            net.therap.filter.AuthFilter
+        </filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/customer/login</url-pattern>
+        <url-pattern>/customer/signup</url-pattern>
+        <url-pattern>/hotel/login</url-pattern>
+        <url-pattern>/hotel/signup</url-pattern>
     </filter-mapping>
 
 </web-app>

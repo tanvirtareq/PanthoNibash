@@ -18,6 +18,10 @@
     <h2 class="login-title">Login</h2>
     <form:form action="/customer/login" method="post" modelAttribute="loginForm">
         <div class="form-group">
+            <form:errors cssClass="alert alert-danger"/>
+        </div>
+
+        <div class="form-group">
             <form:input type="text" class="form-control" path="email" placeholder="Email"/>
             <form:errors path="email" cssClass="error-message"/>
         </div>
@@ -31,9 +35,6 @@
         Don't have an account? <a href="${pageContext.request.contextPath}/customer/signup">Sign up</a>
     </p>
 
-    <c:if test="${not empty error}">
-        <div class="alert alert-danger">${error}</div>
-    </c:if>
 </div>
 
 </body>

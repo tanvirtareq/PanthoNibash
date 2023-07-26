@@ -22,7 +22,7 @@ public class HotelAuthInterceptor implements HandlerInterceptor {
         SessionContext sessionContext = (SessionContext) request.getSession().getAttribute("sessionContext");
 
         if (sessionContext != null && "HOTEL".equals(sessionContext.getRole())
-                && ((Hotel) sessionContext.getUser()).getId().equals(getHotelIdFromUrl(request))) {
+                && sessionContext.getId().equals(getHotelIdFromUrl(request))) {
 
             return true;
         }

@@ -23,7 +23,7 @@ public class CustomerAuthInterceptor implements HandlerInterceptor {
         SessionContext sessionContext = (SessionContext) request.getSession().getAttribute("sessionContext");
 
         if (sessionContext != null && "CUSTOMER".equals(sessionContext.getRole())
-                && ((Customer) sessionContext.getUser()).getId().equals(getCustomerIdFromUrl(request))) {
+                && sessionContext.getId().equals(getCustomerIdFromUrl(request))) {
 
             return true;
         }

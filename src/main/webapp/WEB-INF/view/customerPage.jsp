@@ -14,8 +14,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Page</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,6 +29,18 @@
             padding: 1rem;
             margin-bottom: 20px;
         }
+
+        .custom-header {
+            background-color: rgba(228, 234, 226, 0.55);
+            box-shadow: 0 0 10px rgb(169, 135, 135);
+            border-radius: 10px;
+            color: #350505;
+            text-align: center;
+            padding: 1rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
 
         .custom-card {
             background-color: #ffffff;
@@ -48,7 +59,7 @@
     </style>
 </head>
 <body>
-<header>
+<header class="custom-header">
     <h1>${customer.name}</h1>
 </header>
 
@@ -87,6 +98,5 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

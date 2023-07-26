@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @author tanvirtareq
@@ -29,5 +30,11 @@ public class BookingService {
     @Transactional
     public void merge(Booking booking) {
         entityManager.merge(booking);
+    }
+
+    public List<Booking> getAll() {
+        List<Booking> bookingList = entityManager.createQuery("SELECT b FROM Booking b", Booking.class).getResultList();
+
+        return bookingList;
     }
 }

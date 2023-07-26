@@ -41,14 +41,14 @@ public class CustomerLoginController {
         Customer customer = customerService.findByEmailAndPassword(loginForm.getEmail(), loginForm.getPassword());
 
         if (customer == null) {
-            bindingResult.rejectValue("credential.error", "Email of Password did not match");
+            bindingResult.reject("credential.error", "Email of Password did not match");
         }
 
         if (bindingResult.hasErrors()) {
             return "customerLogin";
         }
 
-        SessionContext sessionContext = new SessionContext(customer, customer.getEmail(), "CUSTOMER",
+        SessionContext sessionContext = new SessionContext(customer.getEmail(), "CUSTOMER",
                 customer.getId(), customer.getName(), "/customer/" + customer.getId(),
                 customer.getProfilePicBase64Image());
 

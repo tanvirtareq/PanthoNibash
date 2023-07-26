@@ -41,14 +41,14 @@ public class HotelLoginController {
         Hotel hotel = hotelService.findByEmailAndPassword(loginForm.getEmail(), loginForm.getPassword());
 
         if (hotel == null) {
-            bindingResult.rejectValue("credential.error", "Email of Password did not match");
+            bindingResult.reject("credential.error", "Email of Password did not match");
         }
 
         if (bindingResult.hasErrors()) {
             return "hotelLogin";
         }
 
-        SessionContext sessionContext = new SessionContext(hotel, hotel.getEmail(), "HOTEL",
+        SessionContext sessionContext = new SessionContext(hotel.getEmail(), "HOTEL",
                 hotel.getId(), hotel.getName(), "/hotel/" + hotel.getId(),
                 hotel.getHotelImageBase64Image());
 

@@ -46,7 +46,7 @@ public class HotelEditController {
             return "showHotelEditForm";
         }
 
-        hotelService.update(hotelId, hotel.getName(), hotel.getPassword(), hotel.getPhoneNumber(),
+        hotelService.update(hotelId, hotel.getName(), hotel.getPhoneNumber(),
                 hotel.getLocation(), hotel.getParkingFacility(), hotel.getSwimmingPool(), hotel.getWifiFacility());
 
         return "redirect:/hotel/" + hotelId;

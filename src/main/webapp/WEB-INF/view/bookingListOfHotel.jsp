@@ -19,7 +19,7 @@
       background-color: #f9f9f9;
     }
 
-    header {
+    .custom-header {
       background-color: rgba(228, 234, 226, 0.55);
       box-shadow: 0 0 10px rgb(169, 135, 135);
       color: #350505;
@@ -137,7 +137,7 @@
   </style>
 </head>
 <body>
-<header>
+<header class="custom-header">
   <h1>Hotel Booking List - ${hotel.name}</h1>
 </header>
 
@@ -199,7 +199,7 @@
 
     <div class="col-md-9">
       <div class="container-xxl">
-        <table class="custom-card">
+        <table id="bookingTable" class="custom-card">
           <thead>
           <tr>
             <th>Guest Photo</th>
@@ -268,5 +268,10 @@
   </div>
 </div>
 
+<script>
+  $(document).ready(function () {
+    $('#bookingTable').dataTable();
+  });
+</script>
 </body>
 </html>

@@ -5,7 +5,6 @@ package net.therap.model;
  * @since 7/16/23
  */
 public class SessionContext {
-    private Object user;
 
     private String email;
 
@@ -22,9 +21,9 @@ public class SessionContext {
     public SessionContext() {
     }
 
-    public SessionContext(Object user, String email, String role, Long id, String name,
+    public SessionContext(String email, String role, Long id, String name,
                           String profileLink, String profilePictureBase64Image) {
-        this.user = user;
+
         this.email = email;
         this.role = role;
         this.id = id;
@@ -55,14 +54,6 @@ public class SessionContext {
 
     public void setProfileLink(String profileLink) {
         this.profileLink = profileLink;
-    }
-
-    public Object getUser() {
-        return user;
-    }
-
-    public void setUser(Object user) {
-        this.user = user;
     }
 
     public String getEmail() {

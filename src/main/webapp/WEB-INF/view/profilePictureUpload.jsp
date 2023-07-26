@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <label for="profilePicture">Profile Picture</label>
                     <input type="file" id="profilePicture" name="profilePicture" class="form-control"/>
-                 </div>
+                </div>
                 <c:if test="${not empty error}">
                     <div class="alert alert-danger">${error}</div>
                 </c:if>
@@ -36,7 +36,5 @@
     </form:form>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

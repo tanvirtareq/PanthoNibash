@@ -33,7 +33,7 @@ public class Customer {
     private String email;
 
     @NotBlank(message = "Password cannot be blank")
-    @Size(min = 2, max = 20, message = "Password must be between 2 and 20 characters long")
+    @Size(min = 2, max = 200, message = "Password must be between 2 and 200 characters long")
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).*$",
             message = "Password must contain at least one uppercase letter, one lowercase letter, and one digit")
     private String password;

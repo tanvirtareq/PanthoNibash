@@ -43,11 +43,14 @@ dependencies {
     implementation 'org.springframework.data:spring-data-jpa:2.5.3'
     implementation 'org.springframework:spring-tx:5.3.28'
     implementation 'org.springframework:spring-core:5.3.26'
+    implementation 'org.springframework.security:spring-security-core:5.3.13.RELEASE'
+
 
     implementation 'commons-fileupload:commons-fileupload:1.4'
     implementation 'commons-io:commons-io:2.13.0'
 
     implementation 'opensymphony:sitemesh:2.4.2'
+
 
     def tomcatVersion = '9.0.1'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
@@ -57,7 +60,7 @@ dependencies {
 
 tomcat {
     httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
-    ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
+    ajpProtocol = 'org.apache.coyote.ajp.AjpNio2Protocol'
     httpPort = 8080
     httpsPort = 8181
     enableSSL = false

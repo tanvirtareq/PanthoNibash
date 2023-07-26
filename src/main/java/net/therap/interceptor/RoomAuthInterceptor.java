@@ -32,7 +32,7 @@ public class RoomAuthInterceptor implements HandlerInterceptor {
         Room room = roomService.findById(roomId);
 
         if (sessionContext != null && "HOTEL".equals(sessionContext.getRole())
-                && ((Hotel) sessionContext.getUser()).getId().equals(room.getHotel().getId())) {
+                && sessionContext.getId().equals(room.getHotel().getId())) {
 
             return true;
         }

@@ -40,6 +40,7 @@ public class HotelSignupController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(hotelValidator);
+        binder.setDisallowedFields("id", "createdAt");
     }
 
     @GetMapping("/signup")
@@ -82,7 +83,8 @@ public class HotelSignupController {
         try {
             byte[] hotelImageData = IOUtils.toByteArray(hotelImage.getInputStream());
             hotel.setHotelImage(hotelImageData);
-            System.out.println(hotel);
+
+            hotel.setPassword(hotelService.encodePassword(hotel.getPassword()));
 
             hotelService.save(hotel);
 

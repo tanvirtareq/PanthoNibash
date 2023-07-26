@@ -9,9 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author tanvirtareq
@@ -31,55 +31,18 @@ public class RoomService {
 
         List<Room> rooms = getAll();
 
-        List<Room> result = new ArrayList<>();
-
-        for (Room room : rooms) {
-            if (parkingFacility != null && !room.getHotel().getParkingFacility().equals(parkingFacility)) {
-                continue;
-            }
-
-            if (wifiFacility != null && !room.getHotel().getWifiFacility().equals(wifiFacility)) {
-                continue;
-            }
-
-            if (fitnessCentre != null && !room.getHotel().getFitnessCentre().equals(fitnessCentre)) {
-                continue;
-            }
-
-            if (swimmingPool != null && !room.getHotel().getSwimmingPool().equals(swimmingPool)) {
-                continue;
-            }
-
-            if (priceMin != null && room.getPrice() < priceMin) {
-                continue;
-            }
-
-            if (priceMax != null && room.getPrice() > priceMax) {
-                continue;
-            }
-
-            if (numberOfBed != null && !Objects.equals(room.getNumberOfBed(), numberOfBed)) {
-                continue;
-            }
-
-            if (roomType != null && !room.getType().equals(roomType)) {
-                continue;
-            }
-
-            if (hotelName != null && !Util.partialMatch(room.getHotel().getName(), hotelName)) {
-                continue;
-            }
-
-            if (location != null && !Util.partialMatch(room.getHotel().getLocation(), location)) {
-                continue;
-            }
-
-            if (!availableRoom(room, checkIn, checkOut)) {
-                continue;
-            }
-
-            result.add(room);
-        }
+        List<Room> result = rooms.stream()
+                .filter(room -> parkingFacility == null || room.getHotel().getParkingFacility().equals(parkingFacility))
+                .filter(room -> wifiFacility == null || room.getHotel().getWifiFacility().equals(wifiFacility))
+                .filter(room -> fitnessCentre == null || room.getHotel().getFitnessCentre().equals(fitnessCentre))
+                .filter(room -> swimmingPool == null || room.getHotel().getSwimmingPool().equals(swimmingPool))
+                .filter(room -> priceMin == null || room.getPrice() >= priceMin)
+                .filter(room -> priceMax == null || room.getPrice() <= priceMax)
+                .filter(room -> numberOfBed == null || Objects.equals(room.getNumberOfBed(), numberOfBed))
+                .filter(room -> roomType == null || room.getType().equals(roomType))
+                .filter(room -> hotelName == null || Util.partialMatch(room.getHotel().getName(), hotelName))
+                .filter(room -> location == null || Util.partialMatch(room.getHotel().getLocation(), location))
+                .filter(room -> availableRoom(room, checkIn, checkOut)).collect(Collectors.toList());
 
         return result;
     }
@@ -90,29 +53,14 @@ public class RoomService {
             return true;
         }
 
-        for (String roomNumber : room.getRoomNumbers()) {
-
-            List<Booking> bookings = getBookings(roomNumber, room);
-
-            if (availableRoomNumber(bookings, checkIn, checkOut)) {
-                return true;
-            }
-        }
-
-        return false;
+        return room.getRoomNumbers().stream().map(roomNumber -> getBookings(roomNumber, room))
+                .anyMatch(bookings -> availableRoomNumber(bookings, checkIn, checkOut));
     }
 
     private boolean availableRoomNumber(List<Booking> bookings, LocalDate checkIn, LocalDate checkOut) {
 
-        for (Booking booking : bookings) {
-
-            if (isOverlap(checkIn, checkOut, booking.getCheckInDate()) ||
-                    isOverlap(checkIn, checkOut, booking.getCheckOutDate())) {
-
-                return false;
-            }
-        }
-        return true;
+        return bookings.stream().noneMatch(booking -> isOverlap(checkIn, checkOut, booking.getCheckInDate()) ||
+                isOverlap(checkIn, checkOut, booking.getCheckOutDate()));
     }
 
     private boolean isOverlap(LocalDate checkIn, LocalDate checkOut, LocalDate checkDate) {
@@ -128,21 +76,16 @@ public class RoomService {
 
     private List<Booking> getBookings(String roomNumber, Room room) {
 
-        List<Booking> bookings = new ArrayList<>();
-
-        for (Booking booking : room.getBookings()) {
-
-            if (booking.getRoomNumber().equals(roomNumber)) {
-                bookings.add(booking);
-            }
-        }
+        List<Booking> bookings = room.getBookings().stream()
+                .filter(booking -> booking.getRoomNumber().equals(roomNumber))
+                .collect(Collectors.toList());
 
         return bookings;
     }
 
     public List<Room> getAll(Long curPage) {
-        int roomPerPage= 5;
-        int startIdx = (int) ((curPage-1)*roomPerPage);
+        int roomPerPage = 5;
+        int startIdx = (int) ((curPage - 1) * roomPerPage);
 
         String jpql = "SELECT r FROM Room r ORDER BY r.id";
 

@@ -38,7 +38,7 @@ public class CustomerEditController {
             return "showCustomerEditForm";
         }
 
-        customerService.update(customerId, customer.getName(), customer.getPassword(), customer.getPhoneNumber(),
+        customerService.update(customerId, customer.getName(), customer.getPhoneNumber(),
                 customer.getDateOfBirth());
 
         return "redirect:/customer/" + customerId;

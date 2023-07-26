@@ -35,6 +35,7 @@ public class CustomerSignupController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(customerValidator);
+        binder.setDisallowedFields("id");
     }
 
     @GetMapping("/signup")
@@ -74,6 +75,7 @@ public class CustomerSignupController {
         try {
             byte[] profilePictureData = IOUtils.toByteArray(profilePicture.getInputStream());
             customer.setProfilePicture(profilePictureData);
+            customer.setPassword(customerService.encodePassword(customer.getPassword()));
             customerService.save(customer);
 
             return "redirect:/customer/login";

@@ -39,13 +39,13 @@ public class BookingDetailsInterceptor implements HandlerInterceptor {
 
         if (sessionContext.getRole().equals("HOTEL")) {
 
-            if (hotelAuth((Hotel) sessionContext.getUser(), booking)) {
+            if (hotelAuth(sessionContext.getId(), booking)) {
                 return true;
             }
 
         } else {
 
-            if (customerAuth((Customer) sessionContext.getUser(), booking)) {
+            if (customerAuth(sessionContext.getId(), booking)) {
                 return true;
             }
         }
@@ -54,12 +54,12 @@ public class BookingDetailsInterceptor implements HandlerInterceptor {
         return false;
     }
 
-    private boolean customerAuth(Customer user, Booking booking) {
-        return Objects.equals(booking.getCustomer().getId(), user.getId());
+    private boolean customerAuth(Long customerId, Booking booking) {
+        return Objects.equals(booking.getCustomer().getId(), customerId);
     }
 
-    private boolean hotelAuth(Hotel user, Booking booking) {
-        return Objects.equals(booking.getRoom().getHotel().getId(), user.getId());
+    private boolean hotelAuth(Long hotelId, Booking booking) {
+        return Objects.equals(booking.getRoom().getHotel().getId(), hotelId);
     }
 
     private Long getBookingIdFromUrl(HttpServletRequest request) {

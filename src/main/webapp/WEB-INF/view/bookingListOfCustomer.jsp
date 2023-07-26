@@ -193,7 +193,7 @@
 
     <div class="col-md-10">
       <div class="container-xxl">
-        <table class="custom-card">
+        <table id="bookingTable" class="custom-card">
           <thead>
           <tr>
             <th>Guest Photo</th>
@@ -268,5 +268,11 @@
   </div>
 </div>
 
+
+<script>
+  $(document).ready(function () {
+    $('#bookingTable').dataTable();
+  });
+</script>
 </body>
 </html>
