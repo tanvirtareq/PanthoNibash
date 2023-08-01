@@ -32,6 +32,7 @@ public class ValidHotelCheckerInterceptor implements HandlerInterceptor {
         }
 
         response.sendRedirect("/search");
+
         return false;
     }
 

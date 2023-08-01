@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: tanvirtareq
@@ -11,27 +12,6 @@
 <head>
     <title>Room Search</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
-    <style>
-        .custom-header {
-            background-color: rgba(228, 234, 226, 0.55);
-            box-shadow: 0 0 10px rgb(169, 135, 135);
-            border-radius: 10px;
-            color: #350505;
-            text-align: center;
-            padding: 1rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .custom-pagination {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .custom-pagination button {
-            margin: 0 5px;
-        }
-    </style>
 </head>
 <body>
 
@@ -68,21 +48,33 @@
                                         <div class="card-body">
                                             <h5 class="card-title">Hotel: <c:out value="${room.hotel.name}"/></h5>
                                             <p class="card-text">
-                                                Room type: <c:out value="${room.type}"/>
-                                                <br/>
-                                                Location: <c:out value="${room.hotel.location}"/>
-                                                <br/>
-                                                Room price: <c:out value="${room.price}"/>
-                                                <br/>
-                                                Number of bed: <c:out value="${room.numberOfBed}"/>
-                                                <br/>
-                                                Parking Facility: <c:out value="${room.hotel.parkingFacility}"/>
-                                                <br/>
-                                                Wifi Facility: <c:out value="${room.hotel.wifiFacility}"/>
-                                                <br/>
-                                                Swimming Pool: <c:out value="${room.hotel.swimmingPool}"/>
-                                                <br/>
-                                                Fitness Centre: <c:out value="${room.hotel.fitnessCentre}"/>
+
+                                                <c:if test="${room.hotel.rating == null}">
+                                                    <span class="hotel-rating">Rating: No Rating </span>
+                                                </c:if>
+                                                <c:if test="${room.hotel.rating != null}">
+                                                    <span class="hotel-rating">Rating:
+                                                        <fmt:formatNumber maxFractionDigits="1"
+                                                                          value="${room.hotel.rating.rating}"/>
+                                                        out of 5</span>
+                                                </c:if>
+                                            <br/>
+                                            Room type: <c:out value="${room.type}"/>
+                                            <br/>
+                                            Location: <c:out value="${room.hotel.location}"/>
+                                            <br/>
+                                            Room price: <c:out value="${room.price}"/>
+                                            <br/>
+                                            Number of bed: <c:out value="${room.numberOfBed}"/>
+                                            <br/>
+                                            Parking Facility: <c:out value="${room.hotel.parkingFacility}"/>
+                                            <br/>
+                                            Wifi Facility: <c:out value="${room.hotel.wifiFacility}"/>
+                                            <br/>
+                                            Swimming Pool: <c:out value="${room.hotel.swimmingPool}"/>
+                                            <br/>
+                                            Fitness Centre: <c:out value="${room.hotel.fitnessCentre}"/>
+
                                             </p>
 
                                         </div>
@@ -101,28 +93,32 @@
 
                 <div style="display: flex; justify-content: center;">
                     <nav aria-label="...">
-                    <ul class="pagination pagination-circle">
-                        <c:if test="${currentPage>2}">
-                            <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/rooms?page=${currentPage-2}">${currentPage-2}</a>
+                        <ul class="pagination pagination-circle">
+                            <c:if test="${currentPage>2}">
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="${pageContext.request.contextPath}/rooms?page=${currentPage-2}">${currentPage-2}</a>
+                                </li>
+                            </c:if>
+                            <c:if test="${currentPage>1}">
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="${pageContext.request.contextPath}/rooms?page=${currentPage-1}">${currentPage-1}</a>
+                                </li>
+                            </c:if>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">${currentPage} </a>
                             </li>
-                        </c:if>
-                        <c:if test="${currentPage>1}">
                             <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/rooms?page=${currentPage-1}">${currentPage-1}</a>
+                                <a class="page-link"
+                                   href="${pageContext.request.contextPath}/rooms?page=${currentPage+1}">${currentPage+1}</a>
                             </li>
-                        </c:if>
-                        <li class="page-item active">
-                            <a class="page-link"href="#">${currentPage} </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/rooms?page=${currentPage+1}">${currentPage+1}</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="${pageContext.request.contextPath}/rooms?page=${currentPage+2}">${currentPage+2}</a>
-                        </li>
-                    </ul>
-                </nav>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="${pageContext.request.contextPath}/rooms?page=${currentPage+2}">${currentPage+2}</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
 

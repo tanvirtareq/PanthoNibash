@@ -13,14 +13,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Picture Upload</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
 </head>
 <body>
 
 <div class="container">
     <h2 class="text-center mt-5">Profile Picture Upload</h2>
-    <form:form action="/customer/signup/uploadProfilePicture" method="post" enctype="multipart/form-data">
+    <form:form action="/customer/signup/uploadprofilepicture" method="post" enctype="multipart/form-data">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
                 <div class="form-group">

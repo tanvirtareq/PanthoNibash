@@ -79,4 +79,15 @@ public class SessionContext {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "SessionContext{" +
+                "email='" + email + '\'' +
+                ", role='" + role + '\'' +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", profileLink='" + profileLink + '\'' +
+                '}';
+    }
 }

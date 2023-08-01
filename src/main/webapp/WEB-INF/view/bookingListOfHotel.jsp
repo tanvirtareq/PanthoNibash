@@ -12,129 +12,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hotel Booking List</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #f9f9f9;
-    }
+  <link rel="stylesheet" href="/assets/css/customStyle.css">
+  <link rel="stylesheet" href="/assets/css/customTable.css">
 
-    .custom-header {
-      background-color: rgba(228, 234, 226, 0.55);
-      box-shadow: 0 0 10px rgb(169, 135, 135);
-      color: #350505;
-      text-align: center;
-      padding: 1rem;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      border-radius: 10px;
-    }
-
-    .custom-card {
-      background-color: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 2rem;
-    }
-
-    th, td {
-      padding: 0.8rem;
-      text-align: left;
-    }
-
-    th {
-      background-color: #333;
-      color: #fff;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-
-    .customer-image, .room-image {
-      max-width: 50px;
-      height: auto;
-    }
-
-    .filter-form {
-      margin-top: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .filter-form label {
-      margin-right: 0.5rem;
-    }
-
-    .filter-form input[type="date"], .filter-form input[type="text"] {
-      padding: 0.5rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .filter-form input[type="submit"] {
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-
-    .filter-form input[type="submit"]:hover {
-      background-color: #555;
-    }
-
-    th {
-      padding: 0.8rem;
-      text-align: left;
-      background-color: #f2f2f2;
-      color: #333;
-      font-weight: bold;
-      cursor: pointer;
-      position: relative;
-    }
-
-    th a {
-      color: #333;
-      text-decoration: none;
-    }
-
-    /* Arrow icons for sorting */
-    .arrow-up,
-    .arrow-down {
-      display: inline-block;
-      position: absolute;
-      right: 0px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-    }
-
-    /*.arrow-up {*/
-    /*  border-bottom: 10px solid #333;*/
-    /*}*/
-
-    /*.arrow-down {*/
-    /*  border-top: 6px solid #333;*/
-    /*}*/
-  </style>
 </head>
 <body>
 <header class="custom-header">
@@ -147,7 +27,7 @@
       <div class="container-xxl">
         <div class="card custom-card">
           <div class="card-body">
-            <form action="/hotel/${hotel.id}/bookingList" method="GET">
+            <form action="/hotel/${hotel.id}/bookinglist" method="GET">
               <div class="mb-3">
                 <label class="form-label" for="checkInDate">Check-in Date:</label>
                 <input type="date" class="form-control" id="checkInDate" name="checkInDate"
@@ -204,39 +84,25 @@
           <tr>
             <th>Guest Photo</th>
             <th>
-              <a href="?sort=name">Guest Name</a>
-              <div class="arrow-up"></div>
-              <div class="arrow-down"></div>
+              Guest Name
             </th>
             <th>
-              <a href="?sort=email">Guest Email</a>
-              <div class="arrow-up"></div>
-              <div class="arrow-down"></div>
+              Guest Email
             </th>
             <th>
-              <a href="?sort=email">Guest Phone Number</a>
-              <div class="arrow-up"></div>
-              <div class="arrow-down"></div>
+              Guest Phone Number
             </th>
             <th>
-              <a href="?sort=roomNumber">Room Number</a>
-              <div class="arrow-up"></div>
-              <div class="arrow-down"></div>
+              Room Number
             </th>
             <th>
-              <a href="?sort=checkInDate">Check-in Date</a>
-              <div class="arrow-up"></div>
-              <div class="arrow-down"></div>
+              Check-in Date
             </th>
             <th>
-              <a href="?sort=checkOutDate">Check-out Date</a>
-              <div class="arrow-up"></div>
-              <div class="arrow-down"></div>
+              Check-out Date
             </th>
             <th>
-              <a href="?sort=roomType">Room Type</a>
-              <div class="arrow-up"></div>
-              <div class="arrow-down"></div>
+              Room Type
             </th>
             <th>Booking Details</th>
 
@@ -268,10 +134,6 @@
   </div>
 </div>
 
-<script>
-  $(document).ready(function () {
-    $('#bookingTable').dataTable();
-  });
-</script>
+<script src="/assets/js/bookingTable.js"></script>
 </body>
 </html>

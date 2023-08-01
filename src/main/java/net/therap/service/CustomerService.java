@@ -50,6 +50,7 @@ public class CustomerService {
         if (customers.size() == 0) {
             return null;
         }
+
         Customer customer = customers.get(0);
 
         return customer;

@@ -13,50 +13,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/customStyle.css">
+    <link rel="stylesheet" href="/assets/css/customer.css">
     <title>Customer Page</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f9f9f9;
-        }
-
-        header {
-            background-color: rgba(228, 234, 226, 0.55);
-            color: #350505;
-            text-align: center;
-            padding: 1rem;
-            margin-bottom: 20px;
-        }
-
-        .custom-header {
-            background-color: rgba(228, 234, 226, 0.55);
-            box-shadow: 0 0 10px rgb(169, 135, 135);
-            border-radius: 10px;
-            color: #350505;
-            text-align: center;
-            padding: 1rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-
-        .custom-card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        .customer-photo {
-            max-width: 200px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-    </style>
 </head>
 <body>
 <header class="custom-header">
@@ -80,7 +39,7 @@
         <c:set var="customerRole" value="CUSTOMER"/>
         <c:if test="${sessionContext!=null && sessionContext.role==customerRole && sessionContext.id==customer.id}">
             <div style="display: flex; justify-content: center; margin-top: 2rem;">
-                <a href="/customer/${customer.id}/bookingList" style="text-decoration: none;">
+                <a href="/customer/${customer.id}/bookinglist" style="text-decoration: none;">
                     <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
                             border-radius: 4px; cursor: pointer; font-size: 16px; width: 130px; margin: 2px">
                         Booking List

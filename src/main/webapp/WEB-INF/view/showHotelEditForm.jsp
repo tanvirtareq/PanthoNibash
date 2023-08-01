@@ -12,10 +12,11 @@
 <head>
     <title>Hotel Edit</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/signupPage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
 </head>
 <body>
 
-<div class="signup-container">
+<div class="signup-container custom-card">
     <h2 class="signup-title">Hotel Edit</h2>
     <form:form action="/hotel/${hotel.id}/edit" method="post" modelAttribute="hotel">
         <div class="form-group">
@@ -90,6 +91,7 @@
                          cssStyle="padding: 3px;"/>
         </div>
         <form:hidden path="id"/>
+        <form:hidden path="password"/>
         <button type="submit" class="btn btn-primary signup-button">Update</button>
     </form:form>
 </div>

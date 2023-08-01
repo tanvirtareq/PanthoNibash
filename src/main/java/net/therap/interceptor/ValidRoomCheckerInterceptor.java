@@ -32,6 +32,7 @@ public class ValidRoomCheckerInterceptor implements HandlerInterceptor {
         }
 
         response.sendRedirect("/search");
+
         return false;
     }
 

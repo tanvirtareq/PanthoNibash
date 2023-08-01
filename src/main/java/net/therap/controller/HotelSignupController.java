@@ -63,7 +63,7 @@ public class HotelSignupController {
         return "hotelImageUpload";
     }
 
-    @PostMapping("/signup/hotelImageUpload")
+    @PostMapping("/signup/hotelimageupload")
     public String uploadProfilePicture(@RequestParam("hotelImage") CommonsMultipartFile hotelImage,
                                        @SessionAttribute(name = "hotel") Hotel hotel, Model model) {
 

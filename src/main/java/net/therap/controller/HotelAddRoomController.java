@@ -32,7 +32,7 @@ public class HotelAddRoomController {
     @Value("#{roomTypeOptions}")
     private Map<String, String> roomTypeOptions;
 
-    @GetMapping("/addRoom")
+    @GetMapping("/addroom")
     public String addRoom(@PathVariable Long id, Model model) {
 
         model.addAttribute("room", new Room());
@@ -42,7 +42,7 @@ public class HotelAddRoomController {
         return "addRoom";
     }
 
-    @PostMapping("/addRoom")
+    @PostMapping("/addroom")
     public String processAddRoom(@PathVariable Long id, @ModelAttribute @Valid Room room,
                                  BindingResult bindingResult, Model model) {
 
@@ -53,12 +53,13 @@ public class HotelAddRoomController {
 
             return "addRoom";
         }
+
         model.addAttribute("hotelId", id);
 
         return "roomImageUpload";
     }
 
-    @PostMapping("/addRoom/roomImageUpload")
+    @PostMapping("/addroom/roomimageupload")
     public String uploadRoomImage(@PathVariable Long id,
                                   @RequestParam("roomImage") CommonsMultipartFile roomImage,
                                   @SessionAttribute(name = "room") Room room, Model model) {
@@ -71,6 +72,7 @@ public class HotelAddRoomController {
 
             return "roomImageUpload";
         }
+
         String extension = FilenameUtils.getExtension(roomImage.getOriginalFilename());
 
         if (!Util.allowedImageExtension(extension, model)) {

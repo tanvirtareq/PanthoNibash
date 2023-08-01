@@ -33,7 +33,8 @@ public class BookingService {
     }
 
     public List<Booking> getAll() {
-        List<Booking> bookingList = entityManager.createQuery("SELECT b FROM Booking b", Booking.class).getResultList();
+        List<Booking> bookingList = entityManager.createQuery("SELECT b FROM Booking b", Booking.class)
+                .getResultList();
 
         return bookingList;
     }

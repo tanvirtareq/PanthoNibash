@@ -12,36 +12,13 @@
 <head>
     <title>add room</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/signupPage.css">
-    <style>
-        .chips-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 10px;
-        }
-
-        .chip {
-            display: flex;
-            align-items: center;
-            background-color: #f1f1f1;
-            padding: 5px;
-            border-radius: 3px;
-        }
-
-        .chip-text {
-            margin-right: 5px;
-        }
-
-        .chip-close {
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
 </head>
 <body>
 
-<div class="signup-container">
+<div class="signup-container custom-card">
     <h2 class="signup-title">Add room</h2>
-    <form:form id="addRoomForm" action="/hotel/${hotelId}/addRoom" method="post" modelAttribute="room">
+    <form:form id="addRoomForm" action="/hotel/${hotelId}/addroom" method="post" modelAttribute="room">
 
         <div class="form-group">
             <label for="type">Type:</label>
@@ -85,64 +62,7 @@
     </form:form>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const roomNumberInput = document.getElementById("roomNumberInput");
-        const addRoomNumberButton = document.getElementById("addRoomNumberButton");
-        const roomNumberChipsContainer = document.getElementById("roomNumberChipsContainer");
-        const roomNumbersHiddenInput = document.getElementById("roomNumbersHidden");
-
-        addRoomNumberButton.addEventListener("click", function () {
-            const roomNumber = roomNumberInput.value.trim();
-            if (roomNumber !== "") {
-                addRoomNumberChip(roomNumber);
-                roomNumberInput.value = "";
-            }
-        });
-
-        function addRoomNumberChip(roomNumber) {
-            const chip = document.createElement("div");
-            chip.className = "chip";
-
-            const chipText = document.createElement("span");
-            chipText.className = "chip-text";
-            chipText.textContent = roomNumber;
-
-            const chipClose = document.createElement("span");
-            chipClose.className = "chip-close";
-            chipClose.textContent = "×";
-            chipClose.addEventListener("click", function () {
-                roomNumberChipsContainer.removeChild(chip);
-                updateRoomNumbersHiddenInput();
-            });
-
-            chip.appendChild(chipText);
-            chip.appendChild(chipClose);
-            roomNumberChipsContainer.appendChild(chip);
-
-            updateRoomNumbersHiddenInput();
-        }
-
-        function updateRoomNumbersHiddenInput() {
-            const chips = roomNumberChipsContainer.querySelectorAll(".chip-text");
-            // let roomNumbers = "";
-            // Array.from(chips).forEach(chip => {
-            //     roomNumbers.concat(", ",chip.textContent);
-            // })
-            // console.log(roomNumbers);
-            const roomNumbers = Array.from(chips).map(chip => chip.textContent);
-            console.log(roomNumbers);
-            let temp = "";
-            for (const x of roomNumbers) {
-                console.log(x);
-                temp += x + ", ";
-            }
-            temp = temp.slice(0, -2);
-            console.log(temp);
-            roomNumbersHiddenInput.value = temp;
-        }
-    });
-</script>
+<script src="${pageContext.request.contextPath}/assets/js/addRoom.js"></script>
 
 </body>
 </html>

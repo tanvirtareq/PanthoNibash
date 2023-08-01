@@ -37,9 +37,9 @@ dependencies {
     compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
     implementation 'javax.servlet:jstl:1.2'
 
-    implementation 'org.springframework:spring-webmvc:5.3.18'
-    implementation 'org.springframework:spring-context:5.3.18'
-    implementation 'org.springframework:spring-orm:5.3.26'
+    implementation 'org.springframework:spring-webmvc:5.3.24'
+    implementation 'org.springframework:spring-context:5.3.24'
+    implementation 'org.springframework:spring-orm:5.3.24'
     implementation 'org.springframework.data:spring-data-jpa:2.5.3'
     implementation 'org.springframework:spring-tx:5.3.28'
     implementation 'org.springframework:spring-core:5.3.26'
@@ -51,6 +51,8 @@ dependencies {
 
     implementation 'opensymphony:sitemesh:2.4.2'
 
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.13.0"
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
 
     def tomcatVersion = '9.0.1'
     tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",

@@ -1,5 +1,6 @@
 package net.therap.service;
 
+import net.therap.dto.SearchRoomFilter;
 import net.therap.model.Booking;
 import net.therap.model.Room;
 import net.therap.util.Util;
@@ -24,25 +25,45 @@ public class RoomService {
     private EntityManager entityManager;
 
     @Transactional
-    public List<Room> searchRooms(String parkingFacility, String wifiFacility, String fitnessCentre,
-                                  String swimmingPool, String roomType, String hotelName, String location,
-                                  Integer priceMin, Integer priceMax, Integer numberOfBed,
-                                  LocalDate checkIn, LocalDate checkOut) {
+    public List<Room> searchRooms(SearchRoomFilter searchRoomFilter) {
 
         List<Room> rooms = getAll();
 
+
         List<Room> result = rooms.stream()
-                .filter(room -> parkingFacility == null || room.getHotel().getParkingFacility().equals(parkingFacility))
-                .filter(room -> wifiFacility == null || room.getHotel().getWifiFacility().equals(wifiFacility))
-                .filter(room -> fitnessCentre == null || room.getHotel().getFitnessCentre().equals(fitnessCentre))
-                .filter(room -> swimmingPool == null || room.getHotel().getSwimmingPool().equals(swimmingPool))
-                .filter(room -> priceMin == null || room.getPrice() >= priceMin)
-                .filter(room -> priceMax == null || room.getPrice() <= priceMax)
-                .filter(room -> numberOfBed == null || Objects.equals(room.getNumberOfBed(), numberOfBed))
-                .filter(room -> roomType == null || room.getType().equals(roomType))
-                .filter(room -> hotelName == null || Util.partialMatch(room.getHotel().getName(), hotelName))
-                .filter(room -> location == null || Util.partialMatch(room.getHotel().getLocation(), location))
-                .filter(room -> availableRoom(room, checkIn, checkOut)).collect(Collectors.toList());
+                .filter(room -> searchRoomFilter.getParkingFacility() == null
+                        || room.getHotel().getParkingFacility().equals(searchRoomFilter.getParkingFacility()))
+
+                .filter(room -> searchRoomFilter.getWifiFacility() == null
+                        || room.getHotel().getWifiFacility().equals(searchRoomFilter.getWifiFacility()))
+
+                .filter(room -> searchRoomFilter.getFitnessCentre() == null
+                        || room.getHotel().getFitnessCentre().equals(searchRoomFilter.getFitnessCentre()))
+
+                .filter(room -> searchRoomFilter.getSwimmingPool() == null
+                        || room.getHotel().getSwimmingPool().equals(searchRoomFilter.getSwimmingPool()))
+
+                .filter(room -> searchRoomFilter.getPriceMin() == null
+                        || room.getPrice() >= searchRoomFilter.getPriceMin())
+
+                .filter(room -> searchRoomFilter.getPriceMax() == null
+                        || room.getPrice() <= searchRoomFilter.getPriceMax())
+
+                .filter(room -> searchRoomFilter.getNumberOfBed() == null
+                        || Objects.equals(room.getNumberOfBed(), searchRoomFilter.getNumberOfBed()))
+
+                .filter(room -> searchRoomFilter.getRoomType() == null
+                        || room.getType().equals(searchRoomFilter.getRoomType()))
+
+                .filter(room -> searchRoomFilter.getHotelName() == null
+                        || Util.partialMatch(room.getHotel().getName(), searchRoomFilter.getHotelName()))
+
+                .filter(room -> searchRoomFilter.getLocation() == null
+                        || Util.partialMatch(room.getHotel().getLocation(), searchRoomFilter.getLocation()))
+
+                .filter(room -> availableRoom(room, searchRoomFilter.getCheckIn(), searchRoomFilter.getCheckOut()))
+
+                .collect(Collectors.toList());
 
         return result;
     }
@@ -59,19 +80,14 @@ public class RoomService {
 
     private boolean availableRoomNumber(List<Booking> bookings, LocalDate checkIn, LocalDate checkOut) {
 
-        return bookings.stream().noneMatch(booking -> isOverlap(checkIn, checkOut, booking.getCheckInDate()) ||
-                isOverlap(checkIn, checkOut, booking.getCheckOutDate()));
+        return bookings.stream().noneMatch(booking -> isOverlap(checkIn, checkOut, booking.getCheckInDate(),
+                booking.getCheckOutDate()));
     }
 
-    private boolean isOverlap(LocalDate checkIn, LocalDate checkOut, LocalDate checkDate) {
-        if (checkIn.equals(checkDate) || checkOut.equals(checkDate)) {
-            return true;
-        }
+    private boolean isOverlap(LocalDate checkInSearch, LocalDate checkOutSearch, LocalDate checkInDate, LocalDate checkOutDate) {
 
-        if (checkIn.isBefore(checkDate) && checkOut.isAfter(checkDate)) {
-            return true;
-        }
-        return false;
+        return (checkInSearch.isBefore(checkOutDate) || checkInSearch.isEqual(checkOutDate))
+                && (checkOutSearch.isAfter(checkInDate) || checkOutSearch.isEqual(checkInDate));
     }
 
     private List<Booking> getBookings(String roomNumber, Room room) {
@@ -84,6 +100,7 @@ public class RoomService {
     }
 
     public List<Room> getAll(Long curPage) {
+
         int roomPerPage = 5;
         int startIdx = (int) ((curPage - 1) * roomPerPage);
 
@@ -117,6 +134,7 @@ public class RoomService {
                 return roomNumber;
             }
         }
+
         return "";
     }
 

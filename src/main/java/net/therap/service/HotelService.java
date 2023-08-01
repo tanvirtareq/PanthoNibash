@@ -52,6 +52,7 @@ public class HotelService {
         if (hotels.size() == 0) {
             return null;
         }
+
         Hotel hotel = hotels.get(0);
 
         return hotel;
@@ -130,5 +131,33 @@ public class HotelService {
 
     public String encodePassword(String password) {
         return passwordEncoder.encode(password);
+    }
+
+    public List<String> getHotelsNameByPartialName(String hotelName) {
+
+        hotelName = hotelName;
+
+        List<String> hotelList = entityManager
+                .createQuery("SELECT h.name FROM Hotel h WHERE LOWER(h.name) LIKE LOWER(:hotelName)", String.class)
+                .setParameter("hotelName", "%" + hotelName + "%").getResultList();
+
+        if (hotelList.size() == 0) {
+            hotelList = getAllHotelName();
+        }
+
+        return hotelList;
+    }
+
+    private List<String> getAllHotelName() {
+
+        List<String> hotels = entityManager.createQuery("SELECT h.name FROM Hotel h", String.class)
+                .getResultList();
+
+        return hotels;
+    }
+
+    @Transactional
+    public void merge(Hotel hotel) {
+        entityManager.merge(hotel);
     }
 }

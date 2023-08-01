@@ -6,34 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navbar.css">
     <title>Pantho Nibash</title>
-    <style>
-        .dropdown-menu {
-            display: none;
-            top: 100%;
-            left: 0;
-            padding: 0px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin: 0px;
-            max-width: 100px;
-        }
-
-        .dropdown-menu li {
-            list-style: none;
-        }
-
-        .dropdown-menu li a {
-            display: block;
-            padding: 5px;
-            text-decoration: none;
-            color: #333;
-        }
-
-        .dropdown-menu li a:hover {
-            background-color: #ddd;
-        }
-    </style>
 </head>
 <body>
 
@@ -119,42 +91,7 @@
     </div>
 </nav>
 
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        addDropDown("dropdownSignupLink", "signUpDropDownMenu");
-        addDropDown("dropdownLoginLink", "loginDropDownMenu")
-
-        function addDropDown(dropdownLinkId, dropDownMenuId) {
-            const dropdownLink = document.getElementById(dropdownLinkId);
-            if (dropdownLink === null) {
-                return;
-            }
-            const dropDownMenu = document.getElementById(dropDownMenuId);
-            if(dropDownMenu === null) {
-                return;
-            }
-            dropdownLink.addEventListener("mouseover", () => {
-                dropDownMenu.style.display = "block";
-            });
-
-            dropdownLink.addEventListener("mouseout", () => {
-                dropDownMenu.style.display = "none";
-            });
-
-            dropDownMenu.addEventListener("mouseover", () => {
-                dropDownMenu.style.display = "block";
-            });
-
-            dropDownMenu.addEventListener("mouseout", () => {
-                dropDownMenu.style.display = "none";
-            });
-        }
-
-    });
-</script>
-
+<script src="/assets/js/navbar.js"></script>
 
 </body>
 </html>

@@ -99,7 +99,7 @@
         <button type="submit" class="btn btn-primary signup-button">Submit</button>
     </form:form>
     <p class="signup-footer">
-        Already have an account? <a href="${pageContext.request.contextPath}/customer/login">Login</a>
+        Already have an account? <a href="${pageContext.request.contextPath}/hotel/login">Login</a>
     </p>
 </div>
 

@@ -11,20 +11,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Signup</title>
+    <title>Customer Edit</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/signupPage.css">
-    <style>
-        .custom-card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
 </head>
 <body>
 <div class="signup-container custom-card">
-    <h2 class="signup-title">Signup</h2>
+    <h2 class="signup-title">Edit</h2>
     <form:form action="/customer/${customer.id}/edit" method="post" modelAttribute="customer">
         <div class="form-group">
             <label for="name">Name:</label>
@@ -43,6 +36,7 @@
         </div>
 
         <form:hidden path="id"/>
+        <form:hidden path="password"/>
         <button type="submit" class="btn btn-primary signup-button">Submit</button>
     </form:form>
 </div>

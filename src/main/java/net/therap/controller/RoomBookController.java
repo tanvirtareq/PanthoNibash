@@ -4,6 +4,7 @@ import net.therap.model.Booking;
 import net.therap.model.Room;
 import net.therap.model.SessionContext;
 import net.therap.service.BookingService;
+import net.therap.service.CustomerService;
 import net.therap.service.RoomService;
 import net.therap.util.Util;
 import org.apache.commons.io.FilenameUtils;
@@ -34,6 +35,9 @@ public class RoomBookController {
     @Autowired
     private BookingService bookingService;
 
+    @Autowired
+    private CustomerService customerService;
+
     @GetMapping("/book")
     public String showRoomBookPage(@PathVariable Long roomId, Model model, HttpSession httpSession) {
 
@@ -42,9 +46,11 @@ public class RoomBookController {
             return "redirect:/customer/login";
         }
 
-        Booking booking = Util.createBookingFromSessionContext(sessionContext);
+        Booking booking = Util.createBookingFromSessionContext(sessionContext, customerService);
+        Room room = roomService.findById(roomId);
         model.addAttribute("booking", booking);
         model.addAttribute("roomId", roomId);
+        model.addAttribute("roomPrice", room.getPrice());
 
         return "roomBookPage";
     }
@@ -65,6 +71,7 @@ public class RoomBookController {
 
             return "roomBookPage";
         }
+
         Room room = roomService.findById(roomId);
 
         if (!roomService.availableRoom(room, booking.getCheckInDate(), booking.getCheckOutDate())) {
@@ -79,7 +86,7 @@ public class RoomBookController {
         return "guestImageUpload";
     }
 
-    @PostMapping("/book/guestImageUpload")
+    @PostMapping("/book/guestimageupload")
     public String uploadProfilePicture(@RequestParam("guestImage") CommonsMultipartFile guestImage,
                                        @SessionAttribute(name = "booking") Booking booking, Model model,
                                        @PathVariable String roomId) {

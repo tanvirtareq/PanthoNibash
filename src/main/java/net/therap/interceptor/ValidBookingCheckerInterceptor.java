@@ -43,5 +43,4 @@ public class ValidBookingCheckerInterceptor implements HandlerInterceptor {
 
         return Long.parseLong(bookingId);
     }
-
 }

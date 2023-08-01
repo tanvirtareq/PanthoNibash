@@ -12,27 +12,13 @@
     <title>Add Review</title>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/signupPage.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f9f9f9;
-            padding-top: 20px;
-        }
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
 
-        .custom-card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-        }
-
-    </style>
 </head>
 <body>
 <div class="signup-container custom-card">
     <h2 class="signup-title">Review</h2>
-    <form:form action="/customer/${customerId}/booking/${bookingId}/addReview" method="post" modelAttribute="review">
+    <form:form action="/customer/${customerId}/booking/${bookingId}/addreview" method="post" modelAttribute="review">
         <div class="form-group">
             <label for="review">Review:</label>
             <form:textarea class="form-control" path="review" placeholder="Review"/>

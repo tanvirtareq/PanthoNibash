@@ -23,6 +23,7 @@ public class NonUserInterceptor implements HandlerInterceptor {
         if (sessionContext == null) {
             return true;
         }
+
         response.sendRedirect("/search");
 
         return false;

@@ -1,12 +1,10 @@
 package net.therap.util;
 
-import net.therap.model.Booking;
-import net.therap.model.Customer;
-import net.therap.model.SessionContext;
+import net.therap.model.*;
 import net.therap.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,9 +15,6 @@ import java.util.regex.Pattern;
  */
 public class Util {
 
-    @Autowired
-    private static CustomerService customerService;
-
     public static boolean allowedImageExtension(String extension, Model model) {
 
         String[] allowedExtensions = {"jpg", "jpeg", "png", "webp", "avif"};
@@ -29,6 +24,7 @@ public class Util {
 
             return false;
         }
+
         return true;
     }
 
@@ -40,7 +36,7 @@ public class Util {
         return matcher.find();
     }
 
-    public static Booking createBookingFromSessionContext(SessionContext sessionContext) {
+    public static Booking createBookingFromSessionContext(SessionContext sessionContext, CustomerService customerService) {
 
         Booking booking = new Booking();
 
@@ -54,5 +50,44 @@ public class Util {
         }
 
         return booking;
+    }
+
+    public static void updateHotelRating(Hotel hotel, Booking booking, Review review) {
+
+        double newRating = review.getRating();
+        double newWeight = Util.getRatingWeight(booking);
+        System.out.println(newRating + "   " + newWeight);
+
+        if (hotel.getRating() == null) {
+            Rating rating = new Rating();
+            rating.setRating(newRating);
+            rating.setWeight(newWeight);
+
+            hotel.setRating(rating);
+
+        } else {
+
+            hotel.getRating().setRating(Util.calculateRating(hotel.getRating(), newRating, newWeight));
+            hotel.getRating().setWeight(hotel.getRating().getWeight() + newWeight);
+        }
+    }
+
+    private static double calculateRating(Rating rating, double newRating, double newWeight) {
+
+        double oldRating = rating.getRating();
+        double oldWeight = rating.getWeight();
+
+        return (oldRating * oldWeight + newRating * newWeight) / (oldWeight + newWeight);
+    }
+
+    private static double getRatingWeight(Booking booking) {
+
+        double numberOfDaysStaying = ChronoUnit.DAYS.between(booking.getCheckInDate(), booking.getCheckOutDate()) + 1;
+        double yearOfCheckIngDate = booking.getCheckInDate().getYear();
+        double yearOfHotelRegistration = booking.getRoom().getHotel().getCreatedAt().getYear();
+
+        double weight = Math.sqrt(numberOfDaysStaying * (yearOfCheckIngDate - yearOfHotelRegistration + 1) / 1000.0);
+
+        return weight;
     }
 }

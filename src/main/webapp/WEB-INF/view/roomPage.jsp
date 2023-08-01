@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: tanvirtareq
@@ -10,23 +11,8 @@
 <html>
 <head>
     <title>Room Page</title>
-
-    <style>
-        .room-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .room-image {
-            max-width: 100%;
-            height: auto;
-        }
-        .hotel-image {
-            max-width: 100%;
-            height: auto;
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/roomPage.css">
+    <link rel="stylesheet" href="/assets/css/customStyle.css">
 </head>
 <body>
 
@@ -47,6 +33,15 @@
             <p>Wi-Fi Facility: <c:out value="${room.hotel.wifiFacility}"/></p>
             <p>Email: <c:out value="${room.hotel.email}"/></p>
             <p>Phone Number: <c:out value="${room.hotel.phoneNumber}"/></p>
+
+            <c:if test="${room.hotel.rating == null}">
+                <p class="hotel-rating">Rating: No Rating </p>
+            </c:if>
+            <c:if test="${room.hotel.rating != null}">
+                <p class="hotel-rating">Rating:
+                    <fmt:formatNumber maxFractionDigits="1" value="${room.hotel.rating.rating}"/> out of 5
+                </p>
+            </c:if>
 
         </div>
 

@@ -38,22 +38,29 @@ public class customerDetailsInterceptor implements HandlerInterceptor {
 
         Long customerId = getCustomerIdFromUrl(request);
         if(sessionContext.getRole().equals("HOTEL")) {
+
             return true;
+
         } else {
+
             if (customerId.equals(sessionContext.getId())) {
+
                 return true;
+
             } else {
+
                 response.sendRedirect("/search");
+
                 return false;
             }
         }
     }
 
     private Long getCustomerIdFromUrl(HttpServletRequest request) {
+
         String[] pathSegments = request.getRequestURI().split("/");
         String customerId = pathSegments[2];
 
         return Long.parseLong(customerId);
     }
-
 }

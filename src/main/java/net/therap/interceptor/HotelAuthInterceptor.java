@@ -28,6 +28,7 @@ public class HotelAuthInterceptor implements HandlerInterceptor {
         }
 
         response.sendRedirect("/search");
+
         return false;
     }
 
@@ -35,7 +36,7 @@ public class HotelAuthInterceptor implements HandlerInterceptor {
 
         String[] pathSegments = request.getRequestURI().split("/");
         String hotelId = pathSegments[2];
-        System.out.println(hotelId);
+
         return Long.parseLong(hotelId);
     }
 }

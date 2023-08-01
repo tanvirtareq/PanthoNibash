@@ -1,0 +1,37 @@
+.booking-details-header {
+    font-size: 30px;
+    background-color: rgba(228, 234, 226, 0.55);
+    border-radius: 10px;
+    color: #350505;
+    text-align: center;
+    padding: 1rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    padding-top: 20px;
+}
+
+.booking-info {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.guest-photo,
+.room-photo,
+.hotel-photo {
+    max-width: 200px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.rating {
+    color: gold;
+}

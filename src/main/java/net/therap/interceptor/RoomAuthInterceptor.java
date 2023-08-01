@@ -38,6 +38,7 @@ public class RoomAuthInterceptor implements HandlerInterceptor {
         }
 
         response.sendRedirect("/search");
+
         return false;
     }
 

@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: tanvirtareq
@@ -11,7 +12,7 @@
 <html>
 <head>
     <title>Room Search</title>
-    <link rel="stylesheet" href="/assets/css/customStyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
 </head>
 <body>
 
@@ -21,65 +22,71 @@
             <div class="custom-card">
                 <div class="card-body">
                     <h2 class="card-title">Room Search</h2>
-                    <form action="/search" method="get">
+                    <form:form action="${pageContext.request.contextPath}/search" method="get" modelAttribute="searchRoomFilter">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Parking Facility:</label>
-                                        <c:forEach items="${facilityOptions}" var="option">
+                                        <label for="parkingFacility">Parking Facility:</label>
+                                        <c:forEach items="${facilityOptions}" var="facilityOption">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="parkingFacility"
-                                                       id="parkingFacility" value="${option.value}">
-                                                <label class="form-check-label"
-                                                       for="parkingFacility">${option.value}</label>
+                                                <form:radiobutton class="form-check-input" id="${facilityOption.value}"
+                                                                  path="parkingFacility" value="${facilityOption.value}"/>
+                                                <label class="form-check-label" for="${facilityOption.value}">
+                                                        ${facilityOption.value}
+                                                </label>
                                             </div>
                                         </c:forEach>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Wi-Fi Facility:</label>
-                                        <c:forEach items="${facilityOptions}" var="option">
+                                        <label for="wifiFacility">Wifi facility:</label>
+                                        <c:forEach items="${facilityOptions}" var="facilityOption">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="wifiFacility"
-                                                       id="wifiFacility" value="${option.value}">
-                                                <label class="form-check-label"
-                                                       for="wifiFacility">${option.value}</label>
+                                                <form:radiobutton class="form-check-input" id="${facilityOption.value}"
+                                                                  path="wifiFacility" value="${facilityOption.value}"/>
+                                                <label class="form-check-label" for="${facilityOption.value}">
+                                                        ${facilityOption.value}
+                                                </label>
                                             </div>
                                         </c:forEach>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Swimming Pool:</label>
-                                        <c:forEach items="${facilityOptions}" var="option">
+                                        <label for="swimmingPool">Swimming Pool facility:</label>
+                                        <c:forEach items="${facilityOptions}" var="facilityOption">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="swimmingPool"
-                                                       id="swimmingPool" value="${option.value}">
-                                                <label class="form-check-label"
-                                                       for="swimmingPool">${option.value}</label>
+                                                <form:radiobutton class="form-check-input" id="${facilityOption.value}"
+                                                                  path="swimmingPool" value="${facilityOption.value}"/>
+                                                <label class="form-check-label" for="${facilityOption.value}">
+                                                        ${facilityOption.value}
+                                                </label>
                                             </div>
                                         </c:forEach>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Fitness Centre:</label>
-                                        <c:forEach items="${facilityOptions}" var="option">
+                                        <label for="fitnessCentre">Fitness Centre:</label>
+                                        <c:forEach items="${facilityOptions}" var="facilityOption">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="fitnessCentre"
-                                                       id="fitnessCentre" value="${option.value}">
-                                                <label class="form-check-label"
-                                                       for="fitnessCentre">${option.value}</label>
+                                                <form:radiobutton class="form-check-input" id="${facilityOption.value}"
+                                                                  path="fitnessCentre" value="${facilityOption.value}"/>
+                                                <label class="form-check-label" for="${facilityOption.value}">
+                                                        ${facilityOption.value}
+                                                </label>
                                             </div>
                                         </c:forEach>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Room type:</label>
-                                        <c:forEach items="${roomTypeOptions}" var="option">
+                                        <label for="roomType">Room Type:</label>
+                                        <c:forEach items="${roomTypeOptions}" var="roomTypeOption">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="roomType"
-                                                       id="roomType" value="${option.value}">
-                                                <label class="form-check-label" for="roomType">${option.value}</label>
+                                                <form:radiobutton class="form-check-input" id="${roomTypeOption.value}"
+                                                                  path="roomType" value="${roomTypeOption.value}"/>
+                                                <label class="form-check-label" for="${roomTypeOption.value}">
+                                                        ${roomTypeOption.value}
+                                                </label>
                                             </div>
                                         </c:forEach>
                                     </div>
@@ -90,47 +97,49 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="hotelName">Hotel name:</label>
-                                        <input type="text" class="form-control" id="hotelName" name="hotelName"
-                                               placeholder="Hotel name">
+                                        <form:input type="text" class="form-control" path="hotelName" id="hotelName" name="hotelName"
+                                               placeholder="Hotel name" oninput="searchHotel()"/>
+                                        <select id="hotelSelect" class="form-select" size="5"
+                                                style="display: none;"></select>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="location">Location:</label>
-                                        <input type="text" class="form-control" id="location" name="location"
-                                               placeholder="Location">
+                                        <form:input type="text" class="form-control" path="location" id="location" name="location"
+                                               placeholder="Location"/>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="priceMin">Price Range:</label>
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <input type="number" class="form-control" id="priceMin" name="priceMin"
-                                                   placeholder="Min Price">
+                                            <form:input type="number" path="priceMin" class="form-control" id="priceMin" name="priceMin"
+                                                   placeholder="Min Price"/>
                                         </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <input type="number" class="form-control" id="priceMax" name="priceMax"
-                                                   placeholder="Max Price">
+                                            <form:input type="number"  path="priceMax" class="form-control" id="priceMax" name="priceMax"
+                                                   placeholder="Max Price"/>
                                         </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="numberOfBed">Number of Beds:</label>
-                                        <input type="number" class="form-control" id="numberOfBed" name="numberOfBed"
-                                               placeholder="Number of Beds">
+                                        <form:input path="numberOfBed" type="number" class="form-control" id="numberOfBed" name="numberOfBed"
+                                               placeholder="Number of Beds"/>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="checkIn">Check-In Date:</label>
-                                        <input type="date" class="form-control" id="checkIn" name="checkIn">
+                                        <form:input path="checkIn" type="date" class="form-control" id="checkIn" name="checkIn"/>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="checkOut">Check-Out Date:</label>
-                                        <input type="date" class="form-control" id="checkOut" name="checkOut">
+                                        <form:input path="checkOut" type="date" class="form-control" id="checkOut" name="checkOut"/>
                                     </div>
 
                                 </div>
@@ -139,7 +148,8 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary">Search</button>
-                    </form>
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                    </form:form>
                 </div>
             </div>
         </div>
@@ -170,7 +180,20 @@
                                     <div class="col-md-6">
                                         <div class="card-body">
                                             <h5 class="card-title">Hotel: <c:out value="${room.hotel.name}"/></h5>
+
+
                                             <p class="card-text">
+
+                                                <c:if test="${room.hotel.rating == null}">
+                                                    <span class="hotel-rating">Rating: No Rating </span>
+                                                </c:if>
+                                                <c:if test="${room.hotel.rating != null}">
+                                                    <span class="hotel-rating">Rating:
+                                                        <fmt:formatNumber maxFractionDigits="1"
+                                                                          value="${room.hotel.rating.rating}"/>
+                                                        out of 5</span>
+                                                </c:if>
+                                                <br/>
                                                 Room type: <c:out value="${room.type}"/>
                                                 <br/>
                                                 Location: <c:out value="${room.hotel.location}"/>
@@ -203,5 +226,7 @@
         </div>
     </div>
 </div>
+
+<script src="/assets/js/searchHotelName.js"></script>
 </body>
 </html>

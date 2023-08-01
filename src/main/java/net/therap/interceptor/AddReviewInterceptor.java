@@ -37,13 +37,16 @@ public class AddReviewInterceptor implements HandlerInterceptor {
         }
 
         response.sendRedirect("/search");
+
         return false;
     }
 
     private Long getBookingIdFromUrl(HttpServletRequest request) {
+
         String[] pathSegments = request.getRequestURI().split("/");
         String customerId = pathSegments[4];
         System.out.println(customerId);
+
         return Long.parseLong(customerId);
     }
 
@@ -52,6 +55,7 @@ public class AddReviewInterceptor implements HandlerInterceptor {
         String[] pathSegments = request.getRequestURI().split("/");
         String customerId = pathSegments[2];
         System.out.println(customerId);
+
         return Long.parseLong(customerId);
     }
 }

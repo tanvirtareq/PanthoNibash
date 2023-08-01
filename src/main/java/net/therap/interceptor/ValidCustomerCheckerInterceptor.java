@@ -32,6 +32,7 @@ public class ValidCustomerCheckerInterceptor implements HandlerInterceptor {
         }
 
         response.sendRedirect("/search");
+
         return false;
     }
 

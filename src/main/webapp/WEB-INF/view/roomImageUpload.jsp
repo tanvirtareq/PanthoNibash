@@ -11,28 +11,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Room Image Upload</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Image Upload</title>
 </head>
 <body>
 
 <div class="container">
-  <h2 class="text-center mt-5">Room Image Upload</h2>
-  <form:form action="/hotel/${hotelId}/addRoom/roomImageUpload" method="post" enctype="multipart/form-data">
-    <div class="row justify-content-center mt-5">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="roomImage">Room Image</label>
-          <input type="file" id="roomImage" name="roomImage" class="form-control"/>
+    <h2 class="text-center mt-5">Room Image Upload</h2>
+    <form:form action="/hotel/${hotelId}/addroom/roomimageupload" method="post" enctype="multipart/form-data">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="roomImage">Room Image</label>
+                    <input type="file" id="roomImage" name="roomImage" class="form-control"/>
+                </div>
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger">${error}</div>
+                </c:if>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
         </div>
-        <c:if test="${not empty error}">
-          <div class="alert alert-danger">${error}</div>
-        </c:if>
-        <button type="submit" class="btn btn-primary">Upload</button>
-      </div>
-    </div>
-  </form:form>
+    </form:form>
 </div>
 
 </body>

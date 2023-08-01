@@ -49,6 +49,7 @@ public class BookingDetailsInterceptor implements HandlerInterceptor {
                 return true;
             }
         }
+
         response.sendRedirect("/search");
 
         return false;

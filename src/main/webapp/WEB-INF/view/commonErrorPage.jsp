@@ -12,39 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error Page</title>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .error-container {
-            max-width: 500px;
-            margin: 100px auto;
-            padding: 40px;
-            background-color: #fff;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .error-code {
-            font-size: 80px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            color: #dc3545;
-        }
-
-        .error-message {
-            font-size: 24px;
-            margin-bottom: 30px;
-        }
-
-        .btn-home {
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
-            padding: 10px 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/css/errorPage.css">
 </head>
 <body>
 <div class="container">

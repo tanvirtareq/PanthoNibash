@@ -1,0 +1,16 @@
+.room-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.room-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.hotel-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}

@@ -29,6 +29,7 @@ public class CustomerAuthInterceptor implements HandlerInterceptor {
         }
 
         response.sendRedirect("/search");
+
         return false;
     }
 
@@ -37,6 +38,7 @@ public class CustomerAuthInterceptor implements HandlerInterceptor {
         String[] pathSegments = request.getRequestURI().split("/");
         String customerId = pathSegments[2];
         System.out.println(customerId);
+
         return Long.parseLong(customerId);
     }
 }
