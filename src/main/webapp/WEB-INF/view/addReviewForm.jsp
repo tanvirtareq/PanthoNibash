@@ -18,7 +18,7 @@
 <body>
 <div class="signup-container custom-card">
     <h2 class="signup-title">Review</h2>
-    <form:form action="/customer/${customerId}/booking/${bookingId}/addreview" method="post" modelAttribute="review">
+    <form:form action="${pageContext.request.contextPath}/customer/${customerId}/booking/${bookingId}/addreview" method="post" modelAttribute="review">
         <div class="form-group">
             <label for="review">Review:</label>
             <form:textarea class="form-control" path="review" placeholder="Review"/>

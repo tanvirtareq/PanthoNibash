@@ -59,4 +59,13 @@ public class Review {
     public void setBooking(Booking booking) {
         this.booking = booking;
     }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", review='" + review + '\'' +
+                ", rating=" + rating +
+                '}';
+    }
 }

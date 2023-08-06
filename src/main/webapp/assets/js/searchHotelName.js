@@ -4,7 +4,9 @@ function searchHotel() {
 
     hotelSelect.innerHTML = "";
 
-    fetch('/search/hotels?name=' + hotelName)
+    let baseUrl = window.location.origin + window.location.pathname;
+
+    fetch(`${baseUrl}/hotels?name=` + hotelName)
         .then((response) => response.json())
         .then((hotels) => {
             if (hotels.length > 0) {

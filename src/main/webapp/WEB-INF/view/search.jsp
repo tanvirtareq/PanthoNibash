@@ -165,7 +165,7 @@
                             <div class="custom-card mb-3" style="max-width: 840px;">
                                 <div class="row g-0">
                                     <div class="col-md-6">
-                                        <a href="/room/${room.id}">
+                                        <a href="${pageContext.request.contextPath}/room/${room.id}">
                                             <img
                                                     src="data:image/jpeg;base64,${room.roomImageBase64Image}"
                                                     alt="${room.hotel.name}"
@@ -227,6 +227,6 @@
     </div>
 </div>
 
-<script src="/assets/js/searchHotelName.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/searchHotelName.js"></script>
 </body>
 </html>

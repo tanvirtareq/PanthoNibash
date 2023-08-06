@@ -10,7 +10,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-    <a class="navbar-brand" href="/">Pantho Nibash</a>
+    <a class="navbar-brand" href="${pageContext.request.contextPath}/">Pantho Nibash</a>
 
     <button class="navbar-toggler"
             type="button"
@@ -24,16 +24,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/search">Search</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/search">Search</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/hotels">Hotels</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/hotels">Hotels</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/rooms">Rooms</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/rooms">Rooms</a>
             </li>
             <c:choose>
                 <c:when test="${empty sessionContext}">
@@ -76,7 +76,7 @@
                 </c:when>
                 <c:otherwise>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="${sessionContext.profileLink}">
@@ -91,7 +91,7 @@
     </div>
 </nav>
 
-<script src="/assets/js/navbar.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/navbar.js"></script>
 
 </body>
 </html>

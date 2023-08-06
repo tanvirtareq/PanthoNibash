@@ -4,6 +4,7 @@ import net.therap.dto.SearchRoomFilter;
 import net.therap.model.Room;
 import net.therap.service.HotelService;
 import net.therap.service.RoomService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,21 +24,22 @@ import java.util.Map;
 @Controller
 public class SearchController {
 
+    private static final Logger LOGGER = Logger.getLogger(SearchController.class);
+
     @Autowired
     private RoomService roomService;
-
     @Autowired
     private HotelService hotelService;
-
     @Value("#{facilityOptions}")
     private Map<String, String> facilityOptions;
-
     @Value("#{roomTypeOptions}")
     private Map<String, String> roomTypeOptions;
 
     @GetMapping("/search")
     public String searchRooms(@ModelAttribute("searchRoomFilter") SearchRoomFilter searchRoomFilter,
                               Model model) {
+
+        LOGGER.info("Search started");
 
         if (searchRoomFilter == null) {
             searchRoomFilter = new SearchRoomFilter();
@@ -50,6 +52,7 @@ public class SearchController {
         model.addAttribute("roomTypeOptions", roomTypeOptions);
         model.addAttribute("searchRoomFilter", new SearchRoomFilter());
 
+        LOGGER.info("Search end");
         return "search";
     }
 

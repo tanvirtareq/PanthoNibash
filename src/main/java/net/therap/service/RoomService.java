@@ -1,9 +1,11 @@
 package net.therap.service;
 
+import net.therap.controller.SearchController;
 import net.therap.dto.SearchRoomFilter;
 import net.therap.model.Booking;
 import net.therap.model.Room;
 import net.therap.util.Util;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -21,11 +23,15 @@ import java.util.stream.Collectors;
 @Service
 public class RoomService {
 
+    private static final Logger LOGGER = Logger.getLogger(RoomService.class);
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Transactional
     public List<Room> searchRooms(SearchRoomFilter searchRoomFilter) {
+
+        LOGGER.info("Search room from database start");
 
         List<Room> rooms = getAll();
 
@@ -64,6 +70,8 @@ public class RoomService {
                 .filter(room -> availableRoom(room, searchRoomFilter.getCheckIn(), searchRoomFilter.getCheckOut()))
 
                 .collect(Collectors.toList());
+
+        LOGGER.info("Search room from database end");
 
         return result;
     }
@@ -117,7 +125,6 @@ public class RoomService {
         return entityManager.createQuery(jpql, Room.class).getResultList();
     }
 
-    @Transactional
     public Room findById(Long id) {
         Room room = entityManager.find(Room.class, id);
 
