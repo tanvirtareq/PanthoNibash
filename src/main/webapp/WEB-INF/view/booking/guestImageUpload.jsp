@@ -1,13 +1,8 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: tanvirtareq
-  Date: 7/22/23
-  Time: 9:44 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +14,8 @@
 
 <div class="container">
     <h2 class="text-center mt-5">Guest Photo Upload</h2>
-    <form:form action="${pageContext.request.contextPath}/room/${roomId}/book/guestimageupload" method="post" enctype="multipart/form-data">
+    <form:form action="${pageContext.request.contextPath}/room/${roomId}/book/guestimageupload" method="post"
+               enctype="multipart/form-data">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
                 <div class="form-group">
