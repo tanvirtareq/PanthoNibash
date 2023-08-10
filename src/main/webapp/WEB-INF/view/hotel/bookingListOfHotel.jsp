@@ -22,7 +22,7 @@
       <div class="container-xxl">
         <div class="card custom-card">
           <div class="card-body">
-            <form action="/hotel/${hotel.id}/bookinglist" method="GET">
+            <form action="/hotel/${hotel.id}/bookingList" method="GET">
               <div class="mb-3">
                 <label class="form-label" for="checkInDate">Check-in Date:</label>
                 <input type="date" class="form-control" id="checkInDate" name="checkInDate"
@@ -129,6 +129,6 @@
   </div>
 </div>
 
-<script src="/assets/js/bookingTable.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/bookingTable.js"></script>
 </body>
 </html>

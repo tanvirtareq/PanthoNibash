@@ -55,7 +55,7 @@ public class CustomerSignupController {
         return "customer/profilePictureUpload";
     }
 
-    @PostMapping("/signup/uploadprofilepicture")
+    @PostMapping("/signup/uploadProfilePicture")
     public String uploadProfilePicture(@RequestParam("profilePicture") CommonsMultipartFile profilePicture,
                                        @SessionAttribute(name = "customer") Customer customer, Model model) {
 

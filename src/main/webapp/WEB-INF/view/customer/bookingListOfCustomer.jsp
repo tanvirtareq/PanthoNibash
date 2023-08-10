@@ -21,7 +21,7 @@
             <div class="container">
                 <div class="card custom-card">
                     <div class="card-body">
-                        <form action="${pageContext.request.contextPath}/customer/${customer.id}/bookinglist" method="GET">
+                        <form action="${pageContext.request.contextPath}/customer/${customer.id}/bookingList" method="GET">
                             <div class="mb-3">
                                 <label class="form-label" for="checkInDate">Check-in Date:</label>
                                 <input type="date" class="form-control" id="checkInDate" name="checkInDate"

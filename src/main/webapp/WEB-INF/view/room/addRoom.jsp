@@ -13,7 +13,7 @@
 
 <div class="signup-container custom-card">
     <h2 class="signup-title">Add room</h2>
-    <form:form id="addRoomForm" action="${pageContext.request.contextPath}/hotel/${hotelId}/addroom" method="post" modelAttribute="room">
+    <form:form id="addRoomForm" action="${pageContext.request.contextPath}/hotel/${hotelId}/addRoom" method="post" modelAttribute="room">
 
         <div class="form-group">
             <label for="type">Type:</label>

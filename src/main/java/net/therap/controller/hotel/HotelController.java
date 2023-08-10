@@ -40,7 +40,7 @@ public class HotelController {
         return "hotel/hotelPage";
     }
 
-    @GetMapping("/{hotelId}/bookinglist")
+    @GetMapping("/{hotelId}/bookingList")
     public String showBookingList(@PathVariable Long hotelId, Model model,
                                   @RequestParam(value = "checkInDate", required = false)
                                   @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkInDate,

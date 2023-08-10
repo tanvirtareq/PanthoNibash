@@ -13,8 +13,8 @@
 <body>
 
 <div class="container">
-    <h2 class="text-center mt-5">Guest Photo Upload</h2>
-    <form:form action="${pageContext.request.contextPath}/room/${roomId}/book/guestimageupload" method="post"
+    <div class="h2 text-center mt-5">Guest Photo Upload</div>
+    <form:form action="${pageContext.request.contextPath}/room/${roomId}/book/guestImageUpload" method="post"
                enctype="multipart/form-data">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">

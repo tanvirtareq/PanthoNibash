@@ -40,7 +40,7 @@ public class CustomerController {
         return "customer/customerPage";
     }
 
-    @GetMapping("/{customerId}/bookinglist")
+    @GetMapping("/{customerId}/bookingList")
     public String showBookingList(@PathVariable Long customerId, Model model,
                                   @RequestParam(value = "checkInDate", required = false)
                                   @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkInDate,

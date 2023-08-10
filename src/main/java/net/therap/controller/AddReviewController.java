@@ -27,7 +27,7 @@ public class AddReviewController {
     @Autowired
     private HotelService hotelService;
 
-    @GetMapping("/addreview")
+    @GetMapping("/addReview")
     public String showAddReviewForm(@PathVariable Long bookingId, Model model, @PathVariable Long customerId) {
 
         Booking booking = bookingService.findById(bookingId);
@@ -41,8 +41,9 @@ public class AddReviewController {
         return "addReviewForm";
     }
 
-    @PostMapping("/addreview")
-    public String processAddReview(@PathVariable Long bookingId, @ModelAttribute("review") @Valid Review review, BindingResult bindingResult, @PathVariable Long customerId) {
+    @PostMapping("/addReview")
+    public String processAddReview(@PathVariable Long bookingId, @ModelAttribute("review") @Valid Review review,
+                                   BindingResult bindingResult, @PathVariable Long customerId) {
 
         Booking booking = bookingService.findById(bookingId);
 

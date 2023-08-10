@@ -15,7 +15,7 @@
 
 <div class="container">
     <h2 class="text-center mt-5">Profile Picture Upload</h2>
-    <form:form action="${pageContext.request.contextPath}/customer/signup/uploadprofilepicture" method="post" enctype="multipart/form-data">
+    <form:form action="${pageContext.request.contextPath}/customer/signup/uploadProfilePicture" method="post" enctype="multipart/form-data">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
                 <div class="form-group">

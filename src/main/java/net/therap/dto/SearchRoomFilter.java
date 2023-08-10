@@ -11,23 +11,14 @@ import java.time.LocalDate;
 public class SearchRoomFilter {
 
     private String parkingFacility;
-
     private String wifiFacility;
-
     private String swimmingPool;
-
     private String fitnessCentre;
-
     private String roomType;
-
     private String hotelName;
-
     private String location;
-
     private Integer priceMin;
-
     private Integer priceMax;
-
     private Integer numberOfBed;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -45,6 +45,7 @@ dependencies {
     implementation 'org.springframework:spring-core:5.3.26'
     implementation 'org.springframework.security:spring-security-core:5.3.13.RELEASE'
 
+    runtimeOnly 'org.aspectj:aspectjweaver:1.9.19'
 
     implementation 'commons-fileupload:commons-fileupload:1.4'
     implementation 'commons-io:commons-io:2.13.0'

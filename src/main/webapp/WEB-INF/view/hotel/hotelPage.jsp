@@ -48,7 +48,7 @@
     <c:if test="${not empty sessionContext && sessionContext.role==hotelRole && sessionContext.id==hotel.id}">
 
         <div style="display: flex; justify-content: center; margin-top: 2rem;">
-            <a href="${pageContext.request.contextPath}/hotel/${hotel.id}/bookinglist" style="text-decoration: none;">
+            <a href="${pageContext.request.contextPath}/hotel/${hotel.id}/bookingList" style="text-decoration: none;">
                 <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
                             border-radius: 4px; cursor: pointer; font-size: 16px; width: 130px; margin: 2px">
                     Booking List
@@ -79,7 +79,7 @@
     <c:if test="${not empty sessionContext && sessionContext.role==hotelRole && sessionContext.id==hotel.id}">
 
         <div style="display: flex; justify-content: center; margin-top: 2rem;">
-            <a href="${pageContext.request.contextPath}/hotel/${hotel.id}/addroom" style="text-decoration: none;">
+            <a href="${pageContext.request.contextPath}/hotel/${hotel.id}/addRoom" style="text-decoration: none;">
                 <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
                         border-radius: 4px; cursor: pointer; font-size: 16px;">
                     Add Room

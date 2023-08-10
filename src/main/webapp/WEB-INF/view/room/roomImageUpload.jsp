@@ -14,7 +14,7 @@
 
 <div class="container">
     <h2 class="text-center mt-5">Room Image Upload</h2>
-    <form:form action="${pageContext.request.contextPath}/hotel/${hotelId}/addroom/roomimageupload" method="post" enctype="multipart/form-data">
+    <form:form action="${pageContext.request.contextPath}/hotel/${hotelId}/addroom/roomImageUpload" method="post" enctype="multipart/form-data">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
                 <div class="form-group">

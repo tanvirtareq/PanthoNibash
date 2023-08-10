@@ -16,8 +16,9 @@
         <div class="col-md-4 ml-auto">
             <div class="custom-card">
                 <div class="card-body">
-                    <h2 class="card-title">Room Search</h2>
-                    <form:form action="${pageContext.request.contextPath}/search" method="get" modelAttribute="searchRoomFilter">
+                    <div class="h2 card-title">Room Search</div>
+                    <form:form action="${pageContext.request.contextPath}/search" method="get"
+                               modelAttribute="searchRoomFilter">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-6">
@@ -26,7 +27,8 @@
                                         <c:forEach items="${facilityOptions}" var="facilityOption">
                                             <div class="form-check">
                                                 <form:radiobutton class="form-check-input" id="${facilityOption.value}"
-                                                                  path="parkingFacility" value="${facilityOption.value}"/>
+                                                                  path="parkingFacility"
+                                                                  value="${facilityOption.value}"/>
                                                 <label class="form-check-label" for="${facilityOption.value}">
                                                         ${facilityOption.value}
                                                 </label>
@@ -92,49 +94,56 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="hotelName">Hotel name:</label>
-                                        <form:input type="text" class="form-control" path="hotelName" id="hotelName" name="hotelName"
-                                               placeholder="Hotel name" oninput="searchHotel()"/>
+                                        <form:input type="text" class="form-control" path="hotelName" id="hotelName"
+                                                    name="hotelName"
+                                                    placeholder="Hotel name" oninput="searchHotel()"/>
                                         <select id="hotelSelect" class="form-select" size="5"
                                                 style="display: none;"></select>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="location">Location:</label>
-                                        <form:input type="text" class="form-control" path="location" id="location" name="location"
-                                               placeholder="Location"/>
+                                        <form:input type="text" class="form-control" path="location" id="location"
+                                                    name="location"
+                                                    placeholder="Location"/>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="priceMin">Price Range:</label>
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <form:input type="number" path="priceMin" class="form-control" id="priceMin" name="priceMin"
-                                                   placeholder="Min Price"/>
+                                            <form:input type="number" path="priceMin" class="form-control" id="priceMin"
+                                                        name="priceMin"
+                                                        placeholder="Min Price"/>
                                         </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
-                                            <form:input type="number"  path="priceMax" class="form-control" id="priceMax" name="priceMax"
-                                                   placeholder="Max Price"/>
+                                            <form:input type="number" path="priceMax" class="form-control" id="priceMax"
+                                                        name="priceMax"
+                                                        placeholder="Max Price"/>
                                         </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="numberOfBed">Number of Beds:</label>
-                                        <form:input path="numberOfBed" type="number" class="form-control" id="numberOfBed" name="numberOfBed"
-                                               placeholder="Number of Beds"/>
+                                        <form:input path="numberOfBed" type="number" class="form-control"
+                                                    id="numberOfBed" name="numberOfBed"
+                                                    placeholder="Number of Beds"/>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="checkIn">Check-In Date:</label>
-                                        <form:input path="checkIn" type="date" class="form-control" id="checkIn" name="checkIn"/>
+                                        <form:input path="checkIn" type="date" class="form-control" id="checkIn"
+                                                    name="checkIn"/>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="checkOut">Check-Out Date:</label>
-                                        <form:input path="checkOut" type="date" class="form-control" id="checkOut" name="checkOut"/>
+                                        <form:input path="checkOut" type="date" class="form-control" id="checkOut"
+                                                    name="checkOut"/>
                                     </div>
 
                                 </div>
@@ -152,7 +161,7 @@
         <div class="col-md-8">
             <div class="custom-card">
                 <div class="card-body" style="height: 800px; overflow-y: auto;">
-                    <h3 class="card-title">Search Results:</h3>
+                    <div class="h3 card-title">Search Results:</div>
 
                     <c:if test="${not empty searchResults}">
                         <c:forEach items="${searchResults}" var="room">
@@ -174,10 +183,10 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="card-body">
-                                            <h5 class="card-title">Hotel: <c:out value="${room.hotel.name}"/></h5>
+                                            <div class="h5 card-title">Hotel: <c:out value="${room.hotel.name}"/></div>
 
 
-                                            <p class="card-text">
+                                            <div class="card-text">
 
                                                 <c:if test="${room.hotel.rating == null}">
                                                     <span class="hotel-rating">Rating: No Rating </span>
@@ -204,7 +213,7 @@
                                                 Swimming Pool: <c:out value="${room.hotel.swimmingPool}"/>
                                                 <br/>
                                                 Fitness Centre: <c:out value="${room.hotel.fitnessCentre}"/>
-                                            </p>
+                                            </div>
 
                                         </div>
                                     </div>

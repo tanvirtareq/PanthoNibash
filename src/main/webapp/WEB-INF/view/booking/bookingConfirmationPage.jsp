@@ -11,8 +11,8 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="card-title mb-4">Booking Confirmation</h2>
-                    <p>Your booking has been confirmed. Thank you for choosing our hotel!</p>
+                    <div class="h2 card-title mb-4">Booking Confirmation</div>
+                    <div class="p">Your booking has been confirmed. Thank you for choosing our hotel!</div>
                 </div>
             </div>
         </div>

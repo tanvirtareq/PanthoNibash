@@ -86,7 +86,7 @@ public class RoomBookController {
         return "booking/guestImageUpload";
     }
 
-    @PostMapping("/book/guestimageupload")
+    @PostMapping("/book/guestImageUpload")
     public String uploadProfilePicture(@RequestParam("guestImage") CommonsMultipartFile guestImage,
                                        @SessionAttribute(name = "booking") Booking booking, Model model,
                                        @PathVariable String roomId) {

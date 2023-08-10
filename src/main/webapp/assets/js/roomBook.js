@@ -6,8 +6,11 @@ function updateTotalCost() {
     let totalCostElement = document.getElementById("totalCost");
     const checkInDate = new Date(checkInElement.value);
     const checkOutDate = new Date(checkOutElement.value);
-    let dayDifference = ((checkOutDate - checkInDate)/(1000*60*60*24)+1);
-    if (dayDifference >= 0) {
-        totalCostElement.innerHTML = dayDifference*roomPrice;
+    let dayDifference = ((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+    console.log(dayDifference);
+    if (dayDifference > 0) {
+        totalCostElement.innerHTML = dayDifference * roomPrice;
+    } else {
+        totalCostElement.innerHTML = "Invalid";
     }
 }

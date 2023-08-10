@@ -1,11 +1,9 @@
 package net.therap.service;
 
-import net.therap.controller.SearchController;
 import net.therap.dto.SearchRoomFilter;
 import net.therap.model.Booking;
 import net.therap.model.Room;
 import net.therap.util.Util;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -23,18 +21,13 @@ import java.util.stream.Collectors;
 @Service
 public class RoomService {
 
-    private static final Logger LOGGER = Logger.getLogger(RoomService.class);
-
     @PersistenceContext
     private EntityManager entityManager;
 
     @Transactional
     public List<Room> searchRooms(SearchRoomFilter searchRoomFilter) {
 
-        LOGGER.info("Search room from database start");
-
         List<Room> rooms = getAll();
-
 
         List<Room> result = rooms.stream()
                 .filter(room -> searchRoomFilter.getParkingFacility() == null
@@ -71,8 +64,6 @@ public class RoomService {
 
                 .collect(Collectors.toList());
 
-        LOGGER.info("Search room from database end");
-
         return result;
     }
 
@@ -92,7 +83,7 @@ public class RoomService {
                 booking.getCheckOutDate()));
     }
 
-    private boolean isOverlap(LocalDate checkInSearch, LocalDate checkOutSearch, LocalDate checkInDate, LocalDate checkOutDate) {
+    public boolean isOverlap(LocalDate checkInSearch, LocalDate checkOutSearch, LocalDate checkInDate, LocalDate checkOutDate) {
 
         return (checkInSearch.isBefore(checkOutDate) || checkInSearch.isEqual(checkOutDate))
                 && (checkOutSearch.isAfter(checkInDate) || checkOutSearch.isEqual(checkInDate));

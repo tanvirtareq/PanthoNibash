@@ -5,8 +5,8 @@
     <title>Pantho Nibash</title>
 </head>
 <body>
-<footer class="footer mt-auto py-3 bg-light">
-    <div class="container">
+<footer class="footer py-3 bg-light">
+    <div class="container text-center">
         <span class="text-muted">&copy; 2023 Pantho Nibash. All rights reserved.</span>
     </div>
 </footer>

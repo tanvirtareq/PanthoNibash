@@ -19,15 +19,18 @@
 
     <decorator:head/>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header>
     <jsp:include page="../navbar.jsp"/>
 </header>
-<main style="margin-top: 100px; margin-left: 40px;margin-right: 40px">
-    <decorator:body/>
-</main>
 
-<jsp:include page="../footer.jsp"/>
+<div class="flex-grow-1">
+    <main style="margin-top: 100px; margin-left: 40px;margin-right: 40px">
+        <decorator:body/>
+    </main>
+    <jsp:include page="../footer.jsp"/>
+</div>
+
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>

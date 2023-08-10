@@ -1,6 +1,5 @@
 package net.therap.filter;
 
-
 import net.therap.model.SessionContext;
 
 import javax.servlet.*;

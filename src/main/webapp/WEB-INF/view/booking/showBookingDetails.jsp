@@ -121,7 +121,6 @@
     </div>
     <c:set var="customerRole" value="CUSTOMER"/>
 
-
     <div style="display: flex; justify-content: center; margin-top: 2rem;">
         <button onclick="downloadAsPdf()" style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
                         border-radius: 4px; cursor: pointer; font-size: 16px; margin: 2px; width: 200px;">
