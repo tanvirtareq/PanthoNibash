@@ -13,7 +13,8 @@
 
 <div class="signup-container custom-card">
     <h2 class="signup-title">Add room</h2>
-    <form:form id="addRoomForm" action="${pageContext.request.contextPath}/hotel/${hotelId}/addRoom" method="post" modelAttribute="room">
+    <form:form id="addRoomForm" action="${pageContext.request.contextPath}/hotel/${hotelId}/addRoom" method="post"
+               modelAttribute="room">
 
         <div class="form-group">
             <label for="type">Type:</label>
@@ -52,7 +53,7 @@
 
         <div class="chips-container" id="roomNumberChipsContainer"></div>
         <form:hidden path="roomNumbers" id="roomNumbersHidden"/>
-
+        <form:errors path="roomNumbers" cssClass="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         <button type="submit" class="btn btn-primary signup-button">Add</button>
     </form:form>
 </div>

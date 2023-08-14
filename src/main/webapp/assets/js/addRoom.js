@@ -13,6 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function addRoomNumberChip(roomNumber) {
+        const chips = roomNumberChipsContainer.querySelectorAll(".chip-text");
+        const roomNumbers = Array.from(chips).map(chip => chip.textContent);
+
+        if (roomNumbers.indexOf(roomNumber) !== -1) {
+            return;
+        }
+
         const chip = document.createElement("div");
         chip.className = "chip";
 
@@ -38,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateRoomNumbersHiddenInput() {
         const chips = roomNumberChipsContainer.querySelectorAll(".chip-text");
         const roomNumbers = Array.from(chips).map(chip => chip.textContent);
-        console.log(roomNumbers);
+
         let temp = "";
         for (const x of roomNumbers) {
             console.log(x);

@@ -3,9 +3,7 @@ package net.therap.model;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author tanvirtareq
@@ -32,7 +30,7 @@ public class Room {
     @ElementCollection
     @CollectionTable(name = "room_numbers", joinColumns = @JoinColumn(name = "room_id"))
     @Column(name = "room_number")
-    private List<String> roomNumbers = new ArrayList<>();
+    private Set<String> roomNumbers = new HashSet<>();
 
     @NotNull
     @Min(value = 1, message = "Number of bed must be a positive integer")
@@ -84,11 +82,11 @@ public class Room {
         this.id = id;
     }
 
-    public List<String> getRoomNumbers() {
+    public Set<String> getRoomNumbers() {
         return roomNumbers;
     }
 
-    public void setRoomNumbers(List<String> roomNumbers) {
+    public void setRoomNumbers(Set<String> roomNumbers) {
         this.roomNumbers = roomNumbers;
     }
 
