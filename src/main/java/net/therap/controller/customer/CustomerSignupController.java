@@ -1,5 +1,7 @@
 package net.therap.controller.customer;
 
+import net.therap.dto.ButtonDto;
+import net.therap.dto.SuccessMessageDto;
 import net.therap.model.Customer;
 import net.therap.service.CustomerService;
 import net.therap.util.Util;
@@ -16,6 +18,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author tanvirtareq
@@ -32,7 +36,7 @@ public class CustomerSignupController {
     @Autowired
     private CustomerValidator customerValidator;
 
-    @InitBinder
+    @InitBinder("customer")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(customerValidator);
         binder.setDisallowedFields("id");
@@ -78,7 +82,15 @@ public class CustomerSignupController {
             customer.setPassword(customerService.encodePassword(customer.getPassword()));
             customerService.save(customer);
 
-            return "redirect:/customer/login";
+            List<ButtonDto> buttonDtoList = new ArrayList<>();
+            buttonDtoList.add(new ButtonDto("Go to login", "/customer/login"));
+            buttonDtoList.add(new ButtonDto("Go to Home", "/"));
+
+            SuccessMessageDto successMessageDto = new SuccessMessageDto("Successfully Registered", buttonDtoList);
+
+            model.addAttribute("successMessageDto", successMessageDto);
+
+            return "successMessage";
 
         } catch (IOException e) {
             model.addAttribute("error", "Failed to upload the profile picture.");

@@ -1,5 +1,7 @@
 package net.therap.controller.hotel;
 
+import net.therap.dto.ButtonDto;
+import net.therap.dto.SuccessMessageDto;
 import net.therap.model.Hotel;
 import net.therap.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,6 +53,16 @@ public class HotelEditController {
         hotelService.update(hotelId, hotel.getName(), hotel.getPhoneNumber(),
                 hotel.getLocation(), hotel.getParkingFacility(), hotel.getSwimmingPool(), hotel.getWifiFacility());
 
-        return "redirect:/hotel/" + hotelId;
+
+        List<ButtonDto> buttonDtoList = new ArrayList<>();
+        buttonDtoList.add(new ButtonDto("See Hotel Details", "/hotel/" + hotelId));
+        buttonDtoList.add(new ButtonDto("Go to Home", "/"));
+
+        SuccessMessageDto successMessageDto = new SuccessMessageDto("Information Successfully Updated",
+                buttonDtoList);
+
+        model.addAttribute("successMessageDto", successMessageDto);
+
+        return "successMessage";
     }
 }

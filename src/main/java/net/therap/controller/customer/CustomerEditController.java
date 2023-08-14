@@ -1,5 +1,7 @@
 package net.therap.controller.customer;
 
+import net.therap.dto.ButtonDto;
+import net.therap.dto.SuccessMessageDto;
 import net.therap.model.Customer;
 import net.therap.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author tanvirtareq
@@ -32,7 +36,7 @@ public class CustomerEditController {
 
     @PostMapping("/edit")
     public String processEditForm(@PathVariable Long customerId, @ModelAttribute("customer") @Valid Customer customer,
-                                  BindingResult bindingResult) {
+                                  BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return "customer/showCustomerEditForm";
@@ -41,6 +45,15 @@ public class CustomerEditController {
         customerService.update(customerId, customer.getName(), customer.getPhoneNumber(),
                 customer.getDateOfBirth());
 
-        return "redirect:/customer/" + customerId;
+
+        List<ButtonDto> buttonDtoList = new ArrayList<>();
+        buttonDtoList.add(new ButtonDto("Go to profile", "/customer/" + customerId));
+        buttonDtoList.add(new ButtonDto("Go to Home", "/"));
+
+        SuccessMessageDto successMessageDto = new SuccessMessageDto("Information Successfully Updated", buttonDtoList);
+
+        model.addAttribute("successMessageDto", successMessageDto);
+
+        return "successMessage";
     }
 }

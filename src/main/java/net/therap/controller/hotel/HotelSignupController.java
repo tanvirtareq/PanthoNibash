@@ -1,5 +1,7 @@
 package net.therap.controller.hotel;
 
+import net.therap.dto.ButtonDto;
+import net.therap.dto.SuccessMessageDto;
 import net.therap.model.Hotel;
 import net.therap.service.HotelService;
 import net.therap.util.Util;
@@ -17,6 +19,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +41,7 @@ public class HotelSignupController {
     @Autowired
     private HotelValidator hotelValidator;
 
-    @InitBinder
+    @InitBinder("hotel")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(hotelValidator);
         binder.setDisallowedFields("id", "createdAt");
@@ -88,7 +92,17 @@ public class HotelSignupController {
 
             hotelService.save(hotel);
 
-            return "redirect:/hotel/login";
+            List<ButtonDto> buttonDtoList = new ArrayList<>();
+            buttonDtoList.add(new ButtonDto("Go to login", "/hotel/login"));
+            buttonDtoList.add(new ButtonDto("Go to Home", "/"));
+
+            SuccessMessageDto successMessageDto = new SuccessMessageDto("Successfully Registered",
+                    buttonDtoList);
+
+            model.addAttribute("successMessageDto", successMessageDto);
+
+            return "successMessage";
+
         } catch (IOException e) {
             model.addAttribute("error", "Failed to upload the Hotel Image.");
             return "hotel/hotelImageUpload";

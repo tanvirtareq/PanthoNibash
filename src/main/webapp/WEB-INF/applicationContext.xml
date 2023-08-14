@@ -72,22 +72,26 @@
             <mvc:mapping path="/customer/**"/>
             <mvc:exclude-mapping path="/customer/login"/>
             <mvc:exclude-mapping path="/customer/signup/**"/>
-            <bean id="validCustomerCheckerInterceptor" class="net.therap.interceptor.validUrlChecker.ValidCustomerCheckerInterceptor"/>
+            <bean id="validCustomerCheckerInterceptor"
+                  class="net.therap.interceptor.validUrlChecker.ValidCustomerCheckerInterceptor"/>
         </mvc:interceptor>
 
         <mvc:interceptor>
             <mvc:mapping path="/hotel/**"/>
             <mvc:exclude-mapping path="/hotel/login"/>
             <mvc:exclude-mapping path="/hotel/signup/**"/>
-            <bean id="validHotelCheckerInterceptor" class="net.therap.interceptor.validUrlChecker.ValidHotelCheckerInterceptor"/>
+            <bean id="validHotelCheckerInterceptor"
+                  class="net.therap.interceptor.validUrlChecker.ValidHotelCheckerInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/room/**"/>
-            <bean id="validRoomCheckerInterceptor" class="net.therap.interceptor.validUrlChecker.ValidRoomCheckerInterceptor"/>
+            <bean id="validRoomCheckerInterceptor"
+                  class="net.therap.interceptor.validUrlChecker.ValidRoomCheckerInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/booking/**"/>
-            <bean id="validBookingCheckerInterceptor" class="net.therap.interceptor.validUrlChecker.ValidBookingCheckerInterceptor"/>
+            <bean id="validBookingCheckerInterceptor"
+                  class="net.therap.interceptor.validUrlChecker.ValidBookingCheckerInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

@@ -1,5 +1,7 @@
 package net.therap.controller.room;
 
+import net.therap.dto.ButtonDto;
+import net.therap.dto.SuccessMessageDto;
 import net.therap.model.Room;
 import net.therap.service.HotelService;
 import net.therap.util.Util;
@@ -12,12 +14,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,12 +76,10 @@ public class HotelAddRoomController {
         return "room/roomImageUpload";
     }
 
-    @PostMapping("/addroom/roomImageUpload")
+    @PostMapping("/addRoom/roomImageUpload")
     public String uploadRoomImage(@PathVariable Long hotelId,
                                   @RequestParam("roomImage") CommonsMultipartFile roomImage,
                                   @SessionAttribute(name = "room") Room room, Model model) {
-
-
 
         if (roomImage.isEmpty()) {
             model.addAttribute("error", "Please select a Room Image.");
@@ -101,7 +102,16 @@ public class HotelAddRoomController {
 
             hotelService.addRoom(hotelId, room);
 
-            return "redirect:/hotel/" + hotelId;
+            List<ButtonDto> buttonDtoList = new ArrayList<>();
+            buttonDtoList.add(new ButtonDto("See Hotel Details", "/hotel/" + hotelId));
+            buttonDtoList.add(new ButtonDto("Go to Home", "/"));
+
+            SuccessMessageDto successMessageDto = new SuccessMessageDto("Successfully Room Added",
+                    buttonDtoList);
+
+            model.addAttribute("successMessageDto", successMessageDto);
+
+            return "successMessage";
 
         } catch (IOException e) {
             model.addAttribute("error", "Failed to upload the Room Image.");
