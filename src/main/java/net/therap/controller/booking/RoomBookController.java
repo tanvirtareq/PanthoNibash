@@ -10,12 +10,14 @@ import net.therap.service.BookingService;
 import net.therap.service.CustomerService;
 import net.therap.service.RoomService;
 import net.therap.util.Util;
+import net.therap.validator.BookingValidator;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -42,6 +44,14 @@ public class RoomBookController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private BookingValidator bookingValidator;
+
+    @InitBinder("booking")
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(bookingValidator);
+    }
 
     @GetMapping("/book")
     public String showRoomBookPage(@PathVariable Long roomId, Model model, HttpSession httpSession) {

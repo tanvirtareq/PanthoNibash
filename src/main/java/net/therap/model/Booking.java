@@ -34,7 +34,7 @@ public class Booking {
     @NotBlank(message = "Email can't be blank")
     private String guestEmail;
 
-    @Pattern(regexp = "\\d{11}", message = "Phone number must be a 11-digit number")
+    @Pattern(regexp = "^\\+?(88)?01[0-9]{9}", message = "Phone number must be valid")
     @NotBlank(message = "Phone number can't be blank")
     private String guestPhoneNumber;
 
