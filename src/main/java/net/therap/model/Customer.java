@@ -38,7 +38,7 @@ public class Customer {
             message = "Password must contain at least one uppercase letter, one lowercase letter, and one digit")
     private String password;
 
-    @Pattern(regexp = "\\d{11}", message = "Phone number must be a 11-digit number")
+    @Pattern(regexp = "^\\+?(88)?01[0-9]{9}\\b", message = "Phone number must be valid")
     private String phoneNumber;
 
     @NotNull(message = "Date of Birth can not be null")
