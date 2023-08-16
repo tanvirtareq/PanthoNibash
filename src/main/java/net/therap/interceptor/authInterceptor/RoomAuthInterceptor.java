@@ -1,6 +1,5 @@
 package net.therap.interceptor.authInterceptor;
 
-import net.therap.model.Hotel;
 import net.therap.model.Room;
 import net.therap.model.SessionContext;
 import net.therap.service.RoomService;

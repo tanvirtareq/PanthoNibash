@@ -4,6 +4,7 @@ import net.therap.model.*;
 import net.therap.service.CustomerService;
 import org.springframework.ui.Model;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -89,5 +90,31 @@ public class Util {
         double weight = Math.sqrt(numberOfDaysStaying * (yearOfCheckIngDate - yearOfHotelRegistration + 1) / 1000.0);
 
         return weight;
+    }
+
+    public static boolean canCancelBooking(Booking booking, SessionContext sessionContext) {
+        return sessionContext != null && "HOTEL".equals(sessionContext.getRole())
+                && sessionContext.getId().equals(booking.getRoom().getHotel().getId())
+                && booking.getCheckInDate().isAfter(LocalDate.now());
+    }
+
+    public static String generateHotelProfileUrl(Long hotelId) {
+        return "/hotel/" + hotelId;
+    }
+
+    public static String generateBookingListUrl(Long hotelId) {
+        return "/hotel/" + hotelId + "/bookingList";
+    }
+
+    public static String generateBookingDetailsUrl(Long bookingId) {
+        return "/booking/" + bookingId;
+    }
+
+    public static String generateRoomUrl(Long roomId) {
+        return "/room/" + roomId;
+    }
+
+    public static String generateRoomBookUrl(Long roomId) {
+        return "/room/" + roomId + "/book";
     }
 }

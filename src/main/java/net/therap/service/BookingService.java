@@ -38,4 +38,9 @@ public class BookingService {
 
         return bookingList;
     }
+
+    @Transactional
+    public void delete(Booking booking) {
+        entityManager.remove(entityManager.merge(booking));
+    }
 }

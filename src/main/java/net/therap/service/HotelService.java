@@ -3,6 +3,7 @@ package net.therap.service;
 import net.therap.model.Booking;
 import net.therap.model.Hotel;
 import net.therap.model.Room;
+import net.therap.model.SessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class HotelService {
                 .setParameter("email", email)
                 .getResultList();
 
-        if (hotels.size() == 0) {
+        if (hotels.isEmpty()) {
             return null;
         }
 
@@ -92,13 +93,13 @@ public class HotelService {
                 .filter(booking -> checkOutDate == null
                         || booking.getCheckOutDate().equals(checkOutDate))
                 .filter(booking -> roomNumber == null
-                        || "".equals(roomNumber)
+                        || roomNumber.isEmpty()
                         || booking.getRoomNumber().equals(roomNumber))
                 .filter(booking -> customerName == null
-                        || "".equals(customerName)
+                        || customerName.isEmpty()
                         || booking.getCustomer().getName().equals(customerName))
                 .filter(booking -> customerEmail == null
-                        || "".equals(customerEmail)
+                        || customerEmail.isEmpty()
                         || booking.getCustomer().getEmail().equals(customerEmail))
                 .filter(booking -> roomType == null
                         || booking.getRoom().getType().equals(roomType))
@@ -159,5 +160,22 @@ public class HotelService {
     @Transactional
     public void merge(Hotel hotel) {
         entityManager.merge(hotel);
+    }
+
+    public boolean hasBookingManipulationAuthorization(Long hotelId, Long bookingId, SessionContext sessionContext) {
+
+        Hotel hotel = entityManager.find(Hotel.class, hotelId);
+
+        return hotelLoggedIn(sessionContext, hotelId )
+                && hotel.getRooms().stream().anyMatch(room -> hasBookingId(room, bookingId));
+    }
+
+    private boolean hotelLoggedIn(SessionContext sessionContext, Long hotelId) {
+        return sessionContext!=null && "HOTEL".equals(sessionContext.getRole())
+                && hotelId.equals(sessionContext.getId());
+    }
+
+    private boolean hasBookingId(Room room, Long bookingId) {
+        return room.getBookings().stream().anyMatch(booking -> booking.getId().equals(bookingId));
     }
 }

@@ -126,17 +126,14 @@
                         border-radius: 4px; cursor: pointer; font-size: 16px; margin: 2px; width: 200px;">
             Download as PDF
         </button>
-        <c:if test="${booking.customer != null && booking.review==null && sessionContext!=null
-  && sessionContext.role==customerRole  && booking.customer.id == sessionContext.id}">
-            <a href="${pageContext.request.contextPath}/customer/${booking.customer.id}/booking/${booking.id}/addReview"
-               style="text-decoration: none;">
+        <c:forEach items="${buttonDtoList}" var="buttonDto">
+            <a href="${buttonDto.link}" style="text-decoration: none;">
                 <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
                         border-radius: 4px; cursor: pointer; font-size: 16px; margin: 2px; width: 200px;">
-                    Add Review
+                    <c:out value="${buttonDto.name}"/>
                 </button>
             </a>
-
-        </c:if>
+        </c:forEach>
     </div>
 
 </div>
