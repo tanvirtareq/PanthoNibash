@@ -129,7 +129,7 @@
         <c:forEach items="${buttonDtoList}" var="buttonDto">
             <a href="${buttonDto.link}" style="text-decoration: none;">
                 <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
-                        border-radius: 4px; cursor: pointer; font-size: 16px; margin: 2px; width: 200px;">
+                        border-radius: 4px; cursor: pointer; font-size: 16px; margin: 2px; width: 200px; height: 70px">
                     <c:out value="${buttonDto.name}"/>
                 </button>
             </a>

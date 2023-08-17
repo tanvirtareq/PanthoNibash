@@ -45,7 +45,7 @@ public class Room {
     @Transient
     private String roomImageBase64Image;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "room", orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 
     public Long getNumberOfRoom() {

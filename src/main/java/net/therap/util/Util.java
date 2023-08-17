@@ -117,4 +117,29 @@ public class Util {
     public static String generateRoomBookUrl(Long roomId) {
         return "/room/" + roomId + "/book";
     }
+
+    public static String generateCancelBookingLink(Booking booking) {
+        return "/hotel/" + booking.getRoom().getHotel().getId() + "/booking/" + booking.getId() + "/cancel";
+    }
+
+    public static String generateAddReviewLink(Booking booking) {
+        return "/customer/" + booking.getCustomer().getId() + "/booking/" + booking.getId() + "/addReview";
+    }
+
+    public static boolean canAddReview(Booking booking, SessionContext sessionContext) {
+        return booking.getReview() == null && sessionContext != null && "CUSTOMER".equals(sessionContext.getRole())
+                && sessionContext.getId().equals(booking.getCustomer().getId())
+                && booking.getCheckOutDate().isBefore(LocalDate.now());
+    }
+
+    public static boolean canUpdateBookingCheckoutDate(Booking booking, SessionContext sessionContext) {
+        return sessionContext != null && "HOTEL".equals(sessionContext.getRole())
+                && sessionContext.getId().equals(booking.getRoom().getHotel().getId())
+                && booking.getCheckOutDate().isAfter(LocalDate.now());
+    }
+
+    public static String generateUpdateBookingCheckoutDate(Booking booking) {
+        return "/hotel/" + booking.getRoom().getHotel().getId() + "/booking/" + booking.getId()
+                + "/update-booking-checkout-date";
+    }
 }

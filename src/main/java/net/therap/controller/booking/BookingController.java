@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,31 +34,21 @@ public class BookingController {
 
         List<ButtonDto> buttonDtoList = new ArrayList<>();
 
-        if (canAddReview(booking, sessionContext)) {
-            buttonDtoList.add(new ButtonDto("Add Review", generateAddReviewLink(booking)));
+        if (Util.canAddReview(booking, sessionContext)) {
+            buttonDtoList.add(new ButtonDto("Add Review", Util.generateAddReviewLink(booking)));
         }
 
         if (Util.canCancelBooking(booking, sessionContext)) {
-            buttonDtoList.add(new ButtonDto("Cancel Booking", generateCancelBookingLink(booking)));
+            buttonDtoList.add(new ButtonDto("Cancel Booking", Util.generateCancelBookingLink(booking)));
+        }
+
+        if (Util.canUpdateBookingCheckoutDate(booking, sessionContext)) {
+            buttonDtoList.add(new ButtonDto("Update Checkout Date",
+                    Util.generateUpdateBookingCheckoutDate(booking)));
         }
 
         model.addAttribute("buttonDtoList", buttonDtoList);
 
         return "booking/showBookingDetails";
-    }
-
-    private String generateCancelBookingLink(Booking booking) {
-        return "/hotel/" + booking.getRoom().getHotel().getId() + "/booking/" + booking.getId() + "/cancel";
-    }
-
-
-    private String generateAddReviewLink(Booking booking) {
-        return "/customer/" + booking.getCustomer().getId() + "/booking/" + booking.getId() + "/addReview";
-    }
-
-    private boolean canAddReview(Booking booking, SessionContext sessionContext) {
-        return booking.getReview() == null && sessionContext != null && "CUSTOMER".equals(sessionContext.getRole())
-                && sessionContext.getId().equals(booking.getCustomer().getId())
-                && booking.getCheckOutDate().isBefore(LocalDate.now());
     }
 }

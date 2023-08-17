@@ -52,7 +52,7 @@ public class Customer {
     @Transient
     private String profilePicBase64Image;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 
     public Long getId() {

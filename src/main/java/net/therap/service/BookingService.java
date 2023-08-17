@@ -43,4 +43,9 @@ public class BookingService {
     public void delete(Booking booking) {
         entityManager.remove(entityManager.merge(booking));
     }
+
+    @Transactional
+    public void update(Booking booking) {
+        entityManager.merge(booking);
+    }
 }
