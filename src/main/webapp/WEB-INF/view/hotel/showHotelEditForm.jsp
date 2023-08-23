@@ -6,27 +6,27 @@
 <html>
 <head>
     <title>Hotel Edit</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/signupPage.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
+    <link rel="stylesheet" href="/assets/css/signupPage.css">
+    <link rel="stylesheet" href="/assets/css/customStyle.css">
 </head>
 <body>
 
 <div class="signup-container custom-card">
     <h2 class="signup-title">Hotel Edit</h2>
-    <form:form action="${pageContext.request.contextPath}/hotel/${hotel.id}/edit" method="post" modelAttribute="hotel">
+    <form:form action="/hotel/${hotel.id}/edit" method="post" modelAttribute="hotel">
         <div class="form-group">
             <label for="name">Name:</label>
-            <form:input type="text" class="form-control" path="name" placeholder="Name"/>
+            <form:input type="text" class="form-control" path="name" />
             <form:errors path="name" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
             <label for="phoneNumber">Phone Number:</label>
-            <form:input type="text" class="form-control" path="phoneNumber" placeholder="Phone Number" required="true"/>
+            <form:input type="text" class="form-control" path="phoneNumber" required="true"/>
             <form:errors path="phoneNumber" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
             <label for="location">Location:</label>
-            <form:input type="text" class="form-control" path="location" placeholder="Location"/>
+            <form:input type="text" class="form-control" path="location" />
             <form:errors path="location" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">

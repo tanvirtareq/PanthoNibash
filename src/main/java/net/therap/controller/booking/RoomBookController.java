@@ -3,6 +3,7 @@ package net.therap.controller.booking;
 import net.therap.dto.ButtonDto;
 import net.therap.dto.ErrorMessageDto;
 import net.therap.dto.SuccessMessageDto;
+import net.therap.helper.Helper;
 import net.therap.model.Booking;
 import net.therap.model.Room;
 import net.therap.model.SessionContext;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -48,6 +50,9 @@ public class RoomBookController {
     @Autowired
     private BookingValidator bookingValidator;
 
+    @Autowired
+    private Helper helper;
+
     @InitBinder("booking")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(bookingValidator);
@@ -72,8 +77,8 @@ public class RoomBookController {
 
     @PostMapping("/book")
     public String processRoomBook(@PathVariable Long roomId, @ModelAttribute("booking") @Valid Booking booking,
-                                  BindingResult bindingResult, Model model, HttpSession httpSession) {
-
+                                  BindingResult bindingResult, Model model, HttpSession httpSession,
+                                  HttpServletRequest request) {
 
         SessionContext sessionContext = (SessionContext) httpSession.getAttribute("sessionContext");
 
@@ -108,29 +113,38 @@ public class RoomBookController {
         booking.setRoomNumber(roomService.getRoomNumber(room, booking.getCheckInDate(), booking.getCheckOutDate()));
         booking.setRoom(room);
 
-        return "booking/guestImageUpload";
+        helper.imageUploadHelper(model, request, "guest.photo.upload.heading",
+                helper.guestImageUploadLink(roomId));
+
+        return "imageUpload";
     }
 
     @PostMapping("/book/guestImageUpload")
-    public String uploadProfilePicture(@RequestParam("guestImage") CommonsMultipartFile guestImage,
-                                       @SessionAttribute(name = "booking") Booking booking, Model model,
-                                       @PathVariable String roomId) {
+    public String uploadProfilePicture(@RequestParam CommonsMultipartFile image,
+                                       @SessionAttribute Booking booking, Model model,
+                                       @PathVariable Long roomId, HttpServletRequest request) {
 
 
-        if (guestImage.isEmpty()) {
+        if (image.isEmpty()) {
             model.addAttribute("error", "Please select an Image.");
+            helper.imageUploadHelper(model, request, "guest.photo.upload.heading",
+                    helper.guestImageUploadLink(roomId));
 
-            return "booking/guestImageUpload";
+            return "imageUpload";
         }
 
-        String extension = FilenameUtils.getExtension(guestImage.getOriginalFilename());
+        String extension = FilenameUtils.getExtension(image.getOriginalFilename());
 
         if (!Util.allowedImageExtension(extension, model)) {
-            return "booking/guestImageUpload";
+            model.addAttribute("error", "Please select an Image.");
+            helper.imageUploadHelper(model, request, "guest.photo.upload.heading",
+                    helper.guestImageUploadLink(roomId));
+
+            return "imageUpload";
         }
 
         try {
-            byte[] guestImageData = IOUtils.toByteArray(guestImage.getInputStream());
+            byte[] guestImageData = IOUtils.toByteArray(image.getInputStream());
             booking.setGuestImage(guestImageData);
             bookingService.save(booking);
 
@@ -147,7 +161,11 @@ public class RoomBookController {
         } catch (IOException e) {
             model.addAttribute("error", "Failed to upload the Image.");
 
-            return "booking/guestImageUpload";
+            model.addAttribute("error", "Please select an Image.");
+            helper.imageUploadHelper(model, request, "guest.photo.upload.heading",
+                    helper.guestImageUploadLink(roomId));
+
+            return "imageUpload";
         }
     }
 }

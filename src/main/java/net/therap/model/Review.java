@@ -1,31 +1,35 @@
 package net.therap.model;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * @author tanvirtareq
  * @since 7/13/23
  */
 @Entity
-@Table
-public class Review {
+@Table(name = "review")
+public class Review implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
 
     @NotBlank(message = "Review cannot be blank")
-    private String review;
+    @Column(updatable = false)
+    @Size(max = 500, message = "{string.max.size}")
+    private String description;
 
     @Min(value = 1, message = "Rating must be at least 1")
     @Max(value = 5, message = "Rating must be at most 5")
+    @Column(updatable = false)
     private int rating;
 
-    @OneToOne
-    @JoinColumn(name = "booking_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private Booking booking;
 
     public Long getId() {
@@ -36,12 +40,12 @@ public class Review {
         this.id = id;
     }
 
-    public String getReview() {
-        return review;
+    public String getDescription() {
+        return description;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setDescription(String review) {
+        this.description = review;
     }
 
     public int getRating() {
@@ -64,7 +68,7 @@ public class Review {
     public String toString() {
         return "Review{" +
                 "id=" + id +
-                ", review='" + review + '\'' +
+                ", review='" + description + '\'' +
                 ", rating=" + rating +
                 '}';
     }

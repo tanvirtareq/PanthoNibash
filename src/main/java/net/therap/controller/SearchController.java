@@ -2,6 +2,7 @@ package net.therap.controller;
 
 import net.therap.dto.SearchRoomFilter;
 import net.therap.model.Room;
+import net.therap.model.RoomType;
 import net.therap.service.HotelService;
 import net.therap.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,10 @@ public class SearchController {
     @Value("#{facilityOptions}")
     private Map<String, String> facilityOptions;
 
-    @Value("#{roomTypeOptions}")
-    private Map<String, String> roomTypeOptions;
+    @ModelAttribute("roomTypeOptions")
+    public RoomType[] roomTypeOptions() {
+        return RoomType.values();
+    }
 
     @GetMapping("/search")
     public String searchRooms(@ModelAttribute("searchRoomFilter") SearchRoomFilter searchRoomFilter,
@@ -47,7 +50,6 @@ public class SearchController {
 
         model.addAttribute("searchResults", searchResults);
         model.addAttribute("facilityOptions", facilityOptions);
-        model.addAttribute("roomTypeOptions", roomTypeOptions);
         model.addAttribute("searchRoomFilter", new SearchRoomFilter());
 
         return "search";

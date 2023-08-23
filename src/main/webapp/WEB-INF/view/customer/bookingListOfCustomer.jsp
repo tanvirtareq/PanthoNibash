@@ -1,18 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customTable.css">
-    <title>Customer Booking List</title>
+    <link rel="stylesheet" href="/assets/css/customStyle.css">
+    <link rel="stylesheet" href="/assets/css/customTable.css">
+    <title><spring:message code="customer.bookinglist.page.title" arguments="${customer.name}" /></title>
 </head>
 <body>
 <header class="custom-header">
-    <h1>Customer's Booking List - ${customer.name}</h1>
+    <h1><spring:message code="customer.bookinglist.page.header" arguments="${customer.name}" /></h1>
 </header>
 
 <div class="container-xxl">
@@ -21,27 +21,24 @@
             <div class="container">
                 <div class="card custom-card">
                     <div class="card-body">
-                        <form action="${pageContext.request.contextPath}/customer/${customer.id}/bookingList" method="GET">
+                        <form action="/customer/${customer.id}/bookingList" method="GET">
                             <div class="mb-3">
-                                <label class="form-label" for="checkInDate">Check-in Date:</label>
+                                <label class="form-label" for="checkInDate"><spring:message code="customer.bookinglist.page.checkinDate" /></label>
                                 <input type="date" class="form-control" id="checkInDate" name="checkInDate"
-                                       placeholder="Check-in Date">
+                                       placeholder="<spring:message code="customer.bookinglist.page.checkinDate.placeholder" />">
                             </div>
-
                             <div class="mb-3">
-                                <label class="form-label" for="checkOutDate">Check-out Date:</label>
+                                <label class="form-label" for="checkOutDate"><spring:message code="customer.bookinglist.page.checkoutDate" /></label>
                                 <input type="date" class="form-control" id="checkOutDate" name="checkOutDate"
-                                       placeholder="Check-out Date">
+                                       placeholder="<spring:message code="customer.bookinglist.page.checkoutDate.placeholder" />">
                             </div>
-
                             <div class="mb-3">
-                                <label class="form-label" for="hotelName">Hotel Name:</label>
+                                <label class="form-label" for="hotelName"><spring:message code="customer.bookinglist.page.hotelName" /></label>
                                 <input type="text" class="form-control" id="hotelName" name="hotelName"
-                                       placeholder="Hotel Name">
+                                       placeholder="<spring:message code="customer.bookinglist.page.hotelName.placeholder" />">
                             </div>
-
                             <div class="mb-3">
-                                <label class="form-label">Room type:</label>
+                                <label class="form-label"><spring:message code="customer.bookinglist.page.roomType" /></label>
                                 <c:forEach items="${roomTypeOptions}" var="option">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="roomType"
@@ -50,56 +47,50 @@
                                     </div>
                                 </c:forEach>
                             </div>
-
-                            <button type="submit" class="btn btn-primary">Filter</button>
+                            <button type="submit" class="btn btn-primary"><spring:message code="customer.bookinglist.page.filter" /></button>
                         </form>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
         <div class="col-md-10">
             <div class="container-xxl">
                 <table id="bookingTable" class="custom-card">
                     <thead>
                     <tr>
-                        <th>Guest Photo</th>
+                        <th><spring:message code="customer.bookinglist.page.guestPhoto" /></th>
                         <th>
-                            Guest Name
+                            <spring:message code="customer.bookinglist.page.guestName" />
                         </th>
                         <th>
-                            Guest Email
+                            <spring:message code="customer.bookinglist.page.guestEmail" />
                         </th>
                         <th>
-                            Guest Phone Number
+                            <spring:message code="customer.bookinglist.page.guestPhoneNumber" />
                         </th>
                         <th>
-                            Hotel Name
+                            <spring:message code="customer.bookinglist.page.hotelName" />
                         </th>
                         <th>
-                            Room Number
+                            <spring:message code="customer.bookinglist.page.roomNumber" />
                         </th>
                         <th>
-                            Check-in Date
+                            <spring:message code="customer.bookinglist.page.checkinDate" />
                         </th>
                         <th>
-                            Check-out Date
+                            <spring:message code="customer.bookinglist.page.checkoutDate" />
                         </th>
                         <th>
-                            Room Type
+                            <spring:message code="customer.bookinglist.page.roomType" />
                         </th>
-                        <th>Booking Details</th>
-
+                        <th><spring:message code="customer.bookinglist.page.bookingDetails" /></th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${bookingList}" var="booking">
                         <tr>
                             <td>
-                                <img src="data:image/jpeg;base64,${booking.guestImageBase64Image}" alt="Guest"
+                                <img src="data:image/jpeg;base64,${booking.guestImageBase64Image}" alt="<spring:message code="customer.bookinglist.page.guestPhoto.alt" />"
                                      class="customer-image">
                             </td>
                             <td class="first-letter-capital">${booking.guestName}</td>
@@ -111,7 +102,7 @@
                             <td>${booking.checkOutDate}</td>
                             <td class="first-letter-capital">${booking.room.type}</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/booking/${booking.id}" class="btn btn-primary">Details</a>
+                                <a href="/booking/${booking.id}" class="btn btn-primary"><spring:message code="customer.bookinglist.page.bookingDetails.button" /></a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -122,6 +113,7 @@
     </div>
 </div>
 
-<script src="${pageContext.request.contextPath}/assets/js/bookingTable.js"></script>
+<script src="/assets/js/bookingTable.js"></script>
+
 </body>
 </html>

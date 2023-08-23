@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -8,24 +8,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guest Photo</title>
+    <title><spring:message code="page.title" /></title>
 </head>
 <body>
 
 <div class="container">
-    <div class="h2 text-center mt-5">Guest Photo Upload</div>
-    <form:form action="${pageContext.request.contextPath}/room/${roomId}/book/guestImageUpload" method="post"
-               enctype="multipart/form-data">
+    <h2 class="text-center mt-5"><c:out value="${headerMessage}"/></h2>
+    <form:form action="/${postMappingLink}" method="post" enctype="multipart/form-data">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="guestImage">Guest Photo</label>
-                    <input type="file" id="guestImage" name="guestImage" class="form-control"/>
+                    <label for="image"><spring:message code="label.image" /></label>
+                    <input type="file" id="image" name="image" class="form-control"/>
                 </div>
                 <c:if test="${not empty error}">
                     <div class="alert alert-danger">${error}</div>
                 </c:if>
-                <button type="submit" class="btn btn-primary">Upload</button>
+                <button type="submit" class="btn btn-primary"><spring:message code="upload.button.label" /></button>
             </div>
         </div>
     </form:form>

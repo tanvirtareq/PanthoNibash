@@ -1,12 +1,11 @@
 package net.therap.model;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
+import net.therap.constants.PatternConstants;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Base64;
 
@@ -15,27 +14,32 @@ import java.util.Base64;
  * @since 7/13/23
  */
 @Entity
-@Table
-public class Booking {
+@Table(name = "booking")
+public class Booking implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false, updatable = false)
+    @Size(max = 20)
     private String roomNumber;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn
     private Customer customer;
 
-    @NotBlank(message = "Name can't be blank")
+    @NotBlank(message = "{Name.can.not.be.blank}")
+    @Column(updatable = false)
+    @Size(max = 50, message = "{string.max.size}")
     private String guestName;
 
-    @Email(message = "Email should be a valid email address")
-    @NotBlank(message = "Email can't be blank")
+    @Email(message = "{Email.should.be.valid}")
+    @NotBlank(message = "{Email.can.not.be.blank}")
+    @Size(max = 50, message = "{string.max.size}")
     private String guestEmail;
 
-    @Pattern(regexp = "^\\+?(88)?01[0-9]{9}", message = "Phone number must be valid")
-    @NotBlank(message = "Phone number can't be blank")
+    @Pattern(regexp = PatternConstants.PHONE_NUMBER_PATTERN, message = "{Phone.number.must.be.valid}")
+    @NotBlank(message = "{Phone.number.can.not.be.blank}")
     private String guestPhoneNumber;
 
     @Lob
@@ -46,19 +50,19 @@ public class Booking {
     private String guestImageBase64Image;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = PatternConstants.DATE_FORMAT_PATTERN)
     private LocalDate checkInDate;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = PatternConstants.DATE_FORMAT_PATTERN)
     private LocalDate checkOutDate;
 
-    @ManyToOne
-    @JoinColumn(name = "room_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private Room room;
 
-    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "review_id")
+    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn
     private Review review;
 
     public Long getId() {

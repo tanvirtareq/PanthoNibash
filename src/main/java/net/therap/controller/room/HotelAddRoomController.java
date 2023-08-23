@@ -2,6 +2,7 @@ package net.therap.controller.room;
 
 import net.therap.dto.ButtonDto;
 import net.therap.dto.SuccessMessageDto;
+import net.therap.helper.Helper;
 import net.therap.model.Room;
 import net.therap.service.HotelService;
 import net.therap.util.Util;
@@ -17,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +45,9 @@ public class HotelAddRoomController {
     @Autowired
     private RoomNumberValidator roomNumberValidator;
 
+    @Autowired
+    private Helper helper;
+
     @GetMapping("/addRoom")
     public String addRoom(@PathVariable Long hotelId, Model model) {
 
@@ -55,13 +60,9 @@ public class HotelAddRoomController {
 
     @PostMapping("/addRoom")
     public String processAddRoom(@PathVariable Long hotelId, @ModelAttribute @Valid Room room,
-                                 BindingResult bindingResult, Model model) {
-
-        LOGGER.info(room);
+                                 BindingResult bindingResult, Model model, HttpServletRequest request) {
 
         roomNumberValidator.validateRoomNumbers(hotelId, room, bindingResult);
-
-        LOGGER.info(bindingResult);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("room", room);
@@ -71,33 +72,36 @@ public class HotelAddRoomController {
             return "room/addRoom";
         }
 
-        model.addAttribute("hotelId", hotelId);
+        helper.imageUploadHelper(model, request, "room.image.upload.page.heading",
+                helper.roomImageUploadLink(hotelId));
 
-        return "room/roomImageUpload";
+        return "imageUpload";
     }
 
     @PostMapping("/addRoom/roomImageUpload")
     public String uploadRoomImage(@PathVariable Long hotelId,
-                                  @RequestParam("roomImage") CommonsMultipartFile roomImage,
-                                  @SessionAttribute(name = "room") Room room, Model model) {
+                                  @RequestParam CommonsMultipartFile image,
+                                  @SessionAttribute Room room, Model model, HttpServletRequest request) {
 
-        if (roomImage.isEmpty()) {
+        if (image.isEmpty()) {
             model.addAttribute("error", "Please select a Room Image.");
-            model.addAttribute("hotelId", hotelId);
+            helper.imageUploadHelper(model, request, "room.image.upload.page.heading",
+                    helper.roomImageUploadLink(hotelId));
 
-            return "room/roomImageUpload";
+            return "imageUpload";
         }
 
-        String extension = FilenameUtils.getExtension(roomImage.getOriginalFilename());
+        String extension = FilenameUtils.getExtension(image.getOriginalFilename());
 
         if (!Util.allowedImageExtension(extension, model)) {
-            model.addAttribute("hotelId", hotelId);
+            helper.imageUploadHelper(model, request, "room.image.upload.page.heading",
+                    helper.roomImageUploadLink(hotelId));
 
-            return "room/roomImageUpload";
+            return "imageUpload";
         }
 
         try {
-            byte[] roomImageData = IOUtils.toByteArray(roomImage.getInputStream());
+            byte[] roomImageData = IOUtils.toByteArray(image.getInputStream());
             room.setRoomImage(roomImageData);
 
             hotelService.addRoom(hotelId, room);
@@ -115,9 +119,10 @@ public class HotelAddRoomController {
 
         } catch (IOException e) {
             model.addAttribute("error", "Failed to upload the Room Image.");
-            model.addAttribute("hotelId", hotelId);
+            helper.imageUploadHelper(model, request, "room.image.upload.page.heading",
+                    helper.roomImageUploadLink(hotelId));
 
-            return "room/roomImageUpload";
+            return "imageUpload";
         }
     }
 }

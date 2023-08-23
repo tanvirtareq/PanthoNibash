@@ -1,14 +1,17 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 <head>
-    <title>Pantho Nibash</title>
+    <title><spring:message code="page.title"/></title>
 </head>
 <body>
+
 <footer class="footer py-3 bg-light">
     <div class="container text-center">
-        <span class="text-muted">&copy; 2023 Pantho Nibash. All rights reserved.</span>
+        <span class="text-muted"><spring:message code="footer.copyright"/></span>
     </div>
 </footer>
+
 </body>
 </html>

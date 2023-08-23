@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: tanvirtareq
@@ -9,20 +10,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Pantho Nibash</title>
-
+    <title><spring:message code="page.title"/></title>
 </head>
 <body>
+
 <div class="container text-center alert alert-danger">
     <div class="h1">
-        <strong>Error!</strong>
+        <strong><spring:message code="error.title"/></strong>
     </div>
     <div class="h3">
         <div class="text">
             <c:out value="${errorMessageDto.message}"/>
         </div>
     </div>
-
     <c:forEach items="${errorMessageDto.buttonList}" var="button">
         <a href="${button.link}">
             <button class="btn btn-primary">
@@ -30,7 +30,6 @@
             </button>
         </a>
     </c:forEach>
-
 </div>
 
 </body>

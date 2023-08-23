@@ -12,6 +12,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public String allExceptions() {
-        return "error";
+        return "label.error";
     }
 }

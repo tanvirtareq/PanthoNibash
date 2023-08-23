@@ -1,13 +1,11 @@
 package net.therap.model;
 
+import net.therap.constants.PatternConstants;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -18,41 +16,47 @@ import java.util.List;
  * @since 7/13/23
  */
 @Entity
-@Table
-public class Hotel {
+@Table(name = "hotel")
+public class Hotel implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
 
-    @NotBlank(message = "Name can't be blank")
+    @NotBlank(message = "{Name.can.not.be.blank}")
+    @Size(max = 50, message = "{string.max.size}")
     private String name;
 
-    @Email(message = "Email should be a valid email address")
-    @Column(unique = true)
+    @Email(message = "{Email.should.be.valid}")
+    @Column(unique = true, updatable = false)
+    @Size(max = 50, message = "{string.max.size}")
     private String email;
 
-    @NotBlank(message = "Password cannot be blank")
-    @Size(min = 2, max = 200, message = "Password must be between 2 and 200 characters long")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).*$",
-            message = "Password must contain at least one uppercase letter, one lowercase letter, and one digit")
+    @NotBlank(message = "{Password.cannot.be.blank}")
+    @Size(min = 3, max = 200, message = "{Password.length.invalid}")
+    @Pattern(regexp = PatternConstants.PASSWORD_PATTERN, message = "{Password.invalid.format}")
     private String password;
 
-    @Pattern(regexp = "^\\+?(88)?01[0-9]{9}", message = "Phone number must be valid")
+    @Pattern(regexp = PatternConstants.PHONE_NUMBER_PATTERN, message = "{Phone.number.must.be.valid}")
     private String phoneNumber;
 
-    @NotBlank(message = "Location can not be null")
+    @NotBlank(message = "{Location.can.not.be.null}")
+    @Size(max = 50, message = "{string.max.size}")
     private String location;
 
-    @NotNull(message = "Parking Facility can not be null")
+    @NotNull(message = "{Parking.Facility.can.not.be.null}")
+    @Size(max = 10, message = "{string.max.size}")
     private String parkingFacility;
 
-    @NotNull(message = "Swimming pool can not be null")
+    @NotNull(message = "{Swimming.Pool.can.not.be.null}")
+    @Size(max = 10, message = "{string.max.size}")
     private String swimmingPool;
 
-    @NotNull(message = "Fitness centre can not be null")
+    @NotNull(message = "{Fitness.Centre.can.not.be.null}")
+    @Size(max = 10, message = "{string.max.size}")
     private String fitnessCentre;
 
-    @NotNull(message = "Wifi Facility can not be null")
+    @NotNull(message = "{Wifi.Facility.can.not.be.null}")
+    @Size(max = 10, message = "{string.max.size}")
     private String wifiFacility;
 
     @Lob
@@ -67,10 +71,14 @@ public class Hotel {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Room> rooms = new ArrayList<>();
+    private List<Room> rooms;
 
-    @OneToOne(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "rating_id")
+    public Hotel() {
+        this.rooms= new ArrayList<>();
+    }
+
+    @OneToOne(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn
     private Rating rating;
 
     public byte[] getHotelImage() {

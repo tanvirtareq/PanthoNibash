@@ -2,6 +2,7 @@ package net.therap.controller.customer;
 
 import net.therap.dto.ButtonDto;
 import net.therap.dto.SuccessMessageDto;
+import net.therap.helper.Helper;
 import net.therap.model.Customer;
 import net.therap.service.CustomerService;
 import net.therap.util.Util;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +38,9 @@ public class CustomerSignupController {
     @Autowired
     private CustomerValidator customerValidator;
 
+    @Autowired
+    private Helper helper;
+
     @InitBinder("customer")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(customerValidator);
@@ -50,34 +55,45 @@ public class CustomerSignupController {
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute("customer") @Valid Customer customer, BindingResult bindingResult) {
+    public String signup(@ModelAttribute("customer") @Valid Customer customer, BindingResult bindingResult,
+                         Model model, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return "customer/customerSignup";
         }
 
-        return "customer/profilePictureUpload";
+        helper.imageUploadHelper(model, request, "profilePicture.upload.title",
+                "customer/signup/uploadProfilePicture");
+
+        return "imageUpload";
     }
 
     @PostMapping("/signup/uploadProfilePicture")
-    public String uploadProfilePicture(@RequestParam("profilePicture") CommonsMultipartFile profilePicture,
-                                       @SessionAttribute(name = "customer") Customer customer, Model model) {
+    public String uploadProfilePicture(@RequestParam CommonsMultipartFile image,
+                                       @SessionAttribute(name = "customer") Customer customer, Model model,
+                                       HttpServletRequest request) {
 
 
-        if (profilePicture.isEmpty()) {
+        if (image.isEmpty()) {
+            helper.imageUploadHelper(model, request, "profilePicture.upload.title",
+                    "customer/signup/uploadProfilePicture");
+
             model.addAttribute("error", "Please select a profile picture.");
 
-            return "customer/profilePictureUpload";
+            return "imageUpload";
         }
 
-        String extension = FilenameUtils.getExtension(profilePicture.getOriginalFilename());
+        String extension = FilenameUtils.getExtension(image.getOriginalFilename());
 
         if (!Util.allowedImageExtension(extension, model)) {
-            return "customer/profilePictureUpload";
+            helper.imageUploadHelper(model, request, "profilePicture.upload.title",
+                    "customer/signup/uploadProfilePicture");
+
+            return "imageUpload";
         }
 
         try {
-            byte[] profilePictureData = IOUtils.toByteArray(profilePicture.getInputStream());
+            byte[] profilePictureData = IOUtils.toByteArray(image.getInputStream());
             customer.setProfilePicture(profilePictureData);
             customer.setPassword(customerService.encodePassword(customer.getPassword()));
             customerService.save(customer);
@@ -93,9 +109,12 @@ public class CustomerSignupController {
             return "successMessage";
 
         } catch (IOException e) {
+            helper.imageUploadHelper(model, request, "profilePicture.upload.title",
+                    "customer/signup/uploadProfilePicture");
+
             model.addAttribute("error", "Failed to upload the profile picture.");
 
-            return "customer/profilePictureUpload";
+            return "imageUpload";
         }
     }
 }

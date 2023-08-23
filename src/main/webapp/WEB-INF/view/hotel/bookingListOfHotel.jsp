@@ -1,19 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hotel Booking List</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customTable.css">
-
+  <title><spring:message code="hotel.bookingList.title" /></title>
+  <link rel="stylesheet" href="/assets/css/customStyle.css">
+  <link rel="stylesheet" href="/assets/css/customTable.css">
 </head>
 <body>
+
 <header class="custom-header">
-  <h1>Hotel Booking List - ${hotel.name}</h1>
+  <h1><spring:message code="hotel.bookingList.header" /> - ${hotel.name}</h1>
 </header>
 
 <div class="container-xxl">
@@ -24,36 +25,32 @@
           <div class="card-body">
             <form action="/hotel/${hotel.id}/bookingList" method="GET">
               <div class="mb-3">
-                <label class="form-label" for="checkInDate">Check-in Date:</label>
+                <label class="form-label" for="checkInDate"><spring:message code="hotel.bookingList.checkInDate" /></label>
                 <input type="date" class="form-control" id="checkInDate" name="checkInDate"
-                       placeholder="Check-in Date">
+                       placeholder="<spring:message code="hotel.bookingList.checkInDate.placeholder" />">
               </div>
-
               <div class="mb-3">
-                <label class="form-label" for="checkOutDate">Check-out Date:</label>
+                <label class="form-label" for="checkOutDate"><spring:message code="hotel.bookingList.checkOutDate" /></label>
                 <input type="date" class="form-control" id="checkOutDate" name="checkOutDate"
-                       placeholder="Check-out Date">
+                       placeholder="<spring:message code="hotel.bookingList.checkOutDate.placeholder" />">
               </div>
-
               <div class="mb-3">
-                <label class="form-label" for="roomNumber">Room Number:</label>
+                <label class="form-label" for="roomNumber"><spring:message code="hotel.bookingList.roomNumber" /></label>
                 <input type="text" class="form-control" id="roomNumber" name="roomNumber"
-                       placeholder="Room Number">
+                       placeholder="<spring:message code="hotel.bookingList.roomNumber.placeholder" />">
               </div>
-
               <div class="mb-3">
-                <label class="form-label" for="customerName">Customer Name:</label>
+                <label class="form-label" for="customerName"><spring:message code="hotel.bookingList.customerName" /></label>
                 <input type="text" class="form-control" id="customerName" name="customerName"
-                       placeholder="Customer Name">
+                       placeholder="<spring:message code="hotel.bookingList.customerName.placeholder" />">
               </div>
-
               <div class="mb-3">
-                <label class="form-label" for="customerEmail">Customer Email:</label>
+                <label class="form-label" for="customerEmail"><spring:message code="hotel.bookingList.customerEmail" /></label>
                 <input type="text" class="form-control" id="customerEmail" name="customerEmail"
-                       placeholder="Customer Email">
+                       placeholder="<spring:message code="hotel.bookingList.customerEmail.placeholder" />">
               </div>
               <div class="mb-3">
-                <label class="form-label">Room type:</label>
+                <label class="form-label"><spring:message code="hotel.bookingList.roomType" /></label>
                 <c:forEach items="${roomTypeOptions}" var="option">
                   <div class="form-check">
                     <input class="form-check-input" type="radio" name="roomType"
@@ -62,52 +59,33 @@
                   </div>
                 </c:forEach>
               </div>
-
-              <button type="submit" class="btn btn-primary">Filter</button>
+              <button type="submit" class="btn btn-primary"><spring:message code="hotel.bookingList.filterButton" /></button>
             </form>
           </div>
-
         </div>
       </div>
-
     </div>
-
     <div class="col-md-9">
       <div class="container-xxl">
         <table id="bookingTable" class="custom-card">
           <thead>
           <tr>
-            <th>Guest Photo</th>
-            <th>
-              Guest Name
-            </th>
-            <th>
-              Guest Email
-            </th>
-            <th>
-              Guest Phone Number
-            </th>
-            <th>
-              Room Number
-            </th>
-            <th>
-              Check-in Date
-            </th>
-            <th>
-              Check-out Date
-            </th>
-            <th>
-              Room Type
-            </th>
-            <th>Booking Details</th>
-
+            <th><spring:message code="hotel.bookingList.guestPhoto" /></th>
+            <th><spring:message code="hotel.bookingList.guestName" /></th>
+            <th><spring:message code="hotel.bookingList.guestEmail" /></th>
+            <th><spring:message code="hotel.bookingList.guestPhoneNumber" /></th>
+            <th><spring:message code="hotel.bookingList.roomNumber" /></th>
+            <th><spring:message code="hotel.bookingList.checkInDate" /></th>
+            <th><spring:message code="hotel.bookingList.checkOutDate" /></th>
+            <th><spring:message code="hotel.bookingList.roomType" /></th>
+            <th><spring:message code="hotel.bookingList.bookingDetails" /></th>
           </tr>
           </thead>
           <tbody>
           <c:forEach items="${bookingList}" var="booking">
             <tr>
               <td>
-                <img src="data:image/jpeg;base64,${booking.guestImageBase64Image}" alt="Guest"
+                <img src="data:image/jpeg;base64,${booking.guestImageBase64Image}" alt="<spring:message code="hotel.bookingList.guestImageAlt" />"
                      class="customer-image">
               </td>
               <td>${booking.guestName}</td>
@@ -118,7 +96,7 @@
               <td>${booking.checkOutDate}</td>
               <td>${booking.room.type}</td>
               <td>
-                <a href="${pageContext.request.contextPath}/booking/${booking.id}" class="btn btn-primary">Details</a>
+                <a href="/booking/${booking.id}" class="btn btn-primary"><spring:message code="hotel.bookingList.bookingDetailsButton" /></a>
               </td>
             </tr>
           </c:forEach>
@@ -129,6 +107,6 @@
   </div>
 </div>
 
-<script src="${pageContext.request.contextPath}/assets/js/bookingTable.js"></script>
+<script src="/assets/js/bookingTable.js"></script>
 </body>
 </html>

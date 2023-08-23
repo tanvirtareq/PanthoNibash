@@ -33,10 +33,6 @@
             <bean id="addReviewInterceptor" class="net.therap.interceptor.AddReviewInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
-            <mvc:mapping path="/booking/*"/>
-            <bean id="bookingDetailsInterceptor" class="net.therap.interceptor.BookingDetailsInterceptor"/>
-        </mvc:interceptor>
-        <mvc:interceptor>
             <mvc:mapping path="/customer/*"/>
             <mvc:exclude-mapping path="/customer/login"/>
             <mvc:exclude-mapping path="/customer/signup/**"/>
@@ -88,10 +84,15 @@
             <bean id="validRoomCheckerInterceptor"
                   class="net.therap.interceptor.validUrlChecker.ValidRoomCheckerInterceptor"/>
         </mvc:interceptor>
+
+    </mvc:interceptors>
+
+    <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/booking/**"/>
-            <bean id="validBookingCheckerInterceptor"
-                  class="net.therap.interceptor.validUrlChecker.ValidBookingCheckerInterceptor"/>
+            <mvc:mapping path="/**"/>
+            <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+                <property name="paramName" value="language" />
+            </bean>
         </mvc:interceptor>
     </mvc:interceptors>
 
@@ -119,6 +120,22 @@
 
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg value="11"/>
+    </bean>
+
+    <mvc:annotation-driven validator="validator"/>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" primary="true">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="en" />
     </bean>
 
     <tx:annotation-driven/>

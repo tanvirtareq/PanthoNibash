@@ -1,8 +1,11 @@
 package net.therap.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -10,17 +13,18 @@ import java.util.*;
  * @since 7/13/23
  */
 @Entity
-@Table
-public class Room {
+@Table(name = "room")
+public class Room implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "hotel_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private Hotel hotel;
 
     @NotNull(message = "Type can not be null")
+    @Size(max = 10, message = "{string.max.size}")
     private String type;
 
     @NotNull
@@ -30,13 +34,12 @@ public class Room {
     @ElementCollection
     @CollectionTable(name = "room_numbers", joinColumns = @JoinColumn(name = "room_id"))
     @Column(name = "room_number")
-    private Set<String> roomNumbers = new HashSet<>();
+    private Set<String> roomNumbers;
 
     @NotNull
     @Min(value = 1, message = "Number of bed must be a positive integer")
+    @Max(value = 5, message = "{maximum.number}")
     private Integer numberOfBed;
-
-    private Long numberOfRoom;
 
     @Lob
     @Column(name = "room_image")
@@ -46,15 +49,11 @@ public class Room {
     private String roomImageBase64Image;
 
     @OneToMany(mappedBy = "room", orphanRemoval = true)
-    private List<Booking> bookings = new ArrayList<>();
+    private List<Booking> bookings;
 
-    public Long getNumberOfRoom() {
-        setNumberOfRoom((long) roomNumbers.size());
-        return numberOfRoom;
-    }
-
-    public void setNumberOfRoom(Long numberOfRoom) {
-        this.numberOfRoom = numberOfRoom;
+    public Room() {
+        this.bookings = new ArrayList<>();
+        this.roomNumbers = new HashSet<>();
     }
 
     public byte[] getRoomImage() {
@@ -148,7 +147,6 @@ public class Room {
                 ", price=" + price +
                 ", roomNumbers=" + roomNumbers +
                 ", numberOfBed=" + numberOfBed +
-                ", numberOfRoom=" + numberOfRoom +
                 '}';
     }
 }

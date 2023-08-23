@@ -1,5 +1,6 @@
 package net.therap.controller.customer;
 
+import net.therap.constants.PatternConstants;
 import net.therap.model.Booking;
 import net.therap.model.Customer;
 import net.therap.service.CustomerService;
@@ -43,9 +44,9 @@ public class CustomerController {
     @GetMapping("/{customerId}/bookingList")
     public String showBookingList(@PathVariable Long customerId, Model model,
                                   @RequestParam(value = "checkInDate", required = false)
-                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkInDate,
+                                  @DateTimeFormat(pattern = PatternConstants.DATE_FORMAT_PATTERN) LocalDate checkInDate,
                                   @RequestParam(value = "checkOutDate", required = false)
-                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkOutDate,
+                                  @DateTimeFormat(pattern = PatternConstants.DATE_FORMAT_PATTERN) LocalDate checkOutDate,
                                   @RequestParam(value = "hotelName", required = false) String hotelName,
                                   @RequestParam(value = "roomType", required = false) String roomType) {
 

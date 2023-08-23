@@ -1,17 +1,23 @@
 package net.therap.model;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.stereotype.Component;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  * @author tanvirtareq
  * @since 7/16/23
  */
+
+@Component
 public class LoginForm {
-    @NotBlank
+    @NotEmpty(message = "{email.not.blank}")
+    @Size(max = 50, message = "{string.max.size}")
     private String email;
 
-    @NotEmpty(message = "Password is required")
+    @NotEmpty(message = "password.required")
+    @Size(max = 300, message = "{string.max.size}")
     private String password;
 
     public String getEmail() {

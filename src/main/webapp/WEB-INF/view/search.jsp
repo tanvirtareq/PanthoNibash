@@ -3,11 +3,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <title>Room Search</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
+    <link rel="stylesheet" href="/assets/css/customStyle.css">
 </head>
 <body>
 
@@ -16,14 +16,15 @@
         <div class="col-md-4 ml-auto">
             <div class="custom-card">
                 <div class="card-body">
-                    <div class="h2 card-title">Room Search</div>
-                    <form:form action="${pageContext.request.contextPath}/search" method="get"
+                    <div class="h2 card-title"><spring:message code="label.room.search"/></div>
+                    <form:form action="/search" method="get"
                                modelAttribute="searchRoomFilter">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label for="parkingFacility">Parking Facility:</label>
+                                        <label for="parkingFacility"><spring:message
+                                                code="label.parking.facility"/></label>
                                         <c:forEach items="${facilityOptions}" var="facilityOption">
                                             <div class="form-check">
                                                 <form:radiobutton class="form-check-input" id="${facilityOption.value}"
@@ -35,9 +36,8 @@
                                             </div>
                                         </c:forEach>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label for="wifiFacility">Wifi facility:</label>
+                                        <label for="wifiFacility"><spring:message code="label.wifi.facility"/> </label>
                                         <c:forEach items="${facilityOptions}" var="facilityOption">
                                             <div class="form-check">
                                                 <form:radiobutton class="form-check-input" id="${facilityOption.value}"
@@ -48,9 +48,9 @@
                                             </div>
                                         </c:forEach>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label for="swimmingPool">Swimming Pool facility:</label>
+                                        <label for="swimmingPool"><spring:message
+                                                code="label.swimming.pool.facility"/> </label>
                                         <c:forEach items="${facilityOptions}" var="facilityOption">
                                             <div class="form-check">
                                                 <form:radiobutton class="form-check-input" id="${facilityOption.value}"
@@ -61,9 +61,9 @@
                                             </div>
                                         </c:forEach>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label for="fitnessCentre">Fitness Centre:</label>
+                                        <label for="fitnessCentre"><spring:message
+                                                code="label.fitness.centre"/> </label>
                                         <c:forEach items="${facilityOptions}" var="facilityOption">
                                             <div class="form-check">
                                                 <form:radiobutton class="form-check-input" id="${facilityOption.value}"
@@ -74,42 +74,38 @@
                                             </div>
                                         </c:forEach>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label for="roomType">Room Type:</label>
+                                        <label for="roomType"><spring:message code="label.room.type"/> </label>
                                         <c:forEach items="${roomTypeOptions}" var="roomTypeOption">
                                             <div class="form-check">
-                                                <form:radiobutton class="form-check-input" id="${roomTypeOption.value}"
-                                                                  path="roomType" value="${roomTypeOption.value}"/>
-                                                <label class="form-check-label" for="${roomTypeOption.value}">
-                                                        ${roomTypeOption.value}
+                                                <form:radiobutton class="form-check-input" id="${roomTypeOption}" path="roomType" value="${roomTypeOption}"/>
+                                                <label class="form-check-label" for="${roomTypeOption}">
+                                                        ${roomTypeOption.displayName} <!-- Display the enum display name -->
                                                 </label>
                                             </div>
                                         </c:forEach>
                                     </div>
-
                                 </div>
-
                                 <div class="col-md-6">
-
                                     <div class="mb-3">
-                                        <label class="form-label" for="hotelName">Hotel name:</label>
+                                        <label class="form-label" for="hotelName"><spring:message
+                                                code="label.hotel.name"/> </label>
                                         <form:input type="text" class="form-control" path="hotelName" id="hotelName"
                                                     name="hotelName"
                                                     placeholder="Hotel name" oninput="searchHotel()"/>
                                         <select id="hotelSelect" class="form-select" size="5"
                                                 style="display: none;"></select>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label class="form-label" for="location">Location:</label>
+                                        <label class="form-label" for="location"><spring:message
+                                                code="label.location"/> </label>
                                         <form:input type="text" class="form-control" path="location" id="location"
                                                     name="location"
                                                     placeholder="Location"/>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label class="form-label" for="priceMin">Price Range:</label>
+                                        <label class="form-label" for="priceMin"><spring:message
+                                                code="label.price.range"/> </label>
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
                                             <form:input type="number" path="priceMin" class="form-control" id="priceMin"
@@ -117,7 +113,6 @@
                                                         placeholder="Min Price"/>
                                         </div>
                                     </div>
-
                                     <div class="mb-3">
                                         <div class="input-group">
                                             <span class="input-group-text">$</span>
@@ -126,104 +121,102 @@
                                                         placeholder="Max Price"/>
                                         </div>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label class="form-label" for="numberOfBed">Number of Beds:</label>
+                                        <label class="form-label" for="numberOfBed"><spring:message
+                                                code="label.number.of.bed"/> </label>
                                         <form:input path="numberOfBed" type="number" class="form-control"
                                                     id="numberOfBed" name="numberOfBed"
                                                     placeholder="Number of Beds"/>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label class="form-label" for="checkIn">Check-In Date:</label>
+                                        <label class="form-label" for="checkIn"><spring:message
+                                                code="label.check.in.date"/> </label>
                                         <form:input path="checkIn" type="date" class="form-control" id="checkIn"
                                                     name="checkIn"/>
                                     </div>
-
                                     <div class="mb-3">
-                                        <label class="form-label" for="checkOut">Check-Out Date:</label>
+                                        <label class="form-label" for="checkOut"><spring:message
+                                                code="label.check.out.date"/> </label>
                                         <form:input path="checkOut" type="date" class="form-control" id="checkOut"
                                                     name="checkOut"/>
                                     </div>
-
                                 </div>
-
                             </div>
                         </div>
-
-                        <button type="submit" class="btn btn-primary">Search</button>
-                        <button type="reset" class="btn btn-primary">Reset</button>
+                        <button type="submit" class="btn btn-primary"><spring:message code="label.search"/></button>
+                        <button type="reset" class="btn btn-primary"><spring:message code="label.reset"/></button>
                     </form:form>
                 </div>
             </div>
         </div>
-
         <div class="col-md-8">
             <div class="custom-card">
                 <div class="card-body" style="height: 800px; overflow-y: auto;">
-                    <div class="h3 card-title">Search Results:</div>
-
+                    <div class="h3 card-title">
+                        <spring:message code="label.search.results"/>
+                    </div>
                     <c:if test="${not empty searchResults}">
                         <c:forEach items="${searchResults}" var="room">
-
                             <div class="custom-card mb-3" style="max-width: 840px;">
                                 <div class="row g-0">
                                     <div class="col-md-6">
-                                        <a href="${pageContext.request.contextPath}/room/${room.id}">
+                                        <a href="/room/${room.id}">
                                             <img
                                                     src="data:image/jpeg;base64,${room.roomImageBase64Image}"
                                                     alt="${room.hotel.name}"
                                                     height="250px"
                                                     width="400px"
                                                     class=" rounded-start img-search-card"
-
                                             />
                                         </a>
-
                                     </div>
                                     <div class="col-md-6">
                                         <div class="card-body">
-                                            <div class="h5 card-title">Hotel: <c:out value="${room.hotel.name}"/></div>
-
-
+                                            <div class="h5 card-title"><spring:message code="label.hotel"/> <c:out
+                                                    value="${room.hotel.name}"/></div>
                                             <div class="card-text">
-
                                                 <c:if test="${room.hotel.rating == null}">
-                                                    <span class="hotel-rating">Rating: No Rating </span>
+                                                    <span class="hotel-rating"><spring:message
+                                                            code="label.rating"/> <spring:message
+                                                            code="label.no.rating"/> </span>
                                                 </c:if>
                                                 <c:if test="${room.hotel.rating != null}">
-                                                    <span class="hotel-rating">Rating:
+                                                    <span class="hotel-rating"><spring:message code="label.rating"/>
                                                         <fmt:formatNumber maxFractionDigits="1"
                                                                           value="${room.hotel.rating.rating}"/>
-                                                        out of 5</span>
+                                                        <spring:message code="label.out.of"/> 5 </span>
                                                 </c:if>
                                                 <br/>
-                                                Room type: <c:out value="${room.type}"/>
+                                                <spring:message code="label.room.type"/> <c:out value="${room.type}"/>
                                                 <br/>
-                                                Location: <c:out value="${room.hotel.location}"/>
+                                                <spring:message code="label.location"/> <c:out
+                                                    value="${room.hotel.location}"/>
                                                 <br/>
-                                                Room price: <c:out value="${room.price}"/>
+                                                <spring:message code="label.room.price"/> <c:out value="${room.price}"/>
                                                 <br/>
-                                                Number of bed: <c:out value="${room.numberOfBed}"/>
+                                                <spring:message code="label.number.of.bed"/> <c:out
+                                                    value="${room.numberOfBed}"/>
                                                 <br/>
-                                                Parking Facility: <c:out value="${room.hotel.parkingFacility}"/>
+                                                <spring:message code="label.parking.facility"/> <c:out
+                                                    value="${room.hotel.parkingFacility}"/>
                                                 <br/>
-                                                Wifi Facility: <c:out value="${room.hotel.wifiFacility}"/>
+                                                <spring:message code="label.wifi.facility"/> <c:out
+                                                    value="${room.hotel.wifiFacility}"/>
                                                 <br/>
-                                                Swimming Pool: <c:out value="${room.hotel.swimmingPool}"/>
+                                                <spring:message code="label.swimming.pool.facility"/> <c:out
+                                                    value="${room.hotel.swimmingPool}"/>
                                                 <br/>
-                                                Fitness Centre: <c:out value="${room.hotel.fitnessCentre}"/>
+                                                <spring:message code="label.fitness.centre"/> <c:out
+                                                    value="${room.hotel.fitnessCentre}"/>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </c:forEach>
                     </c:if>
-
                     <c:if test="${empty searchResults}">
-                        <p>No matching rooms found.</p>
+                        <p><spring:message code="label.no.matching.rooms.found"/></p>
                     </c:if>
                 </div>
             </div>
@@ -231,6 +224,6 @@
     </div>
 </div>
 
-<script src="${pageContext.request.contextPath}/assets/js/searchHotelName.js"></script>
+<script src="/assets/js/searchHotelName.js"></script>
 </body>
 </html>

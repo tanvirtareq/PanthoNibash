@@ -2,6 +2,7 @@ package net.therap.controller.hotel;
 
 import net.therap.dto.ButtonDto;
 import net.therap.dto.SuccessMessageDto;
+import net.therap.helper.Helper;
 import net.therap.model.Hotel;
 import net.therap.service.HotelService;
 import net.therap.util.Util;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +43,9 @@ public class HotelSignupController {
     @Autowired
     private HotelValidator hotelValidator;
 
+    @Autowired
+    private Helper helper;
+
     @InitBinder("hotel")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(hotelValidator);
@@ -49,6 +54,7 @@ public class HotelSignupController {
 
     @GetMapping("/signup")
     public String showSignupForm(Model model) {
+
         model.addAttribute("hotel", new Hotel());
         model.addAttribute("facilityOptions", facilityOptions);
 
@@ -56,7 +62,8 @@ public class HotelSignupController {
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute("hotel") @Valid Hotel hotel, BindingResult bindingResult, Model model) {
+    public String signup(@ModelAttribute("hotel") @Valid Hotel hotel, BindingResult bindingResult, Model model,
+                         HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("facilityOptions", facilityOptions);
@@ -64,28 +71,36 @@ public class HotelSignupController {
             return "hotel/hotelSignup";
         }
 
-        return "hotel/hotelImageUpload";
+        helper.imageUploadHelper(model, request, "hotel.imageUpload.title",
+                "hotel/signup/hotelImageUpload");
+
+        return "imageUpload";
     }
 
     @PostMapping("/signup/hotelImageUpload")
-    public String uploadProfilePicture(@RequestParam("hotelImage") CommonsMultipartFile hotelImage,
-                                       @SessionAttribute(name = "hotel") Hotel hotel, Model model) {
+    public String uploadProfilePicture(@RequestParam CommonsMultipartFile image,
+                                       @SessionAttribute Hotel hotel, Model model,
+                                       HttpServletRequest request) {
 
-
-        if (hotelImage.isEmpty()) {
+        if (image.isEmpty()) {
             model.addAttribute("error", "Please select a Hotel Image.");
+            helper.imageUploadHelper(model, request, "hotel.imageUpload.title",
+                    "hotel/signup/hotelImageUpload");
 
-            return "hotel/hotelImageUpload";
+            return "imageUpload";
         }
 
-        String extension = FilenameUtils.getExtension(hotelImage.getOriginalFilename());
+        String extension = FilenameUtils.getExtension(image.getOriginalFilename());
 
         if (!Util.allowedImageExtension(extension, model)) {
-            return "hotel/hotelImageUpload";
+            helper.imageUploadHelper(model, request, "hotel.imageUpload.title",
+                    "hotel/signup/hotelImageUpload");
+
+            return "imageUpload";
         }
 
         try {
-            byte[] hotelImageData = IOUtils.toByteArray(hotelImage.getInputStream());
+            byte[] hotelImageData = IOUtils.toByteArray(image.getInputStream());
             hotel.setHotelImage(hotelImageData);
 
             hotel.setPassword(hotelService.encodePassword(hotel.getPassword()));
@@ -105,7 +120,10 @@ public class HotelSignupController {
 
         } catch (IOException e) {
             model.addAttribute("error", "Failed to upload the Hotel Image.");
-            return "hotel/hotelImageUpload";
+            helper.imageUploadHelper(model, request, "hotel.imageUpload.title",
+                    "hotel/signup/hotelImageUpload");
+
+            return "imageUpload";
         }
     }
 }

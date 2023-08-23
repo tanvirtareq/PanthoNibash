@@ -1,16 +1,17 @@
 package net.therap.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table
-public class Rating {
+@Table(name = "rating")
+public class Rating implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "hotel_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private Hotel hotel;
 
     private double rating;

@@ -1,5 +1,6 @@
 package net.therap.dto;
 
+import net.therap.constants.PatternConstants;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -21,10 +22,10 @@ public class SearchRoomFilter {
     private Integer priceMax;
     private Integer numberOfBed;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = PatternConstants.DATE_FORMAT_PATTERN)
     private LocalDate checkIn;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = PatternConstants.DATE_FORMAT_PATTERN)
     private LocalDate checkOut;
 
     public String getParkingFacility() {

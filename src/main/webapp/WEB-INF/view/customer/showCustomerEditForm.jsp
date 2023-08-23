@@ -1,38 +1,38 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Edit</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/signupPage.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/customStyle.css">
+    <title><spring:message code="customer.edit.title" /></title>
+    <link rel="stylesheet" href="/assets/css/signupPage.css">
+    <link rel="stylesheet" href="/assets/css/customStyle.css">
 </head>
 <body>
+
 <div class="signup-container custom-card">
-    <h2 class="signup-title">Edit</h2>
-    <form:form action="${pageContext.request.contextPath}/customer/${customer.id}/edit" method="post" modelAttribute="customer">
+    <h2 class="signup-title"><spring:message code="customer.edit.header" /></h2>
+    <form:form action="/customer/${customer.id}/edit" method="post" modelAttribute="customer">
         <div class="form-group">
-            <label for="name">Name:</label>
-            <form:input type="text" class="form-control" path="name" placeholder="Name"/>
+            <label for="name"><spring:message code="customer.edit.nameLabel" /></label>
+            <form:input type="text" class="form-control" path="name"/>
             <form:errors path="name" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
-            <label for="phoneNumber">Phone Number:</label>
-            <form:input type="text" class="form-control" path="phoneNumber" placeholder="Phone Number" required="true"/>
+            <label for="phoneNumber"><spring:message code="customer.edit.phoneNumberLabel" /></label>
+            <form:input type="text" class="form-control" path="phoneNumber" required="true"/>
             <form:errors path="phoneNumber" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
-            <label for="dateOfBirth">Date of Birth</label>
+            <label for="dateOfBirth"><spring:message code="customer.edit.dateOfBirthLabel" /></label>
             <form:input type="date" class="form-control" path="dateOfBirth" required="true"/>
             <form:errors path="dateOfBirth" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
-
         <form:hidden path="id"/>
         <form:hidden path="password"/>
-        <button type="submit" class="btn btn-primary signup-button">Submit</button>
+        <button type="submit" class="btn btn-primary signup-button"><spring:message code="customer.edit.submitButton" /></button>
     </form:form>
 </div>
 

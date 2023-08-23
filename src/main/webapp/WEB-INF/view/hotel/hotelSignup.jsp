@@ -1,42 +1,46 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
 <head>
-    <title>Title</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/signupPage.css">
+    <title><spring:message code="page.title"/></title>
+    <link rel="stylesheet" href="/assets/css/signupPage.css">
 </head>
 <body>
 
 <div class="signup-container">
-    <h2 class="signup-title">Signup as Hotel</h2>
-    <form:form action="${pageContext.request.contextPath}/hotel/signup" method="post" modelAttribute="hotel">
+    <h2 class="signup-title"><spring:message code="signup.title.hotel"/></h2>
+    <form:form action="/hotel/signup" method="post" modelAttribute="hotel">
         <div class="form-group">
-            <form:input type="text" class="form-control" path="name" placeholder="Name"/>
+            <spring:message code="signup.placeholder.name" var="namePlaceholder" />
+            <form:input type="text" class="form-control" path="name" placeholder="${namePlaceholder}"/>
             <form:errors path="name" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
-            <form:input type="email" class="form-control" path="email" placeholder="Email" required="true"/>
+            <spring:message code="signup.placeholder.email" var="emailPlaceholder" />
+            <form:input type="email" class="form-control" path="email" placeholder="${emailPlaceholder}" required="true"/>
             <form:errors path="email" cssClass="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
-            <form:input type="password" class="form-control" path="password" placeholder="Password" required="true"
-                        cssStyle="margin-bottom: 10px;"
-            />
+            <spring:message code="signup.placeholder.password" var="passwordPlaceholder" />
+            <form:input type="password" class="form-control" path="password" placeholder="${passwordPlaceholder}" required="true"
+                        cssStyle="margin-bottom: 10px;"/>
             <form:errors path="password" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
-            <form:input type="text" class="form-control" path="phoneNumber" placeholder="Phone Number" required="true"/>
+            <spring:message code="signup.placeholder.phoneNumber" var="phoneNumberPlaceholder" />
+            <form:input type="text" class="form-control" path="phoneNumber" placeholder="${phoneNumberPlaceholder}" required="true"/>
             <form:errors path="phoneNumber" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
-            <form:input type="text" class="form-control" path="location" placeholder="Location"/>
+            <spring:message code="signup.placeholder.location" var="locationPlaceholder" />
+            <form:input type="text" class="form-control" path="location" placeholder="${locationPlaceholder}"/>
             <form:errors path="location" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
-            <label for="parkingFacility">Parking Facility:</label>
+            <label for="parkingFacility"><spring:message code='signup.label.parkingFacility'/></label>
             <c:forEach items="${facilityOptions}" var="facilityOption">
                 <div class="form-check">
                     <form:radiobutton class="form-check-input" id="${facilityOption.value}"
@@ -50,7 +54,7 @@
                          cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
-            <label for="swimmingPool">Swimming Pool facility:</label>
+            <label for="swimmingPool"><spring:message code='signup.label.swimmingPool'/></label>
             <c:forEach items="${facilityOptions}" var="facilityOption">
                 <div class="form-check">
                     <form:radiobutton class="form-check-input" id="${facilityOption.value}"
@@ -64,7 +68,7 @@
                          cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
-            <label for="fitnessCentre">Fitness Centre:</label>
+            <label for="fitnessCentre"><spring:message code='signup.label.fitnessCentre'/></label>
             <c:forEach items="${facilityOptions}" var="facilityOption">
                 <div class="form-check">
                     <form:radiobutton class="form-check-input" id="${facilityOption.value}"
@@ -78,7 +82,7 @@
                          cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
-            <label for="wifiFacility">Wifi facility:</label>
+            <label for="wifiFacility"><spring:message code='signup.label.wifiFacility'/></label>
             <c:forEach items="${facilityOptions}" var="facilityOption">
                 <div class="form-check">
                     <form:radiobutton class="form-check-input" id="${facilityOption.value}"
@@ -91,10 +95,11 @@
             <form:errors path="wifiFacility" cssClass="alert alert-danger mt-3"
                          cssStyle="padding: 3px;"/>
         </div>
-        <button type="submit" class="btn btn-primary signup-button">Submit</button>
+        <button type="submit" class="btn btn-primary signup-button"><spring:message code='signup.button.submit'/></button>
     </form:form>
     <p class="signup-footer">
-        Already have an account? <a href="${pageContext.request.contextPath}/hotel/login">Login</a>
+        <spring:message code='signup.footer.haveAccount'/>
+        <a href="/hotel/login"><spring:message code='signup.footer.login'/></a>
     </p>
 </div>
 
