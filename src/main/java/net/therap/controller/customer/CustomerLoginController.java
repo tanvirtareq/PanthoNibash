@@ -5,13 +5,12 @@ import net.therap.model.LoginForm;
 import net.therap.model.SessionContext;
 import net.therap.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -26,6 +25,11 @@ public class CustomerLoginController {
 
     @Autowired
     private CustomerService customerService;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
@@ -48,10 +52,7 @@ public class CustomerLoginController {
             return "customer/customerLogin";
         }
 
-        SessionContext sessionContext = new SessionContext(customer.getEmail(), "CUSTOMER",
-                customer.getId(), customer.getName(), "/customer/" + customer.getId(),
-                customer.getProfilePicBase64Image());
-
+        SessionContext sessionContext = new SessionContext(customer);
         httpSession.setAttribute("sessionContext", sessionContext);
 
         return "redirect:/customer/" + customer.getId();

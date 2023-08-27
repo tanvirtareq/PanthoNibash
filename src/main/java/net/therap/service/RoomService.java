@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -21,13 +22,15 @@ import java.util.stream.Collectors;
 @Service
 public class RoomService {
 
+    public final int ROOM_PER_PAGE = 5;
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Transactional
     public List<Room> searchRooms(SearchRoomFilter searchRoomFilter) {
 
-        List<Room> rooms = getAll();
+        List<Room> rooms = getRoomList();
 
         List<Room> result = rooms.stream()
                 .filter(room -> searchRoomFilter.getParkingFacility() == null
@@ -98,19 +101,18 @@ public class RoomService {
         return bookings;
     }
 
-    public List<Room> getAll(Long curPage) {
+    public List<Room> getRoomList(Long currentPage) {
 
-        int roomPerPage = 5;
-        int startIdx = (int) ((curPage - 1) * roomPerPage);
+        int startIdx = (int) ((currentPage - 1) * ROOM_PER_PAGE);
 
         String jpql = "SELECT r FROM Room r ORDER BY r.id";
 
         return entityManager.createQuery(jpql, Room.class).setFirstResult(startIdx)
-                .setMaxResults(roomPerPage).getResultList();
+                .setMaxResults(ROOM_PER_PAGE).getResultList();
 
     }
 
-    public List<Room> getAll() {
+    public List<Room> getRoomList() {
         String jpql = "SELECT r FROM Room r";
 
         return entityManager.createQuery(jpql, Room.class).getResultList();
@@ -137,12 +139,13 @@ public class RoomService {
     }
 
     @Transactional
-    public void update(Long roomId, String type, Long price, Integer numberOfBed) {
+    public void update(Long roomId, String type, Long price, Integer numberOfBed, Set<String> roomNumbers) {
 
         Room room = entityManager.find(Room.class, roomId);
         room.setType(type);
         room.setPrice(price);
         room.setNumberOfBed(numberOfBed);
+        room.setRoomNumbers(roomNumbers);
 
         entityManager.merge(room);
     }

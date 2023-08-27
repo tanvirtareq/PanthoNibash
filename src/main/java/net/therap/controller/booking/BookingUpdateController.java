@@ -1,19 +1,21 @@
 package net.therap.controller.booking;
 
-import net.therap.constants.UrlConstants;
 import net.therap.dto.ButtonDto;
-import net.therap.dto.ErrorMessageDto;
-import net.therap.dto.SuccessMessageDto;
+import net.therap.dto.DoneMessageDto;
+import net.therap.helper.Helper;
 import net.therap.model.Booking;
 import net.therap.model.SessionContext;
 import net.therap.service.BookingService;
 import net.therap.service.HotelService;
 import net.therap.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,70 +34,63 @@ public class BookingUpdateController {
     @Autowired
     private BookingService bookingService;
 
+    @Autowired
+    private Helper helper;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
     @GetMapping("/cancel")
     public String bookingCancel(@PathVariable Long bookingId, @PathVariable Long hotelId, Model model,
-                                HttpSession httpSession) {
+                                HttpSession httpSession, HttpServletRequest request) {
 
         SessionContext sessionContext = (SessionContext) httpSession.getAttribute("sessionContext");
+        String bookingUpdateErrorMessage = helper.bookingUpdateErrorMessage(model, sessionContext, request, hotelId, bookingId);
 
-        if (!loggedInAsHotel(sessionContext)) {
-            return unauthorizedErrorMessage(model, sessionContext);
-        }
-
-        if (hotelService.findById(hotelId) == null) {
-            return hotelNotFoundErrorMessage(model);
-        }
-
-        if (!hotelService.hasBookingManipulationAuthorization(hotelId, bookingId, sessionContext)) {
-            return bookingNotFoundErrorMessage(model, hotelId);
+        if (bookingUpdateErrorMessage != null) {
+            return bookingUpdateErrorMessage;
         }
 
         Booking booking = bookingService.findById(bookingId);
 
         if (!Util.canCancelBooking(booking, sessionContext)) {
-            return canNotCancelErrorMessage(model, hotelId, bookingId);
+            return helper.canNotCancelErrorMessage(model, hotelId, bookingId, request);
         }
 
         List<ButtonDto> buttonDtoList = new ArrayList<>();
-        buttonDtoList.add(new ButtonDto("See Booking list", Util.generateBookingListUrl(hotelId)));
-        buttonDtoList.add(new ButtonDto("Go to profile", Util.generateHotelProfileUrl(hotelId)));
+        helper.commonButtonForHotel(buttonDtoList, hotelId);
         buttonDtoList.add(new ButtonDto("Go to room page", Util.generateRoomUrl(booking.getRoom().getId())));
         buttonDtoList.add(new ButtonDto("Book again for this room",
                 Util.generateRoomBookUrl(booking.getRoom().getId())));
 
-        SuccessMessageDto successMessageDto = new SuccessMessageDto("Successfully booking cancelled"
-                , buttonDtoList);
+        DoneMessageDto doneMessageDto = new DoneMessageDto("Successfully booking cancelled"
+                , buttonDtoList, helper.getMessageFromMessageCode("label.success", request));
 
         bookingService.delete(booking);
 
-        model.addAttribute("successMessageDto", successMessageDto);
+        model.addAttribute("doneMessageDto", doneMessageDto);
 
-        return "successMessage";
+        return "doneMessage";
     }
 
 
     @GetMapping("/update-booking-checkout-date")
     public String bookingCheckoutDateUpdateForm(@PathVariable Long bookingId, @PathVariable Long hotelId, Model model,
-                                                HttpSession httpSession) {
+                                                HttpSession httpSession, HttpServletRequest request) {
 
         SessionContext sessionContext = (SessionContext) httpSession.getAttribute("sessionContext");
+        String bookingUpdateErrorMessage = helper.bookingUpdateErrorMessage(model, sessionContext, request, hotelId, bookingId);
 
-        if (!loggedInAsHotel(sessionContext)) {
-            return unauthorizedErrorMessage(model, sessionContext);
-        }
-
-        if (hotelService.findById(hotelId) == null) {
-            return hotelNotFoundErrorMessage(model);
-        }
-
-        if (!hotelService.hasBookingManipulationAuthorization(hotelId, bookingId, sessionContext)) {
-            return bookingNotFoundErrorMessage(model, hotelId);
+        if (bookingUpdateErrorMessage != null) {
+            return bookingUpdateErrorMessage;
         }
 
         Booking booking = bookingService.findById(bookingId);
 
         if (!Util.canUpdateBookingCheckoutDate(booking, sessionContext)) {
-            return canNotUpdateErrorMessage(model, hotelId, bookingId);
+            return helper.canNotUpdateErrorMessage(model, hotelId, bookingId, request);
         }
 
         model.addAttribute("booking", booking);
@@ -107,127 +102,37 @@ public class BookingUpdateController {
     @PostMapping("/update-booking-checkout-date")
     public String bookingCheckoutDateUpdateFormProcess(@PathVariable Long bookingId, @PathVariable Long hotelId,
                                                        Model model, HttpSession httpSession,
-                                                       @ModelAttribute("booking") Booking bookingNew) {
+                                                       @ModelAttribute("booking") Booking bookingNew,
+                                                       HttpServletRequest request) {
 
         SessionContext sessionContext = (SessionContext) httpSession.getAttribute("sessionContext");
+        String bookingUpdateErrorMessage = helper.bookingUpdateErrorMessage(model, sessionContext, request, hotelId, bookingId);
 
-        if (!loggedInAsHotel(sessionContext)) {
-            return unauthorizedErrorMessage(model, sessionContext);
-        }
-
-        if (hotelService.findById(hotelId) == null) {
-            return hotelNotFoundErrorMessage(model);
-        }
-
-        if (!hotelService.hasBookingManipulationAuthorization(hotelId, bookingId, sessionContext)) {
-            return bookingNotFoundErrorMessage(model, hotelId);
+        if (bookingUpdateErrorMessage != null) {
+            return bookingUpdateErrorMessage;
         }
 
         Booking booking = bookingService.findById(bookingId);
 
         if (!Util.canUpdateBookingCheckoutDate(booking, sessionContext)) {
-            return canNotUpdateErrorMessage(model, hotelId, bookingId);
+            return helper.canNotUpdateErrorMessage(model, hotelId, bookingId, request);
         }
 
-        if (!validUpdatedCheckoutDate(bookingNew, booking)) {
+        if (!helper.validUpdatedCheckoutDate(bookingNew, booking)) {
 
             String errorMessage = "Updated checkout date should be before " + booking.getCheckOutDate() +
                     " and after " + booking.getCheckInDate();
 
             model.addAttribute("booking", booking);
-            model.addAttribute("errorMessage", errorMessage);
+            model.addAttribute("doneMessage", errorMessage);
             model.addAttribute("formPostUrl", Util.generateUpdateBookingCheckoutDate(booking));
 
             return "booking/updateBookingCheckoutDateForm";
         }
 
         booking.setCheckOutDate(bookingNew.getCheckOutDate());
-
         bookingService.update(booking);
 
-        return bookingUpdateSuccessMessage(model, hotelId, bookingId);
-    }
-
-    private String bookingUpdateSuccessMessage(Model model, Long hotelId, Long bookingId) {
-
-        List<ButtonDto> buttonDtoList = new ArrayList<>();
-        buttonDtoList.add(new ButtonDto("See Booking list", Util.generateBookingListUrl(hotelId)));
-        buttonDtoList.add(new ButtonDto("Go to profile", Util.generateHotelProfileUrl(hotelId)));
-        buttonDtoList.add(new ButtonDto("Booking details", Util.generateBookingDetailsUrl(bookingId)));
-        SuccessMessageDto successMessageDto = new SuccessMessageDto("Checkout Date updated successfully", buttonDtoList);
-        model.addAttribute("successMessageDto", successMessageDto);
-
-        return "successMessage";
-    }
-
-    private boolean validUpdatedCheckoutDate(Booking bookingNew, Booking booking) {
-        return bookingNew.getCheckOutDate().isBefore(booking.getCheckOutDate())
-                && bookingNew.getCheckOutDate().isAfter(booking.getCheckInDate());
-    }
-
-    private String canNotUpdateErrorMessage(Model model, Long hotelId, Long bookingId) {
-
-        List<ButtonDto> buttonDtoList = new ArrayList<>();
-        buttonDtoList.add(new ButtonDto("See Booking list", Util.generateBookingListUrl(hotelId)));
-        buttonDtoList.add(new ButtonDto("Go to profile", Util.generateHotelProfileUrl(hotelId)));
-        buttonDtoList.add(new ButtonDto("Booking details", Util.generateBookingDetailsUrl(bookingId)));
-        ErrorMessageDto errorMessageDto = new ErrorMessageDto("Can not update booking checkout date",
-                buttonDtoList);
-
-        model.addAttribute("errorMessageDto", errorMessageDto);
-
-        return "errorMessage";
-    }
-
-    private String canNotCancelErrorMessage(Model model, Long hotelId, Long bookingId) {
-
-        List<ButtonDto> buttonDtoList = new ArrayList<>();
-        buttonDtoList.add(new ButtonDto("See Booking list", Util.generateBookingListUrl(hotelId)));
-        buttonDtoList.add(new ButtonDto("Go to profile", Util.generateHotelProfileUrl(hotelId)));
-        buttonDtoList.add(new ButtonDto("Booking details", Util.generateBookingDetailsUrl(bookingId)));
-        ErrorMessageDto errorMessageDto = new ErrorMessageDto("Can not cancel this booking", buttonDtoList);
-        model.addAttribute("errorMessageDto", errorMessageDto);
-
-        return "errorMessage";
-    }
-
-    private String bookingNotFoundErrorMessage(Model model, Long hotelId) {
-
-        List<ButtonDto> buttonDtoList = new ArrayList<>();
-        buttonDtoList.add(new ButtonDto("See Booking list", Util.generateBookingListUrl(hotelId)));
-        buttonDtoList.add(new ButtonDto("Go to profile", Util.generateHotelProfileUrl(hotelId)));
-        ErrorMessageDto errorMessageDto = new ErrorMessageDto("Booking not found", buttonDtoList);
-        model.addAttribute("errorMessageDto", errorMessageDto);
-
-        return "errorMessage";
-    }
-
-    private String hotelNotFoundErrorMessage(Model model) {
-
-        List<ButtonDto> buttonDtoList = new ArrayList<>();
-        buttonDtoList.add(new ButtonDto("See available hotel list", UrlConstants.HOTELS_URL));
-        ErrorMessageDto errorMessageDto = new ErrorMessageDto("Hotel not found", buttonDtoList);
-        model.addAttribute("errorMessageDto", errorMessageDto);
-
-        return "errorMessage";
-    }
-
-    private String unauthorizedErrorMessage(Model model, SessionContext sessionContext) {
-
-        List<ButtonDto> buttonDtoList = new ArrayList<>();
-        buttonDtoList.add(new ButtonDto("See available hotel list", UrlConstants.HOTELS_URL));
-        if (sessionContext == null) {
-            buttonDtoList.add(new ButtonDto("Login as hotel", UrlConstants.HOTEL_LOGIN_URL));
-            buttonDtoList.add(new ButtonDto("Signup as hotel", UrlConstants.HOTEL_SIGNUP_URL));
-        }
-
-        ErrorMessageDto errorMessageDto = new ErrorMessageDto("You are not logged in as hotel", buttonDtoList);
-        model.addAttribute("errorMessageDto", errorMessageDto);
-
-        return "errorMessage";
-    }
-
-    private boolean loggedInAsHotel(SessionContext sessionContext) {
-        return sessionContext != null && "HOTEL".equals(sessionContext.getRole());
+        return helper.bookingUpdateSuccessMessage(model, hotelId, bookingId, request);
     }
 }

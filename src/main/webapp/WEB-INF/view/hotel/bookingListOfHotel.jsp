@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"   %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
@@ -107,6 +107,10 @@
   </div>
 </div>
 
-<script src="/assets/js/bookingTable.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#bookingTable').dataTable();
+  });
+</script>
 </body>
 </html>

@@ -2,6 +2,7 @@ package net.therap.interceptor.validUrlChecker;
 
 import net.therap.model.Customer;
 import net.therap.service.CustomerService;
+import net.therap.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -23,8 +24,7 @@ public class ValidCustomerCheckerInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
-        Long customerId = getCustomerIdFromUrl(request);
-
+        Long customerId = Util.getCustomerIdFromRequest(request);
         Customer customer = customerService.findById(customerId);
 
         if (customer != null) {
@@ -34,13 +34,5 @@ public class ValidCustomerCheckerInterceptor implements HandlerInterceptor {
         response.sendRedirect("/search");
 
         return false;
-    }
-
-    private Long getCustomerIdFromUrl(HttpServletRequest request) {
-
-        String[] pathSegments = request.getRequestURI().split("/");
-        String customerId = pathSegments[2];
-
-        return Long.parseLong(customerId);
     }
 }

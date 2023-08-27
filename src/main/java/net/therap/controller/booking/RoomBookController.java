@@ -1,20 +1,20 @@
 package net.therap.controller.booking;
 
+import net.therap.constants.UrlConstants;
 import net.therap.dto.ButtonDto;
-import net.therap.dto.ErrorMessageDto;
-import net.therap.dto.SuccessMessageDto;
+import net.therap.dto.DoneMessageDto;
 import net.therap.helper.Helper;
 import net.therap.model.Booking;
 import net.therap.model.Room;
 import net.therap.model.SessionContext;
 import net.therap.service.BookingService;
-import net.therap.service.CustomerService;
 import net.therap.service.RoomService;
 import net.therap.util.Util;
 import net.therap.validator.BookingValidator;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,7 +34,7 @@ import java.util.List;
  * @since 7/20/23
  */
 @Controller
-@RequestMapping("/room/{roomId}")
+@RequestMapping("/room")
 @SessionAttributes("booking")
 public class RoomBookController {
 
@@ -45,9 +45,6 @@ public class RoomBookController {
     private BookingService bookingService;
 
     @Autowired
-    private CustomerService customerService;
-
-    @Autowired
     private BookingValidator bookingValidator;
 
     @Autowired
@@ -56,17 +53,18 @@ public class RoomBookController {
     @InitBinder("booking")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(bookingValidator);
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
-    @GetMapping("/book")
+    @GetMapping("/{roomId}/book")
     public String showRoomBookPage(@PathVariable Long roomId, Model model, HttpSession httpSession) {
 
         SessionContext sessionContext = (SessionContext) httpSession.getAttribute("sessionContext");
         if (sessionContext == null) {
-            return "redirect:/customer/login";
+            return "redirect:customer/login";
         }
 
-        Booking booking = Util.createBookingFromSessionContext(sessionContext, customerService);
+        Booking booking = helper.createBookingFromSessionContext(sessionContext);
         Room room = roomService.findById(roomId);
         model.addAttribute("booking", booking);
         model.addAttribute("roomId", roomId);
@@ -75,7 +73,7 @@ public class RoomBookController {
         return "booking/roomBookPage";
     }
 
-    @PostMapping("/book")
+    @PostMapping("/{roomId}/book")
     public String processRoomBook(@PathVariable Long roomId, @ModelAttribute("booking") @Valid Booking booking,
                                   BindingResult bindingResult, Model model, HttpSession httpSession,
                                   HttpServletRequest request) {
@@ -83,7 +81,7 @@ public class RoomBookController {
         SessionContext sessionContext = (SessionContext) httpSession.getAttribute("sessionContext");
 
         if (sessionContext == null) {
-            return "redirect:/customer/login";
+            return "redirect:customer/login";
         }
 
         if (bindingResult.hasErrors()) {
@@ -97,24 +95,21 @@ public class RoomBookController {
         if (!roomService.availableRoom(room, booking.getCheckInDate(), booking.getCheckOutDate())) {
 
             List<ButtonDto> buttonDtoList = new ArrayList<>();
-            buttonDtoList.add(new ButtonDto("Find available room for this date",
-                    "/search?hotelName=&location=&priceMin=&priceMax=&numberOfBed=&checkIn="
-                            + booking.getCheckInDate().toString() +
-                            "&checkOut=" + booking.getCheckOutDate()));
+            buttonDtoList.add(new ButtonDto("Find available room for this date", "/search?checkIn="
+                    + booking.getCheckInDate().toString() + "&checkOut=" + booking.getCheckOutDate()));
 
-            ErrorMessageDto errorMessageDto = new ErrorMessageDto("Can not book. Room is not available for this date",
-                    buttonDtoList);
+            DoneMessageDto doneMessageDto = new DoneMessageDto("Can not book. Room is not available for this date",
+                    buttonDtoList, helper.getMessageFromMessageCode("label.error", request));
 
-            model.addAttribute("errorMessageDto", errorMessageDto);
+            model.addAttribute("doneMessageDto", doneMessageDto);
 
-            return "errorMessage";
+            return "doneMessage";
         }
 
         booking.setRoomNumber(roomService.getRoomNumber(room, booking.getCheckInDate(), booking.getCheckOutDate()));
         booking.setRoom(room);
 
-        helper.imageUploadHelper(model, request, "guest.photo.upload.heading",
-                helper.guestImageUploadLink(roomId));
+        helper.imageUploadHelper(model, request, "guest.photo.upload.heading", UrlConstants.GUEST_IMAGE_UPLOAD_URL);
 
         return "imageUpload";
     }
@@ -122,13 +117,11 @@ public class RoomBookController {
     @PostMapping("/book/guestImageUpload")
     public String uploadProfilePicture(@RequestParam CommonsMultipartFile image,
                                        @SessionAttribute Booking booking, Model model,
-                                       @PathVariable Long roomId, HttpServletRequest request) {
-
+                                       HttpServletRequest request) {
 
         if (image.isEmpty()) {
             model.addAttribute("error", "Please select an Image.");
-            helper.imageUploadHelper(model, request, "guest.photo.upload.heading",
-                    helper.guestImageUploadLink(roomId));
+            helper.imageUploadHelper(model, request, "guest.photo.upload.heading", UrlConstants.GUEST_IMAGE_UPLOAD_URL);
 
             return "imageUpload";
         }
@@ -137,8 +130,7 @@ public class RoomBookController {
 
         if (!Util.allowedImageExtension(extension, model)) {
             model.addAttribute("error", "Please select an Image.");
-            helper.imageUploadHelper(model, request, "guest.photo.upload.heading",
-                    helper.guestImageUploadLink(roomId));
+            helper.imageUploadHelper(model, request, "guest.photo.upload.heading", UrlConstants.GUEST_IMAGE_UPLOAD_URL);
 
             return "imageUpload";
         }
@@ -152,18 +144,16 @@ public class RoomBookController {
             buttonDtoList.add(new ButtonDto("See Booking Details", "/booking/" + booking.getId()));
             buttonDtoList.add(new ButtonDto("Go to Home", "/"));
 
-            SuccessMessageDto successMessageDto = new SuccessMessageDto("Successfully Booked", buttonDtoList);
+            DoneMessageDto doneMessageDto = new DoneMessageDto("Successfully Booked", buttonDtoList,
+                    helper.getMessageFromMessageCode("label.success", request));
 
-            model.addAttribute("successMessageDto", successMessageDto);
+            model.addAttribute("doneMessageDto", doneMessageDto);
 
-            return "successMessage";
+            return "doneMessage";
 
         } catch (IOException e) {
             model.addAttribute("error", "Failed to upload the Image.");
-
-            model.addAttribute("error", "Please select an Image.");
-            helper.imageUploadHelper(model, request, "guest.photo.upload.heading",
-                    helper.guestImageUploadLink(roomId));
+            helper.imageUploadHelper(model, request, "guest.photo.upload.heading", UrlConstants.GUEST_IMAGE_UPLOAD_URL);
 
             return "imageUpload";
         }

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"   %>
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -17,7 +17,7 @@
             <div class="custom-card">
                 <div class="card-body">
                     <div class="h2 card-title"><spring:message code="label.room.search"/></div>
-                    <form:form action="/search" method="get"
+                    <form:form action="search" method="get"
                                modelAttribute="searchRoomFilter">
                         <div class="container">
                             <div class="row">

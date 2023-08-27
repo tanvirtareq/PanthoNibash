@@ -8,7 +8,7 @@ public class SessionContext {
 
     private String email;
 
-    private String role;
+    private Role role;
 
     private Long id;
 
@@ -21,15 +21,24 @@ public class SessionContext {
     public SessionContext() {
     }
 
-    public SessionContext(String email, String role, Long id, String name,
-                          String profileLink, String profilePictureBase64Image) {
+    public SessionContext(Customer customer) {
 
-        this.email = email;
-        this.role = role;
-        this.id = id;
-        this.name = name;
-        this.profileLink = profileLink;
-        this.profilePictureBase64Image = profilePictureBase64Image;
+        this.email = customer.getEmail();
+        this.role = Role.CUSTOMER;
+        this.id = customer.getId();
+        this.name = customer.getName();
+        this.profileLink = "/customer/" + customer.getId();
+        this.profilePictureBase64Image = customer.getProfilePicBase64Image();;
+    }
+
+    public SessionContext(Hotel hotel) {
+
+        this.email = hotel.getEmail();
+        this.role = Role.HOTEL;
+        this.id = hotel.getId();
+        this.name = hotel.getName();
+        this.profileLink = "/hotel/" + hotel.getId();
+        this.profilePictureBase64Image = hotel.getHotelImageBase64Image();
     }
 
     public String getProfilePictureBase64Image() {
@@ -64,11 +73,11 @@ public class SessionContext {
         this.email = email;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

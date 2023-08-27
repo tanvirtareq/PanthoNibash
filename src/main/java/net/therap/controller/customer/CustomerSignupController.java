@@ -1,7 +1,7 @@
 package net.therap.controller.customer;
 
 import net.therap.dto.ButtonDto;
-import net.therap.dto.SuccessMessageDto;
+import net.therap.dto.DoneMessageDto;
 import net.therap.helper.Helper;
 import net.therap.model.Customer;
 import net.therap.service.CustomerService;
@@ -10,6 +10,7 @@ import net.therap.validator.CustomerValidator;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,6 +46,7 @@ public class CustomerSignupController {
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(customerValidator);
         binder.setDisallowedFields("id");
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
     @GetMapping("/signup")
@@ -102,11 +104,12 @@ public class CustomerSignupController {
             buttonDtoList.add(new ButtonDto("Go to login", "/customer/login"));
             buttonDtoList.add(new ButtonDto("Go to Home", "/"));
 
-            SuccessMessageDto successMessageDto = new SuccessMessageDto("Successfully Registered", buttonDtoList);
+            DoneMessageDto doneMessageDto = new DoneMessageDto("Successfully Registered", buttonDtoList,
+                    helper.getMessageFromMessageCode("label.success", request));
 
-            model.addAttribute("successMessageDto", successMessageDto);
+            model.addAttribute("doneMessageDto", doneMessageDto);
 
-            return "successMessage";
+            return "doneMessage";
 
         } catch (IOException e) {
             helper.imageUploadHelper(model, request, "profilePicture.upload.title",

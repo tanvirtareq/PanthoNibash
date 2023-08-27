@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"   %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
@@ -31,18 +31,15 @@
             <p><strong><spring:message code="customer.page.phone" />:</strong> ${customer.phoneNumber}</p>
             <p><strong><spring:message code="customer.page.dateOfBirth" />:</strong> ${customer.dateOfBirth}</p>
         </div>
-        <c:set var="customerRole" value="CUSTOMER"/>
-        <c:if test="${sessionContext!=null && sessionContext.role==customerRole && sessionContext.id==customer.id}">
-            <div style="display: flex; justify-content: center; margin-top: 2rem;">
+        <c:if test="${customerLoggedIn == true}">
+            <div class="custom-button-container">
                 <a href="/customer/${customer.id}/bookingList" style="text-decoration: none;">
-                    <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
-                            border-radius: 4px; cursor: pointer; font-size: 16px; width: 130px; margin: 2px">
+                    <button class="custom-general-button">
                         <spring:message code="customer.page.bookingList" />
                     </button>
                 </a>
                 <a href="/customer/${customer.id}/edit" style="text-decoration: none;">
-                    <button style="background-color: #4CAF50; color: white; padding: 12px 20px; border: none;
-                            border-radius: 4px; cursor: pointer; font-size: 16px; width: 130px; margin: 2px">
+                    <button class="custom-general-button">
                         <spring:message code="customer.page.edit" />
                     </button>
                 </a>

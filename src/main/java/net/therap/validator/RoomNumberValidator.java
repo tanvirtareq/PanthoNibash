@@ -16,17 +16,12 @@ import org.springframework.validation.BindingResult;
 @Component
 public class RoomNumberValidator {
 
-    private final Logger LOGGER = Logger.getLogger(RoomNumberValidator.class);
-
     @Autowired
     private HotelService hotelService;
 
     public void validateRoomNumbers(Long hotelId, Room room, BindingResult bindingResult) {
 
         Hotel hotel = hotelService.findById(hotelId);
-
-        LOGGER.info("in method validateRoomNumbers");
-        LOGGER.info(hotel);
 
         room.getRoomNumbers().forEach((roomNumber) -> {
             validateRoomNumber(hotel, roomNumber, bindingResult);
@@ -35,9 +30,6 @@ public class RoomNumberValidator {
 
     public void validateRoomNumber(Hotel hotel, String roomNumber, BindingResult bindingResult) {
 
-        LOGGER.info("in method validateRoomNumber");
-        LOGGER.info(roomNumber);
-
         if (hotel.getRooms().stream().anyMatch((room) -> roomNumberExists(room, roomNumber))) {
             bindingResult.rejectValue("roomNumbers", "duplicate.roomNumber",
                     "Duplicate room number " + roomNumber);
@@ -45,12 +37,6 @@ public class RoomNumberValidator {
     }
 
     public boolean roomNumberExists(Room room, String roomNumber) {
-
-        LOGGER.info("In method roomNumberExists");
-        LOGGER.info(room);
-        LOGGER.info(room.getRoomNumbers());
-        LOGGER.info(room.getRoomNumbers().contains(roomNumber));
-
         return room.getRoomNumbers().contains(roomNumber);
     }
 }

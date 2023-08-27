@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"   %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
@@ -13,7 +13,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
-    <a class="navbar-brand" href="/"><spring:message code="brand.name"/></a>
+    <a class="navbar-brand" href=""><spring:message code="brand.name"/></a>
     <button class="navbar-toggler"
             type="button"
             data-toggle="collapse"
@@ -26,7 +26,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="/"><spring:message code="nav.home"/></a>
+                <a class="nav-link" href=""><spring:message code="nav.home"/></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/search"><spring:message code="nav.search"/></a>

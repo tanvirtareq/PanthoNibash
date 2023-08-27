@@ -1,5 +1,6 @@
 package net.therap.interceptor.authInterceptor;
 
+import net.therap.model.Role;
 import net.therap.model.Room;
 import net.therap.model.SessionContext;
 import net.therap.service.RoomService;
@@ -30,7 +31,7 @@ public class RoomAuthInterceptor implements HandlerInterceptor {
 
         Room room = roomService.findById(roomId);
 
-        if (sessionContext != null && "HOTEL".equals(sessionContext.getRole())
+        if (sessionContext != null && Role.HOTEL.equals(sessionContext.getRole())
                 && sessionContext.getId().equals(room.getHotel().getId())) {
 
             return true;

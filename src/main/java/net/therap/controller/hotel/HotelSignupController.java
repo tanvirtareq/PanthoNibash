@@ -1,7 +1,7 @@
 package net.therap.controller.hotel;
 
 import net.therap.dto.ButtonDto;
-import net.therap.dto.SuccessMessageDto;
+import net.therap.dto.DoneMessageDto;
 import net.therap.helper.Helper;
 import net.therap.model.Hotel;
 import net.therap.service.HotelService;
@@ -11,6 +11,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,6 +49,7 @@ public class HotelSignupController {
 
     @InitBinder("hotel")
     public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.addValidators(hotelValidator);
         binder.setDisallowedFields("id", "createdAt");
     }
@@ -102,21 +104,18 @@ public class HotelSignupController {
         try {
             byte[] hotelImageData = IOUtils.toByteArray(image.getInputStream());
             hotel.setHotelImage(hotelImageData);
-
             hotel.setPassword(hotelService.encodePassword(hotel.getPassword()));
-
             hotelService.save(hotel);
-
             List<ButtonDto> buttonDtoList = new ArrayList<>();
             buttonDtoList.add(new ButtonDto("Go to login", "/hotel/login"));
             buttonDtoList.add(new ButtonDto("Go to Home", "/"));
 
-            SuccessMessageDto successMessageDto = new SuccessMessageDto("Successfully Registered",
-                    buttonDtoList);
+            DoneMessageDto doneMessageDto = new DoneMessageDto("Successfully Registered",
+                    buttonDtoList, helper.getMessageFromMessageCode("label.success", request));
 
-            model.addAttribute("successMessageDto", successMessageDto);
+            model.addAttribute("doneMessageDto", doneMessageDto);
 
-            return "successMessage";
+            return "doneMessage";
 
         } catch (IOException e) {
             model.addAttribute("error", "Failed to upload the Hotel Image.");

@@ -1,7 +1,8 @@
 package net.therap.interceptor.authInterceptor;
 
-import net.therap.model.Customer;
+import net.therap.model.Role;
 import net.therap.model.SessionContext;
+import net.therap.util.Util;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -22,8 +23,8 @@ public class CustomerAuthInterceptor implements HandlerInterceptor {
 
         SessionContext sessionContext = (SessionContext) request.getSession().getAttribute("sessionContext");
 
-        if (sessionContext != null && "CUSTOMER".equals(sessionContext.getRole())
-                && sessionContext.getId().equals(getCustomerIdFromUrl(request))) {
+        if (sessionContext != null && Role.CUSTOMER.equals(sessionContext.getRole())
+                && sessionContext.getId().equals(Util.getCustomerIdFromRequest(request))) {
 
             return true;
         }
@@ -31,14 +32,5 @@ public class CustomerAuthInterceptor implements HandlerInterceptor {
         response.sendRedirect("/search");
 
         return false;
-    }
-
-    private Long getCustomerIdFromUrl(HttpServletRequest request) {
-
-        String[] pathSegments = request.getRequestURI().split("/");
-        String customerId = pathSegments[2];
-        System.out.println(customerId);
-
-        return Long.parseLong(customerId);
     }
 }

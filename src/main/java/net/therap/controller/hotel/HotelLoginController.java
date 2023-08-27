@@ -5,13 +5,12 @@ import net.therap.model.LoginForm;
 import net.therap.model.SessionContext;
 import net.therap.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -27,6 +26,11 @@ public class HotelLoginController {
     @Autowired
     private HotelService hotelService;
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
     @GetMapping("/login")
     public String showLoginForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
@@ -35,7 +39,7 @@ public class HotelLoginController {
     }
 
     @PostMapping("/login")
-    public String processLogin(@ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult bindingResult,
+    public String processLogin(@ModelAttribute @Valid LoginForm loginForm, BindingResult bindingResult,
                                HttpSession httpSession) {
 
         Hotel hotel = hotelService.findByEmailAndPassword(loginForm.getEmail(), loginForm.getPassword());
@@ -48,10 +52,7 @@ public class HotelLoginController {
             return "hotel/hotelLogin";
         }
 
-        SessionContext sessionContext = new SessionContext(hotel.getEmail(), "HOTEL",
-                hotel.getId(), hotel.getName(), "/hotel/" + hotel.getId(),
-                hotel.getHotelImageBase64Image());
-
+        SessionContext sessionContext = new SessionContext(hotel);
         httpSession.setAttribute("sessionContext", sessionContext);
 
         return "redirect:/hotel/" + hotel.getId();

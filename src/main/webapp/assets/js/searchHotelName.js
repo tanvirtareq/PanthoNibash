@@ -13,7 +13,7 @@ function searchHotel() {
 
                 hotelSelect.style.display = "block";
 
-                hotels.forEach((hotel) => {
+                hotels.forEach(hotel => {
                     const option = document.createElement("option");
                     option.value = hotel;
                     option.textContent = hotel;

@@ -1,15 +1,19 @@
 package net.therap.controller.customer;
 
 import net.therap.dto.ButtonDto;
-import net.therap.dto.SuccessMessageDto;
+import net.therap.dto.DoneMessageDto;
+import net.therap.helper.Helper;
 import net.therap.model.Customer;
 import net.therap.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,14 @@ public class CustomerEditController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private Helper helper;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
     @GetMapping("/edit")
     public String showEditForm(@PathVariable Long customerId, Model model) {
 
@@ -36,24 +48,23 @@ public class CustomerEditController {
 
     @PostMapping("/edit")
     public String processEditForm(@PathVariable Long customerId, @ModelAttribute("customer") @Valid Customer customer,
-                                  BindingResult bindingResult, Model model) {
+                                  BindingResult bindingResult, Model model, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return "customer/showCustomerEditForm";
         }
 
-        customerService.update(customerId, customer.getName(), customer.getPhoneNumber(),
-                customer.getDateOfBirth());
-
+        customerService.merge(customer);
 
         List<ButtonDto> buttonDtoList = new ArrayList<>();
         buttonDtoList.add(new ButtonDto("Go to profile", "/customer/" + customerId));
         buttonDtoList.add(new ButtonDto("Go to Home", "/"));
 
-        SuccessMessageDto successMessageDto = new SuccessMessageDto("Information Successfully Updated", buttonDtoList);
+        DoneMessageDto doneMessageDto = new DoneMessageDto("Information Successfully Updated", buttonDtoList,
+                helper.getMessageFromMessageCode("label.success", request));
 
-        model.addAttribute("successMessageDto", successMessageDto);
+        model.addAttribute("doneMessageDto", doneMessageDto);
 
-        return "successMessage";
+        return "doneMessage";
     }
 }

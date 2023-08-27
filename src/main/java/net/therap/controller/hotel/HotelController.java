@@ -1,17 +1,18 @@
 package net.therap.controller.hotel;
 
+import net.therap.helper.Helper;
 import net.therap.model.Booking;
 import net.therap.model.Hotel;
+import net.therap.model.SessionContext;
 import net.therap.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/hotel")
+@SessionAttributes("sessionContext")
 public class HotelController {
 
     @Autowired
@@ -31,11 +33,18 @@ public class HotelController {
     @Value("#{roomTypeOptions}")
     private Map<String, String> roomTypeOptions;
 
-    @GetMapping("/{id}")
-    public String showHotel(@PathVariable Long id, Model model) {
+    @Autowired
+    private Helper helper;
 
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
+    @GetMapping("/{id}")
+    public String showHotel(@PathVariable Long id, Model model, @SessionAttribute(required = false) SessionContext sessionContext) {
         Hotel hotel = hotelService.findById(id);
         model.addAttribute("hotel", hotel);
+        model.addAttribute("hotelLoggedIn", helper.isHotelLoggedIn(hotel, sessionContext));
 
         return "hotel/hotelPage";
     }

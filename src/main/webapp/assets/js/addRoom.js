@@ -3,16 +3,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const addRoomNumberButton = document.getElementById("addRoomNumberButton");
     const roomNumberChipsContainer = document.getElementById("roomNumberChipsContainer");
     const roomNumbersHiddenInput = document.getElementById("roomNumbersHidden");
+    const readOnly = document.getElementById("readOnly").value;
+    const roomNumberList = roomNumbersHiddenInput.value.split(',');
 
-    addRoomNumberButton.addEventListener("click", function () {
-        const roomNumber = roomNumberInput.value.trim();
-        if (roomNumber !== "") {
-            addRoomNumberChip(roomNumber);
-            roomNumberInput.value = "";
-        }
-    });
+    if(roomNumberList[0]) {
+        roomNumberList.forEach(val => addRoomNumberChip(val, readOnly));
+    }
+    if (readOnly === 'false') {
+        addRoomNumberButton.addEventListener("click", function () {
+            const roomNumber = roomNumberInput.value.trim();
+            if (roomNumber !== "") {
+                addRoomNumberChip(roomNumber, readOnly);
+                roomNumberInput.value = "";
+            }
+        });
+    }
 
-    function addRoomNumberChip(roomNumber) {
+    function addRoomNumberChip(roomNumber, readOnly) {
         const chips = roomNumberChipsContainer.querySelectorAll(".chip-text");
         const roomNumbers = Array.from(chips).map(chip => chip.textContent);
 
@@ -27,16 +34,22 @@ document.addEventListener("DOMContentLoaded", function () {
         chipText.className = "chip-text";
         chipText.textContent = roomNumber;
 
-        const chipClose = document.createElement("span");
-        chipClose.className = "chip-close";
-        chipClose.textContent = "×";
-        chipClose.addEventListener("click", function () {
-            roomNumberChipsContainer.removeChild(chip);
-            updateRoomNumbersHiddenInput();
-        });
+        if (readOnly === 'false') {
+            const chipClose = document.createElement("span");
+            chipClose.className = "chip-close";
+            chipClose.textContent = "×";
+            chipClose.addEventListener("click", function () {
+                roomNumberChipsContainer.removeChild(chip);
+                updateRoomNumbersHiddenInput();
+            });
+            chip.appendChild(chipText);
+            chip.appendChild(chipClose);
+        }
+        else {
+            chip.appendChild(chipText);
+        }
 
-        chip.appendChild(chipText);
-        chip.appendChild(chipClose);
+
         roomNumberChipsContainer.appendChild(chip);
 
         updateRoomNumbersHiddenInput();
@@ -48,11 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let temp = "";
         for (const x of roomNumbers) {
-            console.log(x);
             temp += x + ", ";
         }
         temp = temp.slice(0, -2);
-        console.log(temp);
         roomNumbersHiddenInput.value = temp;
     }
 });

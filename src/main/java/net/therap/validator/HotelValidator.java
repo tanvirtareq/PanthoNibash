@@ -26,7 +26,7 @@ public class HotelValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Hotel hotel = (Hotel) target;
 
-        if (hotelService.findByEmail(hotel.getEmail()) != null) {
+        if (hotelService.emailExists(hotel.getEmail())) {
             errors.rejectValue("email", "duplicate.email", "Email already exists");
         }
     }

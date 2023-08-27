@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"   %>
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,7 +13,7 @@
 
 <div class="signup-container custom-card">
     <h2 class="signup-title">Hotel Edit</h2>
-    <form:form action="/hotel/${hotel.id}/edit" method="post" modelAttribute="hotel">
+    <form:form action="hotel/${hotel.id}/edit" method="post" modelAttribute="hotel">
         <div class="form-group">
             <label for="name">Name:</label>
             <form:input type="text" class="form-control" path="name" />

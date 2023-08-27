@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"   %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -10,7 +10,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><spring:message code="booking.details.page.title" /></title>
-
     <link rel="stylesheet" href="/assets/css/bookingDetailsPage.css">
     <link rel="stylesheet" href="/assets/css/customStyle.css">
 </head>
@@ -18,16 +17,16 @@
 
 <form:form action="${formPostUrl}" method="post" modelAttribute="booking">
     <div class="container-xxl booking-info">
-        <div id="bookingContainer" style="padding: 20px;">
+        <div id="bookingContainer" class="p-4">
             <header class="booking-details-header"><spring:message code="booking.details.page.header" /></header>
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-4 ">
+                        <div class="col-md-4">
                             <img src="data:image/jpeg;base64,${booking.guestImageBase64Image}" alt="<spring:message code="booking.details.page.guestPhoto.alt" />"
                                  class="guest-photo">
                         </div>
-                        <div class="col-md-8 ">
+                        <div class="col-md-8">
                             <h4><spring:message code="booking.details.page.guestInfo" /></h4>
                             <p><strong><spring:message code="booking.details.page.name" />:</strong> ${booking.guestName}</p>
                             <p><strong><spring:message code="booking.details.page.email" />:</strong> ${booking.guestEmail}</p>
@@ -86,14 +85,14 @@
                 </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-4 ">
+                        <div class="col-md-4">
                             <a href="/hotel/${booking.room.hotel.id}">
                                 <img src="data:image/jpeg;base64,${booking.room.hotel.hotelImageBase64Image}"
                                      alt="<spring:message code="booking.details.page.hotelPhoto.alt" />"
                                      class="hotel-photo">
                             </a>
                         </div>
-                        <div class="col-md-8 ">
+                        <div class="col-md-8">
                             <h4><spring:message code="booking.details.page.hotelInfo" /></h4>
                             <p><strong><spring:message code="booking.details.page.name" />:</strong> ${booking.room.hotel.name}</p>
                             <p><strong><spring:message code="booking.details.page.email" />:</strong> ${booking.room.hotel.email}</p>
@@ -116,7 +115,7 @@
                 </div>
             </div>
         </div>
-        <div style="display: flex; justify-content: center; margin-top: 2rem;">
+        <div class="custom-button-container">
             <a href="#">
                 <button type="submit" class="btn btn-primary"><spring:message code="booking.details.page.update" /></button>
             </a>

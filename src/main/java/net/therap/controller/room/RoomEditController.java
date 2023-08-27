@@ -1,20 +1,22 @@
 package net.therap.controller.room;
 
 import net.therap.dto.ButtonDto;
-import net.therap.dto.SuccessMessageDto;
+import net.therap.dto.DoneMessageDto;
+import net.therap.helper.Helper;
 import net.therap.model.Room;
 import net.therap.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author tanvirtareq
@@ -27,29 +29,35 @@ public class RoomEditController {
     @Autowired
     private RoomService roomService;
 
-    @Value("#{roomTypeOptions}")
-    private Map<String, String> roomTypeOptions;
+    @Autowired
+    private Helper helper;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
 
     @GetMapping("/edit")
     public String showEditForm(@PathVariable Long roomId, Model model) {
         Room room = roomService.findById(roomId);
-        model.addAttribute("room", room);
-        model.addAttribute("roomTypeOptions", roomTypeOptions);
+        helper.addRoomHelper(room.getHotel().getId(), room, model, helper.roomEditLink(roomId));
+        model.addAttribute("readOnly", false);
 
-        return "room/showRoomEditForm";
+        return "room/roomPage";
     }
 
     @PostMapping("/edit")
-    public String processEditForm(@PathVariable Long roomId, @ModelAttribute("room") @Valid Room room,
-                                  BindingResult bindingResult, Model model) {
+    public String processEditForm(@PathVariable Long roomId, @ModelAttribute @Valid Room room,
+                                  BindingResult bindingResult, Model model, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("roomTypeOptions", roomTypeOptions);
+            helper.addRoomHelper(room.getHotel().getId(), room, model, helper.roomEditLink(roomId));
+            model.addAttribute("readOnly", false);
 
-            return "room/showRoomEditForm";
+            return "room/roomPage";
         }
 
-        roomService.update(roomId, room.getType(), room.getPrice(), room.getNumberOfBed());
+        roomService.update(roomId, room.getType(), room.getPrice(), room.getNumberOfBed(), room.getRoomNumbers());
         room = roomService.findById(roomId);
 
         List<ButtonDto> buttonDtoList = new ArrayList<>();
@@ -57,11 +65,11 @@ public class RoomEditController {
         buttonDtoList.add(new ButtonDto("See room Details", "/room/" + room.getId()));
         buttonDtoList.add(new ButtonDto("Go to Home", "/"));
 
-        SuccessMessageDto successMessageDto = new SuccessMessageDto("Room Information Update Successful",
-                buttonDtoList);
+        DoneMessageDto doneMessageDto = new DoneMessageDto("Room Information Update Successful",
+                buttonDtoList, helper.getMessageFromMessageCode("label.success", request));
 
-        model.addAttribute("successMessageDto", successMessageDto);
+        model.addAttribute("doneMessageDto", doneMessageDto);
 
-        return "successMessage";
+        return "doneMessage";
     }
 }

@@ -1,9 +1,9 @@
 package net.therap.util;
 
 import net.therap.model.*;
-import net.therap.service.CustomerService;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ public class Util {
 
         String[] allowedExtensions = {"jpg", "jpeg", "png", "webp", "avif"};
 
-        if (!Arrays.asList(allowedExtensions).contains(extension)) {
+        if (!Arrays.asList(allowedExtensions).contains(extension.toLowerCase())) {
             model.addAttribute("error", "Only JPG, JPEG, WEBP, AVIF and PNG files are allowed.");
 
             return false;
@@ -37,29 +37,14 @@ public class Util {
         return matcher.find();
     }
 
-    public static Booking createBookingFromSessionContext(SessionContext sessionContext, CustomerService customerService) {
-
-        Booking booking = new Booking();
-
-        if (sessionContext.getRole().equals("CUSTOMER")) {
-
-            Customer customer = customerService.findById(sessionContext.getId());
-            booking.setCustomer(customer);
-            booking.setGuestName(customer.getName());
-            booking.setGuestEmail(customer.getEmail());
-            booking.setGuestPhoneNumber(customer.getPhoneNumber());
-        }
-
-        return booking;
-    }
-
     public static void updateHotelRating(Hotel hotel, Booking booking, Review review) {
 
         double newRating = review.getRating();
         double newWeight = Util.getRatingWeight(booking);
-        System.out.println(newRating + "   " + newWeight);
 
-        if (hotel.getRating() == null) {
+        Rating oldRating = hotel.getRating();
+
+        if (oldRating == null) {
             Rating rating = new Rating();
             rating.setRating(newRating);
             rating.setWeight(newWeight);
@@ -68,8 +53,8 @@ public class Util {
 
         } else {
 
-            hotel.getRating().setRating(Util.calculateRating(hotel.getRating(), newRating, newWeight));
-            hotel.getRating().setWeight(hotel.getRating().getWeight() + newWeight);
+            oldRating.setRating(Util.calculateRating(oldRating, newRating, newWeight));
+            oldRating.setWeight(oldRating.getWeight() + newWeight);
         }
     }
 
@@ -93,7 +78,7 @@ public class Util {
     }
 
     public static boolean canCancelBooking(Booking booking, SessionContext sessionContext) {
-        return sessionContext != null && "HOTEL".equals(sessionContext.getRole())
+        return sessionContext != null && Role.HOTEL.equals(sessionContext.getRole())
                 && sessionContext.getId().equals(booking.getRoom().getHotel().getId())
                 && booking.getCheckInDate().isAfter(LocalDate.now());
     }
@@ -119,27 +104,58 @@ public class Util {
     }
 
     public static String generateCancelBookingLink(Booking booking) {
-        return "/hotel/" + booking.getRoom().getHotel().getId() + "/booking/" + booking.getId() + "/cancel";
+        return "hotel/" + booking.getRoom().getHotel().getId() + "/booking/" + booking.getId() + "/cancel";
     }
 
     public static String generateAddReviewLink(Booking booking) {
-        return "/customer/" + booking.getCustomer().getId() + "/booking/" + booking.getId() + "/addReview";
+        return "/booking/" + booking.getId() + "/addReview";
     }
 
     public static boolean canAddReview(Booking booking, SessionContext sessionContext) {
-        return booking.getReview() == null && sessionContext != null && "CUSTOMER".equals(sessionContext.getRole())
+        return booking.getReview() == null && sessionContext != null && Role.CUSTOMER.equals(sessionContext.getRole())
                 && sessionContext.getId().equals(booking.getCustomer().getId())
                 && booking.getCheckOutDate().isBefore(LocalDate.now());
     }
 
     public static boolean canUpdateBookingCheckoutDate(Booking booking, SessionContext sessionContext) {
-        return sessionContext != null && "HOTEL".equals(sessionContext.getRole())
+        return sessionContext != null && Role.HOTEL.equals(sessionContext.getRole())
                 && sessionContext.getId().equals(booking.getRoom().getHotel().getId())
                 && booking.getCheckOutDate().isAfter(LocalDate.now());
     }
 
     public static String generateUpdateBookingCheckoutDate(Booking booking) {
-        return "/hotel/" + booking.getRoom().getHotel().getId() + "/booking/" + booking.getId()
+        return "hotel/" + booking.getRoom().getHotel().getId() + "/booking/" + booking.getId()
                 + "/update-booking-checkout-date";
+    }
+
+    public static String generateCustomerBookingListUrl(Long customerId) {
+        return "/customer/" + customerId + "/bookingList";
+    }
+
+    public static String generateCustomerProfileUrl(Long customerId) {
+        return "/customer/" + customerId;
+    }
+
+    public static Long getCustomerIdFromRequest(HttpServletRequest request) {
+        return getNumberFromPatternRequest("customer/(\\d+)", request);
+    }
+
+    public static Long getNumberFromPatternRequest(String pattern, HttpServletRequest request) {
+        Pattern regex = Pattern.compile(pattern);
+        Matcher matcher = regex.matcher(request.getRequestURI());
+
+        if (matcher.find()) {
+            return Long.parseLong(matcher.group(1));
+        }
+
+        return null;
+    }
+
+    public static Long getBookingIdFromRequest(HttpServletRequest request) {
+        return getNumberFromPatternRequest("booking/(\\d+)", request);
+    }
+
+    public static Long getHotelIdFromRequest(HttpServletRequest request) {
+        return getNumberFromPatternRequest("hotel/(\\d+)", request);
     }
 }

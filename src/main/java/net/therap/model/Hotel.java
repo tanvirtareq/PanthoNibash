@@ -39,7 +39,7 @@ public class Hotel implements Serializable {
     @Pattern(regexp = PatternConstants.PHONE_NUMBER_PATTERN, message = "{Phone.number.must.be.valid}")
     private String phoneNumber;
 
-    @NotBlank(message = "{Location.can.not.be.null}")
+    @NotNull(message = "{Location.can.not.be.null}")
     @Size(max = 50, message = "{string.max.size}")
     private String location;
 

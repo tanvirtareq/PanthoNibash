@@ -46,9 +46,6 @@ public class Booking implements Serializable {
     @Column(name = "guest_image")
     private byte[] guestImage;
 
-    @Transient
-    private String guestImageBase64Image;
-
     @NotNull
     @DateTimeFormat(pattern = PatternConstants.DATE_FORMAT_PATTERN)
     private LocalDate checkInDate;
@@ -64,6 +61,20 @@ public class Booking implements Serializable {
     @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn
     private Review review;
+
+    @Transient
+    private String guestImageBase64Image;
+
+    public Booking() {
+
+    }
+
+    public Booking(Customer customer) {
+        this.setCustomer(customer);
+        this.setGuestName(customer.getName());
+        this.setGuestEmail(customer.getEmail());
+        this.setGuestPhoneNumber(customer.getPhoneNumber());
+    }
 
     public Long getId() {
         return id;

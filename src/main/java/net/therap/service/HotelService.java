@@ -1,9 +1,6 @@
 package net.therap.service;
 
-import net.therap.model.Booking;
-import net.therap.model.Hotel;
-import net.therap.model.Room;
-import net.therap.model.SessionContext;
+import net.therap.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,7 +30,6 @@ public class HotelService {
         entityManager.persist(hotel);
     }
 
-    @Transactional
     public Hotel findById(Long id) {
 
         Hotel hotel = entityManager.find(Hotel.class, id);
@@ -41,22 +37,13 @@ public class HotelService {
         return hotel;
     }
 
-    @Transactional
     public Hotel findByEmail(String email) {
 
         String jpql = "SELECT h FROM Hotel h WHERE h.email=:email";
 
-        List<Hotel> hotels = entityManager.createQuery(jpql, Hotel.class)
+        return entityManager.createQuery(jpql, Hotel.class)
                 .setParameter("email", email)
-                .getResultList();
-
-        if (hotels.isEmpty()) {
-            return null;
-        }
-
-        Hotel hotel = hotels.get(0);
-
-        return hotel;
+                .getResultStream().findFirst().orElse(null);
     }
 
     @Transactional
@@ -124,10 +111,7 @@ public class HotelService {
     }
 
     public List<Hotel> getAll() {
-
-        List<Hotel> hotels = entityManager.createQuery("SELECT h FROM Hotel h", Hotel.class).getResultList();
-
-        return hotels;
+        return entityManager.createQuery("SELECT h FROM Hotel h", Hotel.class).getResultList();
     }
 
     public String encodePassword(String password) {
@@ -136,13 +120,11 @@ public class HotelService {
 
     public List<String> getHotelsNameByPartialName(String hotelName) {
 
-        hotelName = hotelName;
-
         List<String> hotelList = entityManager
                 .createQuery("SELECT h.name FROM Hotel h WHERE LOWER(h.name) LIKE LOWER(:hotelName)", String.class)
                 .setParameter("hotelName", "%" + hotelName + "%").getResultList();
 
-        if (hotelList.size() == 0) {
+        if (hotelList.isEmpty()) {
             hotelList = getAllHotelName();
         }
 
@@ -150,11 +132,8 @@ public class HotelService {
     }
 
     private List<String> getAllHotelName() {
-
-        List<String> hotels = entityManager.createQuery("SELECT h.name FROM Hotel h", String.class)
+        return entityManager.createQuery("SELECT h.name FROM Hotel h", String.class)
                 .getResultList();
-
-        return hotels;
     }
 
     @Transactional
@@ -166,16 +145,22 @@ public class HotelService {
 
         Hotel hotel = entityManager.find(Hotel.class, hotelId);
 
-        return hotelLoggedIn(sessionContext, hotelId )
-                && hotel.getRooms().stream().anyMatch(room -> hasBookingId(room, bookingId));
+        return hotelLoggedIn(sessionContext, hotelId) && hotel.getRooms()
+                .stream()
+                .anyMatch(room -> hasBookingId(room, bookingId));
     }
 
     private boolean hotelLoggedIn(SessionContext sessionContext, Long hotelId) {
-        return sessionContext!=null && "HOTEL".equals(sessionContext.getRole())
-                && hotelId.equals(sessionContext.getId());
+        return sessionContext != null && Role.HOTEL.equals(sessionContext.getRole()) && hotelId.equals(sessionContext.getId());
     }
 
     private boolean hasBookingId(Room room, Long bookingId) {
         return room.getBookings().stream().anyMatch(booking -> booking.getId().equals(bookingId));
+    }
+
+    public boolean emailExists(String email) {
+        return entityManager.createQuery("SELECT COUNT (email) FROM Hotel h where email = :email", Long.class)
+                .setParameter("email", email)
+                .getSingleResult() > 0;
     }
 }

@@ -13,30 +13,24 @@
        http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/mvc
        https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
-
-
     <context:component-scan base-package="net.therap"/>
-
     <mvc:annotation-driven/>
-
     <aop:aspectj-autoproxy/>
-
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/customer/*/edit"/>
-            <mvc:mapping path="/customer/*/bookinglist"/>
-            <mvc:mapping path="/customer/*/booking/*/addreview"/>
+            <mvc:mapping path="/customer/*/bookingList"/>
             <bean id="customerAuthInterceptor" class="net.therap.interceptor.authInterceptor.CustomerAuthInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
-            <mvc:mapping path="/customer/*/booking/*/addreview"/>
+            <mvc:mapping path="/booking/*/addReview"/>
             <bean id="addReviewInterceptor" class="net.therap.interceptor.AddReviewInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/customer/*"/>
             <mvc:exclude-mapping path="/customer/login"/>
             <mvc:exclude-mapping path="/customer/signup/**"/>
-            <bean id="customerDetailsInterceptor" class="net.therap.interceptor.customerDetailsInterceptor"/>
+            <bean id="customerDetailsInterceptor" class="net.therap.interceptor.CustomerDetailsInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/customer/login"/>
@@ -48,22 +42,21 @@
             <bean id="nonUserInterceptor" class="net.therap.interceptor.NonUserInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
-            <mvc:mapping path="/hotel/*/addroom"/>
-            <mvc:mapping path="/hotel/*/addroom/roomimageupload"/>
-            <mvc:mapping path="/hotel/*/bookinglist"/>
+            <mvc:mapping path="/hotel/*/addRoom"/>
+            <mvc:mapping path="/hotel/*/addRoom/roomImageUpload"/>
+            <mvc:mapping path="/hotel/*/bookingList"/>
             <mvc:mapping path="/hotel/*/edit"/>
             <bean id="hotelAuthInterceptor" class="net.therap.interceptor.authInterceptor.HotelAuthInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/room/*/book"/>
-            <mvc:mapping path="/room/*/book/guestimageupload"/>
+            <mvc:mapping path="/room/*/book/guestImageUpload"/>
             <bean id="roomBookInterceptor" class="net.therap.interceptor.RoomBookInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/room/*/edit"/>
             <bean id="roomAuthInterceptor" class="net.therap.interceptor.authInterceptor.RoomAuthInterceptor"/>
         </mvc:interceptor>
-
         <mvc:interceptor>
             <mvc:mapping path="/customer/**"/>
             <mvc:exclude-mapping path="/customer/login"/>
@@ -71,7 +64,6 @@
             <bean id="validCustomerCheckerInterceptor"
                   class="net.therap.interceptor.validUrlChecker.ValidCustomerCheckerInterceptor"/>
         </mvc:interceptor>
-
         <mvc:interceptor>
             <mvc:mapping path="/hotel/**"/>
             <mvc:exclude-mapping path="/hotel/login"/>
@@ -84,30 +76,24 @@
             <bean id="validRoomCheckerInterceptor"
                   class="net.therap.interceptor.validUrlChecker.ValidRoomCheckerInterceptor"/>
         </mvc:interceptor>
-
     </mvc:interceptors>
-
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-                <property name="paramName" value="language" />
+                <property name="paramName" value="language"/>
             </bean>
         </mvc:interceptor>
     </mvc:interceptors>
-
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="my-persistence-unit"/>
     </bean>
-
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="10485760"/> <!-- Specify the maximum file size in bytes -->
     </bean>
-
     <bean id="simpleMappingExceptionResolver"
           class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="defaultErrorView" value="error"/>
@@ -117,30 +103,22 @@
             </props>
         </property>
     </bean>
-
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg value="11"/>
     </bean>
-
     <mvc:annotation-driven validator="validator"/>
-
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:messages" />
-        <property name="defaultEncoding" value="UTF-8" />
+        <property name="basename" value="classpath:messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
     </bean>
-
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" primary="true">
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
-
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-        <property name="defaultLocale" value="en" />
+        <property name="defaultLocale" value="en"/>
     </bean>
-
     <tx:annotation-driven/>
-
     <util:properties id="facilityOptions" location="classpath:../facilityOptions.properties"/>
     <util:properties id="roomTypeOptions" location="classpath:../roomTypeOptions.properties"/>
-
 </beans>

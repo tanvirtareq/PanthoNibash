@@ -1,6 +1,7 @@
 package net.therap.controller.booking;
 
 import net.therap.dto.ButtonDto;
+import net.therap.helper.Helper;
 import net.therap.model.Booking;
 import net.therap.model.SessionContext;
 import net.therap.service.BookingService;
@@ -29,12 +30,20 @@ public class BookingController {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    private Helper helper;
+
     @GetMapping("/{bookingId}")
     public String showBookingDetails(@PathVariable Long bookingId, Model model,
                                      @SessionAttribute(name = "sessionContext") SessionContext sessionContext,
                                      HttpServletRequest request) {
 
         Booking booking = bookingService.findById(bookingId);
+
+        if (booking == null) {
+            return helper.bookingNotFoundErrorMessage(model, request, sessionContext);
+        }
+
         model.addAttribute("booking", booking);
 
         List<ButtonDto> buttonDtoList = new ArrayList<>();

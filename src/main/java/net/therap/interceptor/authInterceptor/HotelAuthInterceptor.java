@@ -1,6 +1,8 @@
 package net.therap.interceptor.authInterceptor;
 
+import net.therap.model.Role;
 import net.therap.model.SessionContext;
+import net.therap.util.Util;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -20,8 +22,8 @@ public class HotelAuthInterceptor implements HandlerInterceptor {
 
         SessionContext sessionContext = (SessionContext) request.getSession().getAttribute("sessionContext");
 
-        if (sessionContext != null && "HOTEL".equals(sessionContext.getRole())
-                && sessionContext.getId().equals(getHotelIdFromUrl(request))) {
+        if (sessionContext != null && Role.HOTEL.equals(sessionContext.getRole())
+                && sessionContext.getId().equals(Util.getHotelIdFromRequest(request))) {
 
             return true;
         }
@@ -29,13 +31,5 @@ public class HotelAuthInterceptor implements HandlerInterceptor {
         response.sendRedirect("/search");
 
         return false;
-    }
-
-    private Long getHotelIdFromUrl(HttpServletRequest request) {
-
-        String[] pathSegments = request.getRequestURI().split("/");
-        String hotelId = pathSegments[2];
-
-        return Long.parseLong(hotelId);
     }
 }

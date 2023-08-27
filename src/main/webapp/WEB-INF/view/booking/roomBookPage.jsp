@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
@@ -22,38 +22,32 @@
                             <form:input path="guestName" class="form-control"/>
                             <form:errors path="guestName" cssClass="text-danger"/>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label"><spring:message code="guest.email.label"/></label>
                             <form:input path="guestEmail" class="form-control"/>
                             <form:errors path="guestEmail" cssClass="text-danger"/>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label"><spring:message code="guest.phone.label"/></label>
                             <form:input path="guestPhoneNumber" class="form-control"/>
                             <form:errors path="guestPhoneNumber" cssClass="text-danger"/>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label"><spring:message code="checkin.date.label"/></label>
                             <form:input path="checkInDate" id="checkInDate" type="date" class="form-control"
                                         onchange="updateTotalCost()"/>
                             <form:errors path="checkInDate" cssClass="text-danger"/>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label"><spring:message code="checkout.date.label"/></label>
                             <form:input path="checkOutDate" type="date" id="checkOutDate" class="form-control"
                                         onchange="updateTotalCost()"/>
                             <form:errors path="checkOutDate" cssClass="text-danger"/>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label"><spring:message code="room.price.label"/></label>
                             <label class="form-label" id="roomPrice">${roomPrice}</label>
                         </div>
-
                         <div class="mb-3">
                             <label class="form-label"><spring:message code="total.cost.label"/></label>
                             <label class="form-label" id="totalCost"></label>
@@ -66,7 +60,17 @@
     </div>
 </div>
 
-<script src="/assets/js/roomBook.js"></script>
+<script>
+    function updateTotalCost() {
+        const roomPriceElement = document.getElementById("roomPrice");
+        let roomPrice = parseInt(roomPriceElement.textContent);
+        let totalCostElement = document.getElementById("totalCost");
+        const checkInDate = new Date(document.getElementById("checkInDate").value);
+        const checkOutDate = new Date(document.getElementById("checkOutDate").value);
+        let dayDifference = (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24);
+        totalCostElement.innerHTML = dayDifference > 0 ? dayDifference * roomPrice : "Invalid";
+    }
+</script>
 
 </body>
 </html>

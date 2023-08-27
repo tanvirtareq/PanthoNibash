@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"   %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -15,11 +15,11 @@
     <h2 class="signup-title"><spring:message code="addreview.page.heading"/></h2>
     <c:set var="reviewPlaceholder"><spring:message code="addreview.page.review.label"/></c:set>
     <c:set var="ratingPlaceholder"><spring:message code="addreview.page.rating.label"/></c:set>
-    <form:form action="/customer/${customerId}/booking/${bookingId}/addReview" method="post" modelAttribute="review">
+    <form:form action="/booking/${bookingId}/addReview" method="post" modelAttribute="review">
         <div class="form-group">
-            <label for="review"><spring:message code="addreview.page.review.label"/></label>
-            <form:textarea class="form-control" path="review" placeholder="${reviewPlaceholder}"/>
-            <form:errors path="review" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
+            <label for="description"><spring:message code="addreview.page.review.label"/></label>
+            <form:textarea class="form-control" path="description" placeholder="${reviewPlaceholder}"/>
+            <form:errors path="description" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
         <div class="form-group">
             <label for="rating"><spring:message code="addreview.page.rating.label"/></label>

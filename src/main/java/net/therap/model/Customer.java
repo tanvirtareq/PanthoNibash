@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import static net.therap.constants.PatternConstants.PASSWORD_PATTERN;
+
 
 /**
  * @author tanvirtareq
@@ -34,7 +36,7 @@ public class Customer implements Serializable {
 
     @NotBlank(message = "{Password.cannot.be.blank}")
     @Size(min = 3, max = 200, message = "{Password.length.invalid}")
-    @Pattern(regexp = PatternConstants.PASSWORD_PATTERN, message = "{Password.invalid.format}")
+    @Pattern(regexp = PASSWORD_PATTERN, message = "{Password.invalid.format}")
     private String password;
 
     @Pattern(regexp = PatternConstants.PHONE_NUMBER_PATTERN, message = "{Phone.number.must.be.valid}")

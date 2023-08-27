@@ -31,41 +31,24 @@ public class CustomerService {
         entityManager.persist(customer);
     }
 
-    @Transactional
     public Customer findById(Long id) {
-        Customer customer = entityManager.find(Customer.class, id);
-
-        return customer;
+        return entityManager.find(Customer.class, id);
     }
 
-    @Transactional
     public Customer findByEmail(String email) {
 
         String jpql = "SELECT c FROM Customer c WHERE c.email=:email";
 
-        List<Customer> customers = entityManager.createQuery(jpql, Customer.class)
+        return entityManager.createQuery(jpql, Customer.class)
                 .setParameter("email", email)
-                .getResultList();
-
-        if (customers.size() == 0) {
-            return null;
-        }
-
-        Customer customer = customers.get(0);
-
-        return customer;
+                .getResultStream().findFirst().orElse(null);
     }
 
-    @Transactional
     public Customer findByEmailAndPassword(String email, String password) {
 
         Customer customer = this.findByEmail(email);
 
-        if (customer == null) {
-            return null;
-        }
-
-        if (!passwordEncoder.matches(password, customer.getPassword())) {
+        if (customer == null || !passwordEncoder.matches(password, customer.getPassword())) {
             return null;
         }
 
@@ -84,17 +67,6 @@ public class CustomerService {
                 .collect(Collectors.toList());
 
         return bookingList;
-    }
-
-    @Transactional
-    public void update(Long customerId, String name, String phoneNumber, LocalDate dateOfBirth) {
-
-        Customer customer = entityManager.find(Customer.class, customerId);
-        customer.setName(name);
-        customer.setPhoneNumber(phoneNumber);
-        customer.setDateOfBirth(dateOfBirth);
-
-        entityManager.merge(customer);
     }
 
     public String encodePassword(String password) {

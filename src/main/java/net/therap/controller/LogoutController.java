@@ -17,6 +17,6 @@ public class LogoutController {
     public String logout(SessionStatus sessionStatus) {
         sessionStatus.setComplete();
 
-        return "redirect:/search";
+        return "redirect:search";
     }
 }

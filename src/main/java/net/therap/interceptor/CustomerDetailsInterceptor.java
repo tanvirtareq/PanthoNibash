@@ -1,9 +1,8 @@
-package net.therap.interceptor.validUrlChecker;
+package net.therap.interceptor;
 
-import net.therap.model.Hotel;
-import net.therap.service.HotelService;
+import net.therap.model.Role;
+import net.therap.model.SessionContext;
 import net.therap.util.Util;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -15,19 +14,21 @@ import javax.servlet.http.HttpServletResponse;
  * @since 7/24/23
  */
 @Component
-public class ValidHotelCheckerInterceptor implements HandlerInterceptor {
-
-    @Autowired
-    private HotelService hotelService;
+public class CustomerDetailsInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
-        Long hotelId = Util.getHotelIdFromRequest(request);
-        Hotel hotel = hotelService.findById(hotelId);
+        SessionContext sessionContext = (SessionContext) request.getSession().getAttribute("sessionContext");
 
-        if (hotel != null) {
+        if (sessionContext == null) {
+            response.sendRedirect("/search");
+
+            return false;
+        }
+
+        if (sessionContext.getRole().equals(Role.HOTEL) || Util.getCustomerIdFromRequest(request).equals(sessionContext.getId())) {
             return true;
         }
 
