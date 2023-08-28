@@ -24,6 +24,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/room/{roomId}")
+@SessionAttributes("room")
 public class RoomEditController {
 
     @Autowired
@@ -57,8 +58,7 @@ public class RoomEditController {
             return "room/roomPage";
         }
 
-        roomService.update(roomId, room.getType(), room.getPrice(), room.getNumberOfBed(), room.getRoomNumbers());
-        room = roomService.findById(roomId);
+        roomService.merge(room);
 
         List<ButtonDto> buttonDtoList = new ArrayList<>();
         buttonDtoList.add(new ButtonDto("See Hotel Details", "/hotel/" + room.getHotel().getId()));

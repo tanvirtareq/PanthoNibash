@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static java.util.Objects.isNull;
+
 @Controller
 @RequestMapping("/booking")
 @SessionAttributes("sessionContext")
@@ -40,7 +42,7 @@ public class BookingController {
 
         Booking booking = bookingService.findById(bookingId);
 
-        if (booking == null) {
+        if (isNull(booking)) {
             return helper.bookingNotFoundErrorMessage(model, request, sessionContext);
         }
 

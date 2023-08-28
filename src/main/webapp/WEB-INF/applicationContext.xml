@@ -50,7 +50,7 @@
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/room/*/book"/>
-            <mvc:mapping path="/room/*/book/guestImageUpload"/>
+            <mvc:mapping path="/room/book/guestImageUpload"/>
             <bean id="roomBookInterceptor" class="net.therap.interceptor.RoomBookInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
@@ -73,6 +73,7 @@
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/room/**"/>
+            <mvc:exclude-mapping path="/room/book/guestImageUpload"/>
             <bean id="validRoomCheckerInterceptor"
                   class="net.therap.interceptor.validUrlChecker.ValidRoomCheckerInterceptor"/>
         </mvc:interceptor>

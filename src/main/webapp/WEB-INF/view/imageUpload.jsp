@@ -14,7 +14,7 @@
 
 <div class="container">
     <h2 class="text-center mt-5"><c:out value="${headerMessage}"/></h2>
-    <form:form action="/${postMappingLink}" method="post" enctype="multipart/form-data">
+    <form:form action="${postMappingLink}" method="post" enctype="multipart/form-data">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6">
                 <div class="form-group">

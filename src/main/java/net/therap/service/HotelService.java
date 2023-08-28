@@ -32,9 +32,7 @@ public class HotelService {
 
     public Hotel findById(Long id) {
 
-        Hotel hotel = entityManager.find(Hotel.class, id);
-
-        return hotel;
+        return entityManager.find(Hotel.class, id);
     }
 
     public Hotel findByEmail(String email) {

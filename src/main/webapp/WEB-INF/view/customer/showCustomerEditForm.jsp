@@ -30,14 +30,6 @@
             <form:input type="date" class="form-control" path="dateOfBirth" required="true"/>
             <form:errors path="dateOfBirth" class="alert alert-danger mt-3" cssStyle="padding: 3px;"/>
         </div>
-        <form:hidden path="id"/>
-        <form:errors path="id"/>
-        <form:hidden path="password"/>
-        <form:errors path="password"/>
-        <form:hidden path="email"/>
-        <form:errors path="email"/>
-        <form:hidden path="profilePicture"/>
-        <form:errors path="profilePicture"/>
         <button type="submit" class="btn btn-primary signup-button"><spring:message code="customer.edit.submitButton" /></button>
     </form:form>
 </div>

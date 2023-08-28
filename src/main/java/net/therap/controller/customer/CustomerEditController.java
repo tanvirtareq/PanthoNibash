@@ -10,11 +10,11 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +24,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/customer/{customerId}")
+@SessionAttributes("customer")
 public class CustomerEditController {
 
     @Autowired
@@ -39,15 +40,13 @@ public class CustomerEditController {
 
     @GetMapping("/edit")
     public String showEditForm(@PathVariable Long customerId, Model model) {
-
         Customer customer = customerService.findById(customerId);
         model.addAttribute("customer", customer);
-
         return "customer/showCustomerEditForm";
     }
 
     @PostMapping("/edit")
-    public String processEditForm(@PathVariable Long customerId, @ModelAttribute("customer") @Valid Customer customer,
+    public String processEditForm(@PathVariable Long customerId, @ModelAttribute @Validated Customer customer,
                                   BindingResult bindingResult, Model model, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {

@@ -149,4 +149,9 @@ public class RoomService {
 
         entityManager.merge(room);
     }
+
+    @Transactional
+    public void merge(Room room) {
+        entityManager.merge(room);
+    }
 }

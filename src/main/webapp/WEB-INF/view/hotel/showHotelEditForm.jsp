@@ -13,7 +13,7 @@
 
 <div class="signup-container custom-card">
     <h2 class="signup-title">Hotel Edit</h2>
-    <form:form action="hotel/${hotel.id}/edit" method="post" modelAttribute="hotel">
+    <form:form action="/hotel/${hotel.id}/edit" method="post" modelAttribute="hotel">
         <div class="form-group">
             <label for="name">Name:</label>
             <form:input type="text" class="form-control" path="name" />
@@ -85,8 +85,6 @@
             <form:errors path="wifiFacility" cssClass="alert alert-danger mt-3"
                          cssStyle="padding: 3px;"/>
         </div>
-        <form:hidden path="id"/>
-        <form:hidden path="password"/>
         <button type="submit" class="btn btn-primary signup-button">Update</button>
     </form:form>
 </div>

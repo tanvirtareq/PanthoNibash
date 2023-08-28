@@ -26,6 +26,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/hotel/{hotelId}")
+@SessionAttributes("hotel")
 public class HotelEditController {
 
     @Autowired
@@ -61,9 +62,7 @@ public class HotelEditController {
             return "hotel/showHotelEditForm";
         }
 
-        hotelService.update(hotelId, hotel.getName(), hotel.getPhoneNumber(),
-                hotel.getLocation(), hotel.getParkingFacility(), hotel.getSwimmingPool(), hotel.getWifiFacility());
-
+        hotelService.merge(hotel);
 
         List<ButtonDto> buttonDtoList = new ArrayList<>();
         buttonDtoList.add(new ButtonDto("See Hotel Details", "/hotel/" + hotelId));
