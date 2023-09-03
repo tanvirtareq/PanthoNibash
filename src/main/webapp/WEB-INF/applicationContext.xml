@@ -13,24 +13,24 @@
        http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/mvc
        https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
-    <context:component-scan base-package="net.therap"/>
+    <context:component-scan base-package="org.tanvir"/>
     <mvc:annotation-driven/>
     <aop:aspectj-autoproxy/>
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/customer/*/edit"/>
             <mvc:mapping path="/customer/*/bookingList"/>
-            <bean id="customerAuthInterceptor" class="net.therap.interceptor.authInterceptor.CustomerAuthInterceptor"/>
+            <bean id="customerAuthInterceptor" class="org.tanvir.interceptor.authInterceptor.CustomerAuthInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/booking/*/addReview"/>
-            <bean id="addReviewInterceptor" class="net.therap.interceptor.AddReviewInterceptor"/>
+            <bean id="addReviewInterceptor" class="org.tanvir.interceptor.AddReviewInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/customer/*"/>
             <mvc:exclude-mapping path="/customer/login"/>
             <mvc:exclude-mapping path="/customer/signup/**"/>
-            <bean id="customerDetailsInterceptor" class="net.therap.interceptor.CustomerDetailsInterceptor"/>
+            <bean id="customerDetailsInterceptor" class="org.tanvir.interceptor.CustomerDetailsInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/customer/login"/>
@@ -39,43 +39,43 @@
             <mvc:mapping path="/hotel/signup"/>
             <mvc:mapping path="/hotel/signup/*"/>
             <mvc:mapping path="/hotel/login"/>
-            <bean id="nonUserInterceptor" class="net.therap.interceptor.NonUserInterceptor"/>
+            <bean id="nonUserInterceptor" class="org.tanvir.interceptor.NonUserInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/hotel/*/addRoom"/>
             <mvc:mapping path="/hotel/*/addRoom/roomImageUpload"/>
             <mvc:mapping path="/hotel/*/bookingList"/>
             <mvc:mapping path="/hotel/*/edit"/>
-            <bean id="hotelAuthInterceptor" class="net.therap.interceptor.authInterceptor.HotelAuthInterceptor"/>
+            <bean id="hotelAuthInterceptor" class="org.tanvir.interceptor.authInterceptor.HotelAuthInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/room/*/book"/>
             <mvc:mapping path="/room/book/guestImageUpload"/>
-            <bean id="roomBookInterceptor" class="net.therap.interceptor.RoomBookInterceptor"/>
+            <bean id="roomBookInterceptor" class="org.tanvir.interceptor.RoomBookInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/room/*/edit"/>
-            <bean id="roomAuthInterceptor" class="net.therap.interceptor.authInterceptor.RoomAuthInterceptor"/>
+            <bean id="roomAuthInterceptor" class="org.tanvir.interceptor.authInterceptor.RoomAuthInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/customer/**"/>
             <mvc:exclude-mapping path="/customer/login"/>
             <mvc:exclude-mapping path="/customer/signup/**"/>
             <bean id="validCustomerCheckerInterceptor"
-                  class="net.therap.interceptor.validUrlChecker.ValidCustomerCheckerInterceptor"/>
+                  class="org.tanvir.interceptor.validUrlChecker.ValidCustomerCheckerInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/hotel/**"/>
             <mvc:exclude-mapping path="/hotel/login"/>
             <mvc:exclude-mapping path="/hotel/signup/**"/>
             <bean id="validHotelCheckerInterceptor"
-                  class="net.therap.interceptor.validUrlChecker.ValidHotelCheckerInterceptor"/>
+                  class="org.tanvir.interceptor.validUrlChecker.ValidHotelCheckerInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/room/**"/>
             <mvc:exclude-mapping path="/room/book/guestImageUpload"/>
             <bean id="validRoomCheckerInterceptor"
-                  class="net.therap.interceptor.validUrlChecker.ValidRoomCheckerInterceptor"/>
+                  class="org.tanvir.interceptor.validUrlChecker.ValidRoomCheckerInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
     <mvc:interceptors>

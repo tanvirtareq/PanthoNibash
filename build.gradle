@@ -14,7 +14,7 @@ plugins {
 
 apply plugin: 'com.bmuschko.tomcat'
 
-group = 'net.therap'
+group = 'org.tanvir'
 version = '1.0-SNAPSHOT'
 sourceCompatibility = '1.8'
 

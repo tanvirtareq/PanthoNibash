@@ -4,12 +4,12 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
     <persistence-unit name="my-persistence-unit" transaction-type="RESOURCE_LOCAL">
-        <class>net.therap.model.Customer</class>
-        <class>net.therap.model.Hotel</class>
-        <class>net.therap.model.Booking</class>
-        <class>net.therap.model.Rating</class>
-        <class>net.therap.model.Review</class>
-        <class>net.therap.model.Room</class>
+        <class>org.tanvir.model.Customer</class>
+        <class>org.tanvir.model.Hotel</class>
+        <class>org.tanvir.model.Booking</class>
+        <class>org.tanvir.model.Rating</class>
+        <class>org.tanvir.model.Review</class>
+        <class>org.tanvir.model.Room</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/panthonibash"/>

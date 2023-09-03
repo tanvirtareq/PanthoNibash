@@ -37,7 +37,7 @@
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>
-            net.therap.filter.AuthFilter
+            org.tanvir.filter.AuthFilter
         </filter-class>
     </filter>
 
